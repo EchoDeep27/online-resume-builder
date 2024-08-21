@@ -1,4 +1,5 @@
 import os
+import openai
 from dotenv import load_dotenv
 
 from flask import Flask, render_template
@@ -10,8 +11,11 @@ from hashlib import md5
 
 load_dotenv()
 app = Flask("CV-builder")
-# environment variables
+
+openai.api_key = os.getenv("OPEN_API_KEY")
+openai.base_url = os.getenv("OPEN_API_BASE_URL")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DB_URI")
+
 db = SQLAlchemy(app)
 
 
@@ -46,3 +50,16 @@ def get_user():
     return User.query.all()
 
     # User.query.filter(User.name == 'admin').first()
+
+
+@app.route("/skills/get")
+def get_skills():
+    completion = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": "Can you generate 10 list of skill that a full-stack developer should have"},
+        ],
+    )
+
+    print(completion.choices[0].message.content)
+    return {"message":"success"}
