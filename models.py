@@ -1,5 +1,5 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import String, Boolean, ForeignKey
 from typing import List
 from enum import Enum
 from db import Base
@@ -12,23 +12,86 @@ proficiency_enum = ENUM(
     "Intermediate",
     "Beginner",
     name="proficiency",
-    create_type=False,
+    create_type=True, 
 )
 
-
 class Proficiency(Enum):
-    PROFESSION = "Professional"
+    PROFESSIONAL = "Professional"
     DECENT = "Decent"
     INTERMEDIATE = "Intermediate"
-    BEGINNER = "BEGINNER"
+    BEGINNER = "Beginner"
 
 
+ 
+class WorkExperience(Base):
+    __tablename__ = "work_experience"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
+    company_name: Mapped[str] = mapped_column(String(40), nullable=False)
+    position: Mapped[str] = mapped_column(String(40), nullable=False)
+    start_date: Mapped[str] = mapped_column(String(40))
+    end_date: Mapped[str] = mapped_column(String(40))
+    is_working: Mapped[bool] = mapped_column(Boolean)
+    summary: Mapped[str] = mapped_column(nullable=True)
+
+    resume: Mapped["Resume"] = relationship(back_populates="work_experiences")
+
+
+class Education(Base):
+    __tablename__ = "education"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
+    degree: Mapped[str] = mapped_column(String(30))
+    achieved_date: Mapped[str] = mapped_column(String(40))
+
+    resume: Mapped["Resume"] = relationship(back_populates="educations")
+
+
+class Skill(Base):
+    __tablename__ = "skill"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
+    name: Mapped[str] = mapped_column(String(30))
+    proficiency: Mapped[Proficiency] = mapped_column(proficiency_enum)
+
+    resume: Mapped["Resume"] = relationship(back_populates="skills")
+
+class Resume(Base):
+    __tablename__ = "resume"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    template_id: Mapped[int] = mapped_column(ForeignKey("template.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    username: Mapped[str] = mapped_column(String(40), nullable=False)
+    profession: Mapped[str] = mapped_column(String(40), nullable=False)
+    address: Mapped[str] = mapped_column(String(150), nullable=True)
+    phone: Mapped[str] = mapped_column(String(40), nullable=False)
+    email: Mapped[str] = mapped_column(String(40), nullable=False)
+
+    work_experiences: Mapped[List[WorkExperience]] = relationship(
+        back_populates="resume", cascade="all, delete-orphan"
+    )
+    educations: Mapped[List[Education]] = relationship(
+        back_populates="resume", cascade="all, delete-orphan"
+    )
+    skills: Mapped[List[Skill]] = relationship(
+        back_populates="resume", cascade="all, delete-orphan"
+    )
+
+class Template(Base):
+    __tablename__ ="template"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name:Mapped[str] = mapped_column(String(40),nullable=False)
+    template_file_path:Mapped[str] = mapped_column(String(150),nullable=False)
+    
 class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30))
     email: Mapped[str] = mapped_column(String(100))
     password: Mapped[str] = mapped_column(String(250))
+    resume_ids:Mapped[List[Resume]] = relationship(
+        back_populates="resume", cascade="all, delete-orphan"
+    )
 
     def __init__(self, name: str, email: str, password: str, **kwargs):
         super().__init__(**kwargs)
@@ -38,38 +101,3 @@ class User(Base):
 
     def __repr__(self) -> str:
         return f"User(id={self.id}), name={self.name}, email={self.email})"
-
-
-class WorkExperience(Base):
-    __tablename__ = "work_experience"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    company_name: Mapped[str] = mapped_column(String(40))
-    position: Mapped[str] = mapped_column(String(40))
-    start_date: Mapped[str] = mapped_column(String(40))
-    end_date: Mapped[str] = mapped_column(String(40))
-
-
-class Education(Base):
-    __tablename__ = "education"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    degree: Mapped[str] = mapped_column(String(30))
-    achieved_date: Mapped[str] = mapped_column(String(40))
-
-
-class Skill(Base):
-    __tablename__ = "skill"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    name: Mapped[str] = mapped_column(String(30))
-    proficiency: Mapped[Proficiency] = mapped_column(proficiency_enum)
-
-
-# class Resume(Base):
-#     __tablename__ = "resume"
-#     id: Mapped[int] = mapped_column(primary_key=True)
-#     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-#     work_experiences: Mapped[List[WorkExperience]] = relationship(
-#         back_populates="users", cascade="all, delete-orphan"
-#     )
