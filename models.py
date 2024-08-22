@@ -1,5 +1,5 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import String, Boolean, ForeignKey
+from sqlalchemy import String, Boolean, ForeignKey, UniqueConstraint
 from typing import List
 from enum import Enum
 from db import Base
@@ -56,6 +56,22 @@ class Skill(Base):
 
     resume: Mapped["Resume"] = relationship(back_populates="skills")
 
+
+class Address(Base):
+    __tablename__ = "address"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    city: Mapped[str] = mapped_column(String(40), nullable=False)
+    country: Mapped[str] = mapped_column(String(40), nullable=False)
+
+    # To ensure no duplicate addresses data
+    __table_args__ = (
+        UniqueConstraint('city', 'country', name='unique_city_country'),
+    )
+
+    resumes: Mapped[List["Resume"]] = relationship(
+        back_populates="address"
+    )
+    
 class Resume(Base):
     __tablename__ = "resume"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -63,9 +79,11 @@ class Resume(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     username: Mapped[str] = mapped_column(String(40), nullable=False)
     profession: Mapped[str] = mapped_column(String(40), nullable=False)
-    address: Mapped[str] = mapped_column(String(150), nullable=True)
     phone: Mapped[str] = mapped_column(String(40), nullable=False)
     email: Mapped[str] = mapped_column(String(40), nullable=False)
+    address: Mapped["Address"] = relationship(
+        back_populates="resumes"
+    )
 
     work_experiences: Mapped[List[WorkExperience]] = relationship(
         back_populates="resume", cascade="all, delete-orphan"
