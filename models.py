@@ -1,5 +1,5 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import String, Boolean, ForeignKey, UniqueConstraint
+from sqlalchemy import String, Boolean, Date, ForeignKey, UniqueConstraint
 from typing import List
 from enum import Enum
 from db import Base
@@ -29,8 +29,9 @@ class WorkExperience(Base):
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     company_name: Mapped[str] = mapped_column(String(40), nullable=False)
     position: Mapped[str] = mapped_column(String(40), nullable=False)
-    start_date: Mapped[str] = mapped_column(String(40))
-    end_date: Mapped[str] = mapped_column(String(40))
+    location: Mapped[str] = mapped_column(String(150))
+    start_date: Mapped[Date] = mapped_column(Date)
+    end_date: Mapped[Date] = mapped_column(Date)
     is_working: Mapped[bool] = mapped_column(Boolean)
     summary: Mapped[str] = mapped_column(nullable=True)
 
@@ -40,9 +41,13 @@ class WorkExperience(Base):
 class Education(Base):
     __tablename__ = "education"
     id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(40), nullable=False)
+    location: Mapped[str] = mapped_column(String(150))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
-    degree: Mapped[str] = mapped_column(String(30))
-    achieved_date: Mapped[str] = mapped_column(String(40))
+    degree: Mapped[str] = mapped_column(String(40), nullable=False)
+    start_date: Mapped[Date] = mapped_column(Date)
+    end_date: Mapped[Date] = mapped_column(Date)
+    is_graduate: Mapped[bool] = mapped_column(Boolean)
 
     resume: Mapped["Resume"] = relationship(back_populates="educations")
 
@@ -79,8 +84,10 @@ class Resume(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     username: Mapped[str] = mapped_column(String(40), nullable=False)
     profession: Mapped[str] = mapped_column(String(40), nullable=False)
+    image_file_path:Mapped[str] = mapped_column(String(150), nullable=True)
     phone: Mapped[str] = mapped_column(String(40), nullable=False)
     email: Mapped[str] = mapped_column(String(40), nullable=False)
+    address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
     address: Mapped["Address"] = relationship(
         back_populates="resumes"
     )
@@ -104,9 +111,9 @@ class Template(Base):
 class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(30))
-    email: Mapped[str] = mapped_column(String(100))
-    password: Mapped[str] = mapped_column(String(250))
+    name: Mapped[str] = mapped_column(String(30), nullable=False)
+    email: Mapped[str] = mapped_column(String(100), nullable=False)
+    password: Mapped[str] = mapped_column(String(250), nullable=False)
     resume_ids:Mapped[List[Resume]] = relationship(
         back_populates="resume", cascade="all, delete-orphan"
     )
