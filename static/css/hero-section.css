@@ -1,0 +1,106 @@
+.hero-section {
+    height: 100vh;
+    /* background: url('hero-bg.jpg') no-repeat center center/cover; */
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding-top: 5rem;
+    text-align: center;
+    color: #fff;
+    /* overflow: hidden;  */
+    position: relative;  
+}
+
+.hero-content {
+    position: relative;  
+    z-index: 1;  
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: black;
+    position: relative; 
+    z-index: 1;
+}
+
+.hero-content .main-btn {
+    padding: 0.75rem 2rem;
+    margin-top: 1.5rem;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative; 
+    z-index: 1;  
+    background-color: #0767ce;
+}
+
+ 
+.hero-content .main-btn:hover {
+    background-color: #006cdf;
+}
+
+#bubble-svg-container {
+    position: absolute;
+    width: 510px;
+    height: 510px;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);  
+    z-index: -1;  
+}
+
+.hero-image {
+    position: relative;
+    width: 250px;
+    height: 350px;
+    margin-top: -100px;
+    z-index: 1;  
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.card {
+    text-align: center;
+    margin: 0 15px;
+    position: relative;  
+    z-index: 2;  
+}
+
+.card img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+
+.bottom-middle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+}
+
+.gradient-svg {
+    width: 200px;
+    height: 200px;
+    margin-bottom: -50px;  
+}
+
+ 

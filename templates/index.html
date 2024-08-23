@@ -2,9 +2,49 @@
 
 
 {% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+{% endblock %}
 
-
-{% endblock  %}
 {% block body %}
- <h1>Hello World!</h1>
-{% endblock  %}
+
+<!-- Hero Section -->
+
+<section id="home" class="hero-section">
+    <div class="hero-content">
+        <h1>Professional Resume For Any Job</h1>
+
+        <div class="card-container">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/hero-section/search.svg') }}" alt="Icon 1">
+                <div class="card-text">Easy to Use</div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/hero-section/idea.svg') }}" alt="Icon 2">
+                <div class="card-text">Professional Templates</div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/hero-section/man.svg') }}" alt="Icon 3">
+                <div class="card-text">Customizable</div>
+            </div>
+        </div>
+
+        <a href="#resume" class="main-btn">Try our Resume Builder</a>
+
+
+        <div class="bottom-middle">
+            <div id="bubble-svg-container"></div>
+            <img src="{{ url_for('static', filename='images/hero-section/hero-CV.png') }}" alt="Hero Image"
+                class="hero-image">
+        </div>
+    </div>
+</section>
+<script>
+
+    fetch("{{ url_for('static', filename='images/hero-section/bubble.svg') }}")
+        .then(response => response.text())
+        .then(svg => {
+            document.getElementById("bubble-svg-container").innerHTML = svg;
+        });
+
+</script>
+{% endblock %}

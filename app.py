@@ -63,3 +63,9 @@ def get_skills():
 
     print(completion.choices[0].message.content)
     return {"message":"success"}
+
+
+
+
+if __name__ == "__main__":
+    app.debug

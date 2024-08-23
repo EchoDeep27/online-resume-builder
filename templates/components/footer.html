@@ -1,0 +1,76 @@
+<footer id="web-footer">
+    <div class="footer-block footer-block1">
+
+        <div id="logo-svg-container" class="webpage-logo"></div>
+        <h4>Contact</h4>
+        <p>
+            <span class="text-yellow">Address:</span> Nar Nat Thaw Street, Kamyaut,
+            Yangon
+        </p>
+        <p>
+            <span class="text-yellow">Phone:</span> +95 977943 5552/ +66 8191 2155
+        </p>
+        <p>
+            <span class="text-yellow">Office Hours:</span> 9:00 am - 5:00pm, Mon - Sat
+        </p>
+
+        <div class="contact-us">
+            <h4>Follow Us</h4>
+            <div class="social-icon">
+                <ul id="social">
+                    <li id="social-one" onclick="redirectToLink('https://hm3it.github.io/')">
+                        <i class="fab fa-github"> </i>
+                    </li>
+                    <li id="social-two"><i class="fab fa-instagram"></i></li>
+                    <li id="social-three"
+                        onclick="redirectToLink('https://www.linkedin.com/in/hein-min-min-maw-2486bb24a/')"><i
+                            class="fab fa-linkedin-in"></i></li>
+                    <li id="social-four"><i class="fab fa-youtube"></i></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-block footer-block2">
+        <h2>About</h2>
+        <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Mission & Vision</a></li>
+            <li><a href="#">Our Office Location</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+        </ul>
+    </div>
+    <div class="footer-block footer-block3">
+        <h2>My Account</h2>
+        <ul>
+            <li><a href="#">Sign In</a></li>
+            <li><a href="#">View My Resume</a></li>
+
+            <li><a href="#">Help</a></li>
+        </ul>
+    </div>
+    <div class="footer-block footer-block4">
+        <h2>Secured Payment Gateways</h2>
+        <img src="{{url_for('static',filename='images/payment/payment.png')}}" alt="" />
+        <h2>Support</h2>
+        <a href="#">
+            <img class="kpay-img" src="{{url_for('static',filename='images/payment/kpay.png')}}" alt="" />
+        </a>
+    </div>
+    <div class="footer-copyright">
+        <p>&#169; 2024 Hein Min Min Maw copyright all right reserved</p>
+    </div>
+</footer>
+<script>
+    function redirectToLink(url) {
+        window.location.href = url;
+    }
+
+
+    fetch("{{ url_for('static', filename='images/logo.svg') }}")
+        .then(response => response.text())
+        .then(svg => {
+            document.getElementById("logo-svg-container").innerHTML = svg;
+        });
+
+</script>

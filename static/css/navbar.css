@@ -1,0 +1,86 @@
+
+/* Navigation Bar Styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    /* background-color: #333; */
+    background-color: transparent;
+    color: #fff;
+}
+
+nav .logo {
+    color: rgb(40, 231, 184);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav .nav-links {
+    list-style: none;
+    display: flex;
+}
+
+nav .nav-links li {
+    margin-left: 2rem;
+}
+
+nav .nav-links a {
+    color: #3d00cc;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+nav .nav-links a:hover {
+    color: #f4f4f4;
+}
+
+.navy{
+    color: #0003b9;
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle .bar {
+    height: 3px;
+    width: 25px;
+    background-color: #fff;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+}
+
+ 
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    nav .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #333;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+
+    nav .nav-links li {
+        margin: 1rem 0;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+}
+
+/* Show mobile menu when active */
+nav .nav-links.active {
+    display: flex;
+}
