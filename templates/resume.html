@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css')}}">
+{% endblock %}
+
+{% block body %}
+
+<section class="template-section">
+    <div class="template-content">
+        <h1 id="template-section-title">Choose from our best templates</h1>
+        <h4 id="template-section-subtitle">You can always <span class="highlight-text">change</span> your template
+            later.</h4>
+        <div class="template-editor">
+            <div class="template-option">
+                <div class="template-filter">
+                    <label>Choose Color</label>
+                    <div class="color-container">
+                        <div class="color-radio white-bg" data-color="#ffffff"></div>
+                        <div class="color-radio grey-bg" data-color="#cccccc"></div>
+                        <div class="color-radio crimson-bg" data-color="#dc143c"></div>
+                        <div class="color-radio purple-bg" data-color="#800080"></div>
+
+                        <div class="color-radio blue-bg" data-color="#0003b9"></div>
+                        <div class="color-radio black-bg" data-color="#352e2e"></div>
+                        <div class="color-radio dark-green-bg" data-color="#01502f"></div>
+                        <div class="color-radio yellow-bg" data-color="#e9de4b"></div>
+                    </div>
+                    <div class="headshot-radio">
+                        <h4>Headshot</h4>
+                        <div>
+                            <input type="radio" name="headshot" value="1" id="with-headshot">
+                            <label for="with-headshot">With Photo</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="headshot" value="0">
+                            <label for="without-headshot">Without Headshot</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if contents['template_svg_files']|length > 0 %}
+            <div class="template-card-container">
+                {% for svg_file in contents['template_svg_files'] %}
+                {% for key, svg in svg_file.items() %}
+                <div id="{{ key }}" class="template-card" onclick="selectTemplate('{{ key }}')">
+                    {{ svg|safe }}
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No templates available.</p>
+            {% endif %}
+        </div>
+
+        <div class="nex-button">
+            <button onclick="cachedTemplateInfo()">Next</button>
+        </div>
+    </div>
+</section>
+
+<script>
+    let selectedTemplateId = null
+    let isHeadshot = false
+    let selectedColor = "#ffffff"
+    let headshotRadios = document.querySelectorAll('input[name="headshot"]');
+
+
+
+    // color radio 
+
+    document.querySelectorAll(".color-radio").forEach(radio => {
+        radio.addEventListener("click", function () {
+            selectedColor = this.getAttribute("data-color");
+            changeSVGBackground(selectedColor);
+        });
+    });
+
+    headshotRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            let headshotValue = document.querySelector('input[name="headshot"]:checked').value;
+            console.log(`Selected Value: ${headshotValue}`);
+            isHeadshot = headshotValue === '1' ? 1 : 0;
+
+        });
+    })
+    function selectTemplate(templateId) {
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+
+        const selectedTemplate = document.getElementById(templateId);
+        if (selectedTemplate) {
+            selectedTemplate.classList.add('selected');
+        }
+        selectedTemplateId = templateId
+        console.log("Selected template: " + templateId);
+    }
+
+    function changeSVGBackground(color) {
+        document.querySelectorAll(".template-card svg").forEach(svgElement => {
+            svgElement.style.backgroundColor = color;
+        });
+    }
+
+    function cachedTemplateInfo() {
+        if (selectedTemplateId !== null) {
+            tempateInfo = {
+                "templateId": selectedTemplateId,
+                "isHeadshot": isHeadshot,
+                "templateColor": selectedColor
+            }
+            localStorage.setItem('template_info', JSON.stringify(tempateInfo));
+            window.location.href = "/resume/section/heading"
+
+        } else {
+            alert("Please choose one of the template.")
+        }
+
+    }
+
+</script>
+{% endblock %}

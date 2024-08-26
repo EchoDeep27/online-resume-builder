@@ -1,0 +1,38 @@
+#heading-content {
+    width: 800px;
+    margin: 10px auto;
+}
+
+#heading-form {
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    width: 800px;
+}
+#heading-form > div{
+    min-height: 75px; 
+}
+#heading-form input[type="text"], 
+#heading-form input[type="tel"], 
+#heading-form input[type="email"] {
+    width: 300px;
+    display: block;
+}
+
+#heading-form button[type="submit"]{
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+  
+}
+
+#profile-image-upload {
+    grid-row: span 2;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#profile-image-preview{
+    width: 150px; 
+    border-radius: 50%;
+}

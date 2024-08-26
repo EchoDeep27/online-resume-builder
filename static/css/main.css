@@ -5,7 +5,79 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-family: "Roboto", Arial, sans-serif;
+    font-weight: 300;
+    font-style: normal;
     background-color: #f4f4f4;
+    line-height: 1.6;
+
 }
+
+
+
+
+.white-bg {
+    background-color: rgb(255, 255, 255);
+}
+
+.grey-bg {
+    background-color: rgb(145, 142, 142);
+}
+
+.crimson-bg {
+    background-color: rgb(187, 0, 47);
+}
+
+.purple-bg {
+    background-color: rgb(137, 0, 179);
+}
+
+.blue-bg {
+    background-color: #0003b9;
+}
+
+.black-bg {
+    background-color: #352e2e;
+}
+
+.dark-green-bg {
+    background-color: #01502f;
+}
+
+.yellow-bg {
+    background-color: #e9de4b;
+}
+
+
+
+.highlight-text {
+    color: #0003b9;
+}
+
+button {
+    cursor: pointer;
+}
+
+.form-btn-div{
+ 
+    display: flex;
+    gap:50px;
+    margin: 50px 0;
+}
+
+.previous-btn {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #e9e9ed;
+    border-radius: 5px;
+    border: .5px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* .section-suggestion{
+   
+} */

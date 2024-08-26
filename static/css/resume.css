@@ -1,0 +1,98 @@
+#template-section-title,
+#template-section-subtitle {
+    text-align: center;
+}
+
+#template-section-title{
+    font-size: 2.5rem;
+}
+
+.template-section {
+    /* display: grid;
+    place-items: center;      */
+    margin-top: 60px;
+    height: 70vh;
+    overflow: hidden;
+}
+
+.template-option div {
+    margin: 10px;
+}
+
+/* color editor */
+
+.color-container {
+    display: grid;
+    grid-template-columns: repeat(4, 25px);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+}
+
+.color-radio {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: .4px solid rgb(0, 0, 0);
+}
+
+.headshot-radio div {
+    display: block;
+}
+
+.template-editor {
+    display: grid;
+    grid-template-columns: 400px auto;
+    justify-content: center;
+}
+
+
+
+/* template-card */
+
+.template-card-container div {
+    margin: 20px 10px;
+}
+
+.template-card {
+    width: 260px;
+    height: 360px;
+    display: inline-block;
+    border: 3px solid grey;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+
+
+
+.template-card:hover {
+    cursor: pointer;
+    border: 3px solid blue;
+}
+
+.template-card svg {
+    width: inherit;
+    height: inherit;
+    background-color: transparent;
+}
+
+.template-card.selected {
+    border: 3px solid blue;
+}
+
+
+
+.nex-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;  
+}
+
+.nex-button button {
+    padding: 10px 20px; 
+    margin-right: 350px;
+}
+
+.nex-button button:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+{% endblock %}
+
+{% block body %}
+{% include 'components/navbar.html' %}
+<!-- Hero Section -->
+
+<section id="template" class="template-section">
+    <form method="POST" action="/template/upload" enctype="multipart/form-data">
+        <label for="">Upload your html resume template</label>
+        <input type="file" name="template_file" accept=".html" required>
+        <button type="submit">Upload</button>
+    </form>
+
+</section>
+<script src="{{url_for('static',filename='js/navbar.js')}}"> </script>
+{% endblock %}
