@@ -1,0 +1,49 @@
+#edu-content {
+    width: 800px;
+    margin: 10px auto;
+}
+
+#edu-form {
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 360px);
+    width: 800px;
+}
+
+#edu-form>div {
+    min-height: 75px;
+}
+
+#edu-form input[type="text"],
+#edu-form input[type="tel"],
+#edu-form input[type="email"] {
+    width: 300px;
+    height: 30px;
+    display: block;
+}
+
+#edu-form button[type="submit"] {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+
+}
+
+
+#edu-form .location-div {
+    grid-column: span 2;
+}
+
+#edu-form .location-div input[type="text"] {
+    width: 660px;
+}
+
+#edu-form .date-div {
+    grid-column: span 2;
+    /* width: 200px; */
+}
+
+#edu-form .date-div>div {
+    display: inline-block;
+    margin: 5px 20px 5px 0;
+}

@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         checkForUpdates()
 
-        window.location.href = "/resume/section/work_experience"
+        window.location.href = "/resume/section/education"
 
 
 

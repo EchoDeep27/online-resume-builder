@@ -184,8 +184,12 @@ def heading_page():
     return render_template("header-resume.html")
 
 
+@app.route("/resume/section/education",  methods=["GET"])
+def education_page():
+    return render_template("edu-resume.html")
+
 @app.route("/resume/section/work_experience",  methods=["GET"])
-def work_exp_page():
+def work_experience_page():
     return render_template("work-exp-resume.html")
 
 if __name__ == "__main__":

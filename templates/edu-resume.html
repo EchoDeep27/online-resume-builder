@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/progress-bar.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/edu-section.css')}}">
+{% endblock %}
+
+{% block body %}
+{% include 'components/progress-bar.html' %}
+<!-- Hero Section -->
+
+<section id="edu-section" class="resume-section">
+
+    <div id="edu-content">
+        <h1>Awesome! Now, what qualifications do you have?</h1>
+        <div class="section-suggestion">
+            <i class="fas fa-star"></i>
+            <span class="suggestion">We suggest to start with your most recent period of education and work backwards.
+            </span>
+        </div>
+        <form id="edu-form">
+            <div>
+                <label for="degree">Degree</label>
+                <input type="text" name="degree" id="degree" required>
+            </div>
+
+            <div>
+                <label for="school">Name of School/University</label>
+                <input type="text" name="school" id="school" required>
+            </div>
+            <div class="location-div">
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location" required>
+            </div>
+            <div class="date-div">
+                <div>
+                    <label for="start-date">Start Date</label>
+                    <input type="date" name="start-date" id="star-date" required>
+                </div>
+
+                <div>
+                    <label for="end-date">End Date</label>
+                    <input type="date" name="end-date" id="end-date">
+                </div>
+
+                <input type="checkbox" name="is-working" id="is-working">
+                <label for="is-working">I haven't graduate</label>
+            </div>
+
+
+            <div class="form-btn-div">
+                <a class="previous-btn" href="/resume/select-template">Previous</a>
+
+                <button type="submit">Next</button>
+            </div>
+        </form>
+    </div>
+    <div id="heading-preview">
+
+    </div>
+
+</section>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        function setMaxEndDate() {
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = String(today.getMonth() + 1).padStart(2, '0');
+            let day = String(today.getDate()).padStart(2, '0');
+            let todayDate = `${year}-${month}-${day}`;
+
+
+            document.getElementById("end-date").setAttribute("max", todayDate);
+        }
+
+
+        setMaxEndDate();
+
+    })
+</script>
+
+{% endblock %}

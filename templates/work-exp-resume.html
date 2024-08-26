@@ -5,56 +5,46 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/progress-bar.css')}}">
-<link rel="stylesheet" href="{{url_for('static',filename='css/heading-section.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/work-exp-section.css')}}">
 {% endblock %}
 
 {% block body %}
 {% include 'components/progress-bar.html' %}
 <!-- Hero Section -->
 
-<section id="heading" class="heading-section">
+<section id="work-exp-section" class="resume-section">
 
-    <div id="heading-content">
-        <h1>What’s the best way for employers to contact you?</h1>
+    <div id="work-exp-content">
+        <h1>Awesome! Now, what qualifications do you have?</h1>
         <div class="section-suggestion">
             <i class="fas fa-star"></i>
-            <span class="suggestion">We suggest including an email and phone number.</span>
+            <span class="suggestion">We suggest to start with your most recent period of education and work backwards. </span>
         </div>
         <form id="heading-form">
             <div>
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" required>
-            </div>
-            <div id="profile-image-upload">
-                <img id="profile-image-preview"
-                    src="{{url_for('static',filename='images/profile/default_profile.jpg')}}"
-                    alt="Profile Image Preview">
-                <div>
-                    <label for="profile-image">Upload Profile</label>
-                    <input type="file" id="profile-image" name="profile-image" accept="image/*">
-                </div>
+                <label for="degree">Degree</label>
+                <input type="text" name="degree" id="degree" required>
             </div>
 
             <div>
-                <label for="profession">Profession</label>
-                <input type="text" name="profession" id="profession" required>
+                <label for="school">Name of School/University</label>
+                <input type="text" name="school" id="school" required>
             </div>
             <div>
-                <label for="city">City</label>
-                <input type="text" name="city" id="city" required>
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location" required>
             </div>
             <div>
-                <label for="country">Country</label>
-                <input type="text" name="country" id="country" required>
+                <input type="date" name="start-date" id="star-date" required>
             </div>
             <div>
-                <label for="phone">Phone</label>
-                <input type="tel" name="phone" id="phone">
+                <input type="date" name="end-date" id="end-date">
             </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
-            </div>
+            <label for="is-working">is </label>
+            <input type="checkbox" name="is-working" id="is-working">
+           <div>
+
+           </div>
 
             <div class="form-btn-div">
                 <a class="previous-btn" href="/resume/select-template">Previous</a>
