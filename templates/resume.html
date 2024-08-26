@@ -30,11 +30,11 @@
                     <div class="headshot-radio">
                         <h4>Headshot</h4>
                         <div>
-                            <input type="radio" name="headshot" value="1" id="with-headshot">
+                            <input type="radio" name="headshot" id="with-headshot" value="1" id="with-headshot">
                             <label for="with-headshot">With Photo</label>
                         </div>
                         <div>
-                            <input type="radio" name="headshot" value="0">
+                            <input type="radio" name="headshot" id="without-headshot" value="0">
                             <label for="without-headshot">Without Headshot</label>
                         </div>
                     </div>
@@ -67,10 +67,24 @@
     let selectedColor = "#ffffff"
     let headshotRadios = document.querySelectorAll('input[name="headshot"]');
 
+    // Load cache
+    let templateInfo = JSON.parse(localStorage.getItem("template_info"))
+    if (templateInfo) {
+        selectedTemplateId = templateInfo["templateId"]
+        selectedColor = templateInfo["templateColor"]
+        selectTemplate(selectedTemplateId)
+        changeSVGBackground(selectedColor);
 
+        isHeadshot = templateInfo["isHeadshot"]
+        if (isHeadshot) {
+            document.getElementById("with-headshot").checked = true;
+        } else {
+
+            document.getElementById("without-headshot").checked = true;
+        }
+    }
 
     // color radio 
-
     document.querySelectorAll(".color-radio").forEach(radio => {
         radio.addEventListener("click", function () {
             selectedColor = this.getAttribute("data-color");
