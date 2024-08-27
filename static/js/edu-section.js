@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let submitBtn = document.getElementById('next-btn');
 
     submitBtn.addEventListener('click', cachedEduInfo);
-    addAnotherBtn.addEventListener('click', () => insertEducationForm(null));
+    addAnotherBtn.addEventListener('click', () => insertEducationForm(eduInfo = {}));
 
     // Loading cached data if exists
     loadCached()
@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function insertEducationForm(eduInfo = null, includeRemoveBtn = true) {
-        if (eduInfo === null) {
+    function insertEducationForm(eduInfo = {}, showRemoveBtn = true) {
+        if (Object.keys(eduInfo).length == 0) {
             eduInfo =
             {
                 degree: '',
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_working ? 'checked' : ''}>
                         <label for="is-studying">I haven't graduated yet</label>
                     </div>
-                    ${includeRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
+                    ${showRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
                     
                 </form>
                 `;
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         } else {
-            insertEducationForm(null, false)
+            insertEducationForm(eduInfo = {}, showRemoveBtn = false)
         }
     }
 

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let submitBtn = document.getElementById('next-btn');
 
     submitBtn.addEventListener('click', cachedworkExpInfo);
-    addAnotherBtn.addEventListener('click', () => insertworkExpcationForm(null));
+    addAnotherBtn.addEventListener('click', () => insertWorkExpForm(workExpInfo = {}));
 
     // Loading cached data if exists
     loadCached()
@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function insertworkExpcationForm(workExpInfo = null, includeRemoveBtn = true) {
-        if (workExpInfo === null) {
+    function insertWorkExpForm(workExpInfo = {}, showRemoveBtn = true) {
+        if (Object.keys(workExpInfo).length == 0) {
             workExpInfo =
             {
                 job: "",
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     
 
-                    ${includeRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
+                    ${showRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
                     
                 </form>
                 `;
@@ -164,14 +164,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Hidden the remove button in the first workExpcation entry form 
                 formCount++
                 if (formCount == 1) {
-                    insertworkExpcationForm(workExpInfo, false)
+                    insertWorkExpForm(workExpInfo, false)
                 } else {
 
-                    insertworkExpcationForm(workExpInfo)
+                    insertWorkExpForm(workExpInfo)
                 }
             });
         } else {
-            insertworkExpcationForm(null, false)
+            insertWorkExpForm(workExpInfo = {}, showRemoveBtn = false)
         }
     }
 

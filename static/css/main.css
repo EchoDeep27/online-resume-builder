@@ -170,6 +170,22 @@ input[type="checkbox"] {
     background-color: #aa2121;
 }
 
+
+
+/* Font Awesome Icon styles */
+
+i.fa-star {
+    color: gold;
+    font-size: 1.5rem;
+}
+
+.remove-form-btn i {
+    color: var(--danger-color);
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
 /* Fade out animation (used in remove button of resume' sections forms */
 .fade-out {
     animation: fadeOut 0.3s ease-out;

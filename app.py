@@ -176,9 +176,9 @@ def template_page():
     return render_template("template-uploader.html")
 
 
-
-
-#  Sections of a Resume pages
+# =============================================
+#  Render Page APIs for Resume section pages 
+# =============================================
 @app.route("/resume/section/heading",  methods=["GET"])
 def render_heading_page():
     return render_template("header-resume.html")
