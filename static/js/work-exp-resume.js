@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    let eduFormsContainer = document.getElementById('edu-forms-container');
+    let workExpFormsContainer = document.getElementById('work-exp-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let submitBtn = document.getElementById('next-btn');
 
-    submitBtn.addEventListener('click', cachedEduInfo);
-    addAnotherBtn.addEventListener('click', () => insertEducationForm(null));
+    submitBtn.addEventListener('click', cachedworkExpInfo);
+    addAnotherBtn.addEventListener('click', () => insertworkExpcationForm(null));
 
     // Loading cached data if exists
     loadCached()
@@ -19,80 +19,80 @@ document.addEventListener('DOMContentLoaded', function () {
         form.querySelector('input[name="end-date"]').setAttribute("max", todayDate);
     }
 
-    // setting the end-date of the first education form
-    setMaxEndDate(document.querySelector('.edu-form'));
+    // setting the end-date of the first workExpcation form
+    setMaxEndDate(document.querySelector('.work-exp-form'));
 
-    function removeEducationForm(eduFormWrapper) {
-        let isConfirmed = confirm("Are you sure you want to delete this education entry?");
+    function removeworkExpcationForm(workExpFormWrapper) {
+        let isConfirmed = confirm("Are you sure you want to delete this workExpcation entry?");
 
         if (!isConfirmed) {
             return
         }
 
-        eduFormWrapper.classList.add('fade-out');
+        workExpFormWrapper.classList.add('fade-out');
         setTimeout(() => {
-            eduFormWrapper.remove();
+            workExpFormWrapper.remove();
         }, 300);
     }
 
 
 
-    function insertEducationForm(eduInfo = null, includeRemoveBtn = true) {
-        if (eduInfo === null) {
-            eduInfo =
+    function insertworkExpcationForm(workExpInfo = null, includeRemoveBtn = true) {
+        if (workExpInfo === null) {
+            workExpInfo =
             {
-                degree: '',
-                school: '',
+                job: '',
+                company: '',
                 location: '',
                 start_date: '0-0-0',
                 end_date: '0-0-0',
-                is_working: false
+                isWorking: false
             }
                 ;
         }
 
 
-        let eduFormWrapper = document.createElement('div');
-        eduFormWrapper.classList.add('edu-form-wrapper');
+        let workExpFormWrapper = document.createElement('div');
+        workExpFormWrapper.classList.add('work-exp-form-wrapper');
 
-        eduFormWrapper.innerHTML = `
-                <form class="edu-form">
+        workExpFormWrapper.innerHTML = `
+                <form class="work-exp-form">
                     <div>
-                        <label for="degree">Degree</label>
-                        <input type="text" name="degree" value="${eduInfo.degree}" required>
+                        <label for="job">Job Tittle</label>
+                        <input type="text" name="job" value="${workExpInfo.job}" required>
                     </div>
                     <div>
-                        <label for="school">Name of School/University</label>
-                        <input type="text" name="school" value="${eduInfo.school}" required>
+                        <label for="company">Company</label>
+                        <input type="text" name="company" value="${workExpInfo.company}" required>
                     </div>
                     <div class="location-div">
                         <label for="location">Location</label>
-                        <input type="text" name="location" value="${eduInfo.location}" required>
+                        <input type="text" name="location" value="${workExpInfo.location}" required>
                     </div>
                     <div class="date-div">
                         <div>
                             <label for="start-date">Start Date</label>
-                            <input type="date" name="start-date" value="${eduInfo.start_date}" required>
+                            <input type="date" name="start-date" value="${workExpInfo.startDate}" id="start-date required>
                         </div>
                         <div>
                             <label for="end-date">End Date</label>
-                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}" ${eduInfo.is_working ? 'disabled' : ''}>
+                            <input type="date" name="end-date" value="${workExpInfo.endDate}" ${workExpInfo.isWorking ? 'disabled' : ''} id="end-date">
                         </div>
-                        <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_working ? 'checked' : ''}>
-                        <label for="is-studying">I haven't graduated yet</label>
+                        <input type="checkbox" name="is-working" id="is-working" ${workExpInfo.isWorking ? 'checked' : ''}>
+                        <label for="is-working">I am in this job right now</label>
                     </div>
                     ${includeRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
                     
                 </form>
                 `;
 
-        eduFormsContainer.appendChild(eduFormWrapper);
+        workExpFormsContainer.appendChild(workExpFormWrapper);
 
-        setMaxEndDate(eduFormWrapper);
+        setMaxEndDate(workExpFormWrapper);
 
-        let removeBtn = eduFormWrapper.querySelector(".remove-form-btn");
-        let isWorkingCheckbox = eduFormWrapper.querySelector("#is-studying")
-        let endDateInput = eduFormWrapper.querySelector("#end-date")
+        let removeBtn = workExpFormWrapper.querySelector(".remove-form-btn");
+        let isWorkingCheckbox = workExpFormWrapper.querySelector("#is-working")
+        let endDateInput = workExpFormWrapper.querySelector("#end-date")
 
         isWorkingCheckbox.addEventListener('change', () => {
             if (isWorkingCheckbox.checked) {
@@ -103,63 +103,66 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         if (removeBtn) {
-            removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
+            removeBtn.addEventListener('click', () => removeworkExpcationForm(workExpFormWrapper));
 
-            eduFormWrapper.addEventListener('mouseover', function () {
+            workExpFormWrapper.addEventListener('mouseover', function () {
                 removeBtn.classList.add('showed-remove-btn');
             });
 
-            eduFormWrapper.addEventListener('mouseout', function () {
+            workExpFormWrapper.addEventListener('mouseout', function () {
                 removeBtn.classList.remove('showed-remove-btn');
             });
         }
     }
 
 
-    function cachedEduInfo() {
-        let eduForms = document.querySelectorAll('.edu-form');
-        let educationData = [];
+    function cachedworkExpInfo() {
+        let workExpForms = document.querySelectorAll('.work-exp-form');
+        let workExpcationData = [];
 
-        eduForms.forEach(form => {
-            let eduData = {
-                degree: form.querySelector('input[name="degree"]').value,
-                school: form.querySelector('input[name="school"]').value,
+        workExpForms.forEach(form => {
+            let startdateTest = form.querySelector('input[name="start-date"]')
+            console.log(`start date obj ${startdateTest}`)
+            console.log(`start date ${startdateTest.value}`)
+            let workExpData = {
+                job: form.querySelector('input[name="job"]').value,
+                company: form.querySelector('input[name="company"]').value,
                 location: form.querySelector('input[name="location"]').value,
-                start_date: form.querySelector('input[name="start-date"]').value,
-                end_date: form.querySelector('input[name="end-date"]').value,
-                is_working: form.querySelector('input[name="is-studying"]').checked
+                startDate: form.querySelector('input[name="start-date"]').value,
+                endDate: form.querySelector('input[name="end-date"]').value,
+                isWorking: form.querySelector('input[name="is-working"]').checked
             };
-            educationData.push(eduData);
+            workExpcationData.push(workExpData);
         });
 
-        localStorage.setItem('education_info', JSON.stringify(educationData));
+        localStorage.setItem('workExpInfo', JSON.stringify(workExpcationData));
 
-        window.location.href = '/resume/section/work_experience';
+        // window.location.href = '/resume/section/work_experience';
     }
 
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem('education_info');
+        let cachedData = localStorage.getItem('workExpInfo');
 
         if (cachedData) {
-            let educationData = JSON.parse(cachedData);
+            let workExpcationData = JSON.parse(cachedData);
 
-            let eduFormsContainer = document.getElementById('edu-forms-container');
-            eduFormsContainer.innerHTML = '';
+            let workExpFormsContainer = document.getElementById('work-exp-forms-container');
+            workExpFormsContainer.innerHTML = '';
             formCount = 0
-            educationData.forEach(eduInfo => {
-                // Hidden the remove button in the first education entry form 
+            workExpcationData.forEach(workExpInfo => {
+                // Hidden the remove button in the first workExpcation entry form 
                 formCount++
                 if (formCount == 1) {
-                    insertEducationForm(eduInfo, false)
+                    insertworkExpcationForm(workExpInfo, false)
                 } else {
 
-                    insertEducationForm(eduInfo)
+                    insertworkExpcationForm(workExpInfo)
                 }
             });
         } else {
-            insertEducationForm(null, false)
+            insertworkExpcationForm(null, false)
         }
     }
 

@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="date-div">
                         <div>
                             <label for="start-date">Start Date</label>
-                            <input type="date" name="start-date" value="${eduInfo.start_date}" required>
+                            <input type="date" id="start-date" name="start-date" value="${eduInfo.start_date}" required>
                         </div>
                         <div>
                             <label for="end-date">End Date</label>

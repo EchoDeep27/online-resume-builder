@@ -1,7 +1,7 @@
 :root {
     --primary-color: #0003b9;
     --secondary-color: #2ecc71;
-    --danger-color:#ff4d4d;
+    --danger-color: #ff4d4d;
 
 }
 
@@ -128,4 +128,48 @@ input[type="checkbox"] {
     color: black;
     text-align: center;
     text-decoration: none;
+}
+
+
+.remove-form-btn {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--danger-color);
+    color: #fff;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    /* For Smooth transition */
+    transition: visibility 0.6s, opacity .7s;
+    opacity: 0;
+}
+
+.showed-remove-btn {
+    visibility: visible;
+    opacity: 1;
+
+}
+
+.remove-form-btn:hover {
+    background-color: #aa2121;
+}
+
+/* Fade out animation (used in remove button of resume' sections forms */
+.fade-out {
+    animation: fadeOut 0.3s ease-out;
+    opacity: 0;
+}
+
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
