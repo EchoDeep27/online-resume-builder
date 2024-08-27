@@ -37,19 +37,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function insertEducationForm(eduInfo = null) {
+    function insertEducationForm(eduInfo) {
 
         if (eduInfo === null) {
-            eduInfo =
-            {
-                degree: '',
-                school: '',
-                location: '',
-                start_date: '0-0-0',
-                end_date: '0-0-0',
-                is_working: false
-            }
-                ;
+            eduInfo = [
+                {
+                    degree: '',
+                    school: '',
+                    location: '',
+                    start_date: '0-0-0',
+                    end_date: '0-0-0',
+                    is_working: false
+                }
+            ];
         }
 
 
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             <label for="end-date">End Date</label>
                             <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}">
                         </div>
-                        <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_working ? 'checked' : ''}>
-                        <label for="is-studying">I haven't graduated yet</label>
+                        <input type="checkbox" name="is-working" id="is-working" ${eduInfo.is_working ? 'checked' : ''}>
+                        <label for="is-working">I haven't graduated</label>
                     </div>
                     <button type="button" class="remove-form-btn">Remove</button>
                 </form>
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setMaxEndDate(eduFormWrapper);
 
         let removeBtn = eduFormWrapper.querySelector(".remove-form-btn");
-        let isWorkingCheckbox = eduFormWrapper.querySelector("#is-studying")
+        let isWorkingCheckbox = eduFormWrapper.querySelector("#is-working")
         let endDateInput = eduFormWrapper.querySelector("#end-date")
         removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 location: form.querySelector('input[name="location"]').value,
                 start_date: form.querySelector('input[name="start-date"]').value,
                 end_date: form.querySelector('input[name="end-date"]').value,
-                is_working: form.querySelector('input[name="is-studying"]').checked
+                is_working: form.querySelector('input[name="is-working"]').checked
             };
             educationData.push(eduData);
         });
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem('education_infoss');
+        let cachedData = localStorage.getItem('education_info');
 
         if (cachedData) {
             let educationData = JSON.parse(cachedData);
@@ -149,8 +149,6 @@ document.addEventListener('DOMContentLoaded', function () {
             educationData.forEach(eduInfo => {
                 insertEducationForm(eduInfo)
             });
-        } else {
-            insertEducationForm()
         }
     }
 
