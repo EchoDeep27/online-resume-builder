@@ -1,14 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/progress-bar.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/skill-section.css')}}">
+{% endblock %}
 
-<body>
+{% block body %}
+<!-- Progress Section -->
+{% include 'components/progress-bar.html' %}
+<!--End of Progress Section -->
 
-</body>
 
-</html>
+<section id="skill-section" class="resume-section">
+    <div id="skill-content">
+        <h1>What skills would you like to highlight?</h1>
+        <div class="section-suggestion">
+            <i class="fas fa-star"></i>
+            <span class="suggestion">The skills you add should reflect the requirements of the job you're applying
+                for.</span>
+        </div>
+
+        <div id="skill-forms-container">
+            <div class="skill-form-wrapper">
+            </div>
+
+        </div>
+        <div class="add-another-btn-div">
+            <button id="add-another-btn" type="button"><i class="fas fa-plus-circle"></i> Add Another</button>
+        </div>
+
+
+        <div class="form-btn-div">
+            <a class="previous-btn" href="/resume/section/heading">Previous</a>
+            <button id="next-btn" class="primary-btn" type="button">Next</button>
+        </div>
+    </div>
+    <div id="skillcation-preview" class="resume-preview">
+    </div>
+</section>
+
+<script src="{{url_for('static',filename='js/skill-section.js')}}">
+
+</script>
+
+{% endblock %}

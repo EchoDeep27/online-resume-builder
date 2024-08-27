@@ -3,7 +3,7 @@
     text-align: center;
 }
 
-#template-section-title{
+#template-section-title {
     font-size: 2.5rem;
 }
 
@@ -62,9 +62,6 @@
     border-radius: 10px;
 }
 
-
-
-
 .template-card:hover {
     cursor: pointer;
     border: 3px solid blue;
@@ -82,17 +79,8 @@
 
 
 
-.nex-button {
+.resume-btn-div {
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;  
-}
-
-.nex-button button {
-    padding: 10px 20px; 
-    margin-right: 350px;
-}
-
-.nex-button button:hover{
-    cursor: pointer;
+    margin-top: 20px;
 }

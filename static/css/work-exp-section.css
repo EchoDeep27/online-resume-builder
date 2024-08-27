@@ -77,4 +77,5 @@
     width: calc(var(--input-width) * 2);
     height: 100px;
     resize: none;
+    font-family: Arial;
 }

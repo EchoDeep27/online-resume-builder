@@ -1,0 +1,63 @@
+#skill-section {
+    height: 100vh;
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#skill-forms-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 800px;
+    padding: 20px;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+
+.skill-form {
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 360px);
+    width: 100%;
+    padding: 20px 15px;
+    border-radius: 15px;
+    box-shadow: 3px 5px 5px 2px #b5a7a7;
+}
+
+.skill-form>div {
+    min-height: 75px;
+}
+
+.skill-form input {
+    padding: 5px 10px;
+}
+
+.skill-form input[type="text"],
+.skill-form select {
+    width: 300px;
+    height: 30px;
+    display: block;
+    background-color: white;
+}
+
+.skill-form select{
+    border: none;
+    border: .5px solid grey;
+    padding: 5px 10px;
+}
+
+.skill-form .location-div {
+    grid-column: span 2;
+}
+
+.skill-form .location-div input[type="text"] {
+    width: 660px;
+}
+
+ 
+.skill-form-wrapper {
+    margin-bottom: 20px;
+    position: relative;
+}

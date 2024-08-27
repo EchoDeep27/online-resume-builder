@@ -2,10 +2,13 @@
 
 
 {% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css')}}">
 {% endblock %}
 
 {% block body %}
+
+{% include 'components/navbar.html' %}
 
 <section class="template-section">
     <div class="template-content">
@@ -49,15 +52,16 @@
                 </div>
                 {% endfor %}
                 {% endfor %}
+                <div class="resume-btn-div">
+                    <button id="next-btn" class="primary-btn" onclick="cachedTemplateInfo()">Next</button>
+                </div>
             </div>
             {% else %}
             <p>No templates available.</p>
             {% endif %}
         </div>
 
-        <div class="nex-button">
-            <button onclick="cachedTemplateInfo()">Next</button>
-        </div>
+
     </div>
 </section>
 

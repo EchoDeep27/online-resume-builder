@@ -1,6 +1,7 @@
 :root {
     --primary-color: #0003b9;
-    --secondary-color: #2ecc71;
+    --secondary-color: #28e7b8;
+    --highlight-color: #2196f3;
     --danger-color: #ff4d4d;
     --input-width: 330px;
 }
@@ -47,9 +48,18 @@ input[type="checkbox"] {
 /* COLOR styles */
 
 .highlight-text {
-    color: var(--primary-color);
+    color: var(--highlight-color);
 }
 
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white
+}
+
+.primary-btn:hover {
+    background-color: var(--highlight-color);
+    color: black;
+}
 
 .white-bg {
     background-color: rgb(255, 255, 255);
@@ -108,6 +118,9 @@ input[type="checkbox"] {
     width: 100px;
     height: 50px;
     line-height: 50px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
 }
 
 .form-btn-div {

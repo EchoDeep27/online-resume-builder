@@ -8,19 +8,19 @@ from uuid import UUID
 
 
 proficiency_enum = ENUM(
-    "Professional",
-    "Decent",
-    "Intermediate",
     "Beginner",
+    "Intermediate",
+    "Proficient",
+    "Expert",
     name="proficiency",
     create_type=True, 
 )
 
 class Proficiency(Enum):
-    PROFESSIONAL = "Professional"
-    DECENT = "Decent"
-    INTERMEDIATE = "Intermediate"
     BEGINNER = "Beginner"
+    INTERMEDIATE = "Intermediate"
+    PROFICIENT = "Proficient"
+    EXPERT = "Expert"
 
 
  
