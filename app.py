@@ -180,17 +180,21 @@ def template_page():
 
 #  Sections of a Resume pages
 @app.route("/resume/section/heading",  methods=["GET"])
-def heading_page():
+def render_heading_page():
     return render_template("header-resume.html")
 
 
 @app.route("/resume/section/education",  methods=["GET"])
-def education_page():
+def render_education_page():
     return render_template("edu-resume.html")
 
 @app.route("/resume/section/work_experience",  methods=["GET"])
-def work_experience_page():
+def render_work_experience_page():
     return render_template("work-exp-resume.html")
+
+@app.route("/resume/section/skill",  methods=["GET"])
+def render_skill_page():
+    return render_template("skill-resume.html")
 
 if __name__ == "__main__":
     app.debug

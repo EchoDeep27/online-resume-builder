@@ -15,6 +15,10 @@
     box-sizing: border-box;
 }
 
+.work-exp-form-wrapper {
+    margin-bottom: 20px;
+    position: relative;
+}
 
 .work-exp-form {
     margin: 30px 0;
@@ -37,26 +41,28 @@
 .work-exp-form input[type="text"],
 .work-exp-form input[type="tel"],
 .work-exp-form input[type="email"] {
-    width: 300px;
+    width: var(--input-width);
     height: 30px;
     display: block;
     padding: 5px 10px;
 }
 
 
+.work-exp-form .location-div input[type="text"] {
+    width: calc(var(--input-width) * 2);
+}
 .work-exp-form .location-div {
     grid-column: span 2;
 }
 
-.work-exp-form .location-div input[type="text"] {
-    width: 660px;
-}
 
+.work-exp-form .achievement-div,
 .work-exp-form .date-div {
     grid-column: span 2;
     min-height: 50px;
 }
 
+ 
 .work-exp-form .date-div>div {
     display: inline-block;
     margin: 5px 20px 5px 0;
@@ -66,7 +72,9 @@
     width: 150px;
 }
 
-.work-exp-form-wrapper {
-    margin-bottom: 20px;
-    position: relative;
+
+.work-exp-form textarea {
+    width: calc(var(--input-width) * 2);
+    height: 100px;
+    resize: none;
 }

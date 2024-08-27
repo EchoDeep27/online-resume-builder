@@ -41,12 +41,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (workExpInfo === null) {
             workExpInfo =
             {
-                job: '',
-                company: '',
-                location: '',
+                job: "",
+                company: "",
+                location: "",
                 start_date: '0-0-0',
                 end_date: '0-0-0',
-                isWorking: false
+                isWorking: false,
+                achievements: ""
             }
                 ;
         }
@@ -77,10 +78,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div>
                             <label for="end-date">End Date</label>
                             <input type="date" name="end-date" value="${workExpInfo.endDate}" ${workExpInfo.isWorking ? 'disabled' : ''} id="end-date">
+                            <input type="checkbox" name="is-working" id="is-working" ${workExpInfo.isWorking ? 'checked' : ''}>
+                            <label for="is-working">I am in this job right now</label>
                         </div>
-                        <input type="checkbox" name="is-working" id="is-working" ${workExpInfo.isWorking ? 'checked' : ''}>
-                        <label for="is-working">I am in this job right now</label>
                     </div>
+                    <div class="achievement-div">
+                        <label for="achievements">Achievements</label>
+                        <textarea name="achievements" id="achievements">${workExpInfo.achievements}</textarea>
+                    </div>
+
+                    
+
                     ${includeRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
                     
                 </form>
@@ -130,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 location: form.querySelector('input[name="location"]').value,
                 startDate: form.querySelector('input[name="start-date"]').value,
                 endDate: form.querySelector('input[name="end-date"]').value,
+                achievements: form.querySelector('textarea').value,
                 isWorking: form.querySelector('input[name="is-working"]').checked
             };
             workExpcationData.push(workExpData);
@@ -137,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         localStorage.setItem('workExpInfo', JSON.stringify(workExpcationData));
 
-        // window.location.href = '/resume/section/work_experience';
+        window.location.href = '/resume/section/skill';
     }
 
 
