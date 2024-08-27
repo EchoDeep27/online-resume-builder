@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let submitBtn = document.getElementById('next-btn');
 
     submitBtn.addEventListener('click', cachedEduInfo);
-    addAnotherBtn.addEventListener('click', insertEducationForm);
+    addAnotherBtn.addEventListener('click', () => insertEducationForm(null));
 
     // Loading cached data if exists
     loadCached()
@@ -37,19 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function insertEducationForm(eduInfo) {
-
+    function insertEducationForm(eduInfo = null, includeRemoveBtn = true) {
         if (eduInfo === null) {
-            eduInfo = [
-                {
-                    degree: '',
-                    school: '',
-                    location: '',
-                    start_date: '0-0-0',
-                    end_date: '0-0-0',
-                    is_working: false
-                }
-            ];
+            eduInfo =
+            {
+                degree: '',
+                school: '',
+                location: '',
+                start_date: '0-0-0',
+                end_date: '0-0-0',
+                is_working: false
+            }
+                ;
         }
 
 
@@ -77,12 +76,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div>
                             <label for="end-date">End Date</label>
-                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}">
+                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}" ${eduInfo.is_working ? 'disabled' : ''}>
                         </div>
-                        <input type="checkbox" name="is-working" id="is-working" ${eduInfo.is_working ? 'checked' : ''}>
-                        <label for="is-working">I haven't graduated</label>
+                        <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_working ? 'checked' : ''}>
+                        <label for="is-studying">I haven't graduated yet</label>
                     </div>
-                    <button type="button" class="remove-form-btn">Remove</button>
+                    ${includeRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
+                    
                 </form>
                 `;
 
@@ -91,26 +91,28 @@ document.addEventListener('DOMContentLoaded', function () {
         setMaxEndDate(eduFormWrapper);
 
         let removeBtn = eduFormWrapper.querySelector(".remove-form-btn");
-        let isWorkingCheckbox = eduFormWrapper.querySelector("#is-working")
+        let isWorkingCheckbox = eduFormWrapper.querySelector("#is-studying")
         let endDateInput = eduFormWrapper.querySelector("#end-date")
-        removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
 
         isWorkingCheckbox.addEventListener('change', () => {
             if (isWorkingCheckbox.checked) {
-                endDateInput.value = "0/0/0"
+                endDateInput.value = "0-0/-0"
                 endDateInput.disabled = true;
             } else {
                 endDateInput.disabled = false;
             }
         })
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
 
-        eduFormWrapper.addEventListener('mouseover', function () {
-            removeBtn.classList.add('showed-remove-btn');
-        });
+            eduFormWrapper.addEventListener('mouseover', function () {
+                removeBtn.classList.add('showed-remove-btn');
+            });
 
-        eduFormWrapper.addEventListener('mouseout', function () {
-            removeBtn.classList.remove('showed-remove-btn');
-        });
+            eduFormWrapper.addEventListener('mouseout', function () {
+                removeBtn.classList.remove('showed-remove-btn');
+            });
+        }
     }
 
 
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 location: form.querySelector('input[name="location"]').value,
                 start_date: form.querySelector('input[name="start-date"]').value,
                 end_date: form.querySelector('input[name="end-date"]').value,
-                is_working: form.querySelector('input[name="is-working"]').checked
+                is_working: form.querySelector('input[name="is-studying"]').checked
             };
             educationData.push(eduData);
         });
@@ -145,10 +147,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let eduFormsContainer = document.getElementById('edu-forms-container');
             eduFormsContainer.innerHTML = '';
-
+            formCount = 0
             educationData.forEach(eduInfo => {
-                insertEducationForm(eduInfo)
+                // Hidden the remove button in the first education entry form 
+                formCount++
+                if (formCount == 1) {
+                    insertEducationForm(eduInfo, false)
+                } else {
+
+                    insertEducationForm(eduInfo)
+                }
             });
+        } else {
+            insertEducationForm(null, false)
         }
     }
 

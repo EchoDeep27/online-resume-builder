@@ -38,10 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function insertEducationForm(eduInfo = null, includeRemoveBtn = true) {
-
-        console.log(`here ${eduInfo}`)
         if (eduInfo === null) {
-
             eduInfo =
             {
                 degree: '',
@@ -150,9 +147,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let eduFormsContainer = document.getElementById('edu-forms-container');
             eduFormsContainer.innerHTML = '';
-
+            formCount = 0
             educationData.forEach(eduInfo => {
-                insertEducationForm(eduInfo)
+                // Hidden the remove button in the first education entry form 
+                formCount++
+                if (formCount == 1) {
+                    insertEducationForm(eduInfo, false)
+                } else {
+
+                    insertEducationForm(eduInfo)
+                }
             });
         } else {
             insertEducationForm(null, false)
