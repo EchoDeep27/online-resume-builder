@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let submitBtn = document.getElementById('next-btn');
 
     submitBtn.addEventListener('click', cachedEduInfo);
-    addAnotherBtn.addEventListener('click', insertEducationForm);
+    addAnotherBtn.addEventListener('click', () => insertEducationForm(null));
 
     // Loading cached data if exists
     loadCached()
@@ -37,9 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function insertEducationForm(eduInfo = null) {
+    function insertEducationForm(eduInfo = null, includeRemoveBtn = true) {
 
+        console.log(`here ${eduInfo}`)
         if (eduInfo === null) {
+
             eduInfo =
             {
                 degree: '',
@@ -77,12 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div>
                             <label for="end-date">End Date</label>
-                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}">
+                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}" ${eduInfo.is_working ? 'disabled' : ''}>
                         </div>
                         <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_working ? 'checked' : ''}>
                         <label for="is-studying">I haven't graduated yet</label>
                     </div>
-                    <button type="button" class="remove-form-btn">Remove</button>
+                    ${includeRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
+                    
                 </form>
                 `;
 
@@ -93,24 +96,26 @@ document.addEventListener('DOMContentLoaded', function () {
         let removeBtn = eduFormWrapper.querySelector(".remove-form-btn");
         let isWorkingCheckbox = eduFormWrapper.querySelector("#is-studying")
         let endDateInput = eduFormWrapper.querySelector("#end-date")
-        removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
 
         isWorkingCheckbox.addEventListener('change', () => {
             if (isWorkingCheckbox.checked) {
-                endDateInput.value = "0/0/0"
+                endDateInput.value = "0-0/-0"
                 endDateInput.disabled = true;
             } else {
                 endDateInput.disabled = false;
             }
         })
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
 
-        eduFormWrapper.addEventListener('mouseover', function () {
-            removeBtn.classList.add('showed-remove-btn');
-        });
+            eduFormWrapper.addEventListener('mouseover', function () {
+                removeBtn.classList.add('showed-remove-btn');
+            });
 
-        eduFormWrapper.addEventListener('mouseout', function () {
-            removeBtn.classList.remove('showed-remove-btn');
-        });
+            eduFormWrapper.addEventListener('mouseout', function () {
+                removeBtn.classList.remove('showed-remove-btn');
+            });
+        }
     }
 
 
@@ -138,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem('education_infoss');
+        let cachedData = localStorage.getItem('education_info');
 
         if (cachedData) {
             let educationData = JSON.parse(cachedData);
@@ -150,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 insertEducationForm(eduInfo)
             });
         } else {
-            insertEducationForm()
+            insertEducationForm(null, false)
         }
     }
 
