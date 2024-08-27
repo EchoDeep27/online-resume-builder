@@ -1,49 +1,114 @@
-#edu-content {
-    width: 800px;
-    margin: 10px auto;
-}
+ #edu-section {
+     height: 100vh;
+     display: flex;
+     padding: 20px;
+     justify-content: center;
+     overflow: hidden;
+ }
 
-#edu-form {
-    margin: 30px 0;
-    display: grid;
-    grid-template-columns: repeat(2, 360px);
-    width: 800px;
-}
-
-#edu-form>div {
-    min-height: 75px;
-}
-
-#edu-form input[type="text"],
-#edu-form input[type="tel"],
-#edu-form input[type="email"] {
-    width: 300px;
-    height: 30px;
-    display: block;
-}
-
-#edu-form button[type="submit"] {
-    width: 100px;
-    height: 50px;
-    line-height: 50px;
-
-}
+ #edu-forms-container {
+     max-height: 60vh;
+     overflow-y: auto;
+     width: 800px;
+     padding: 20px;
+     margin: 10px auto;
+     box-sizing: border-box;
+ }
 
 
-#edu-form .location-div {
-    grid-column: span 2;
-}
+ .edu-form {
+     margin: 30px 0;
+     display: grid;
+     grid-template-columns: repeat(2, 360px);
+     width: 100%;
+     padding: 20px 15px;
+     border-radius: 15px;
+     box-shadow: 3px 5px 5px 2px #b5a7a7;
+ }
 
-#edu-form .location-div input[type="text"] {
-    width: 660px;
-}
+ .edu-form>div {
+     min-height: 75px;
+ }
 
-#edu-form .date-div {
-    grid-column: span 2;
-    /* width: 200px; */
-}
+ .edu-form input[type="text"],
+ .edu-form input[type="tel"],
+ .edu-form input[type="email"] {
+     width: 300px;
+     height: 30px;
+     display: block;
+     padding: 5px 10px;
+ }
 
-#edu-form .date-div>div {
-    display: inline-block;
-    margin: 5px 20px 5px 0;
-}
+
+ .edu-form .location-div {
+     grid-column: span 2;
+ }
+
+ .edu-form .location-div input[type="text"] {
+     width: 660px;
+ }
+
+ .edu-form .date-div {
+     grid-column: span 2;
+     min-height: 50px;
+ }
+
+ .edu-form .date-div>div {
+     display: inline-block;
+     margin: 5px 20px 5px 0;
+ }
+
+ .edu-form .date-div input[type="date"]{
+    width: 150px;
+ }
+
+ .edu-form-wrapper {
+     margin-bottom: 20px;
+     position: relative;
+ }
+
+ .remove-form-btn {
+     visibility: hidden;
+     /* Hide the button but keep its space */
+     width: 200px;
+     background-color: var(--danger-color);
+     color: #fff;
+     padding: 5px 10px;
+     margin-top: 10px;
+     border: none;
+     border-radius: 10px;
+     font-size: 1rem;
+     font-weight: bold;
+     transition: visibility 0.6s, opacity .7s;
+     /* Smooth transition */
+     opacity: 0;
+ }
+
+ .showed-remove-btn {
+     visibility: visible;
+     /* Show the button */
+     opacity: 1;
+
+ }
+
+ .edu-form .remove-form-btn:hover {
+     background-color: #aa2121;
+ }
+
+ /* Education form Remove Animation  */
+
+ .fade-out {
+     animation: fadeOut 0.3s ease-out;
+     opacity: 0;
+ }
+
+
+ @keyframes fadeOut {
+     from {
+         opacity: 1;
+     }
+
+     to {
+         opacity: 0;
+     }
+ }

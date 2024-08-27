@@ -1,3 +1,12 @@
+:root {
+    --primary-color: #0003b9;
+    --secondary-color: #2ecc71;
+    --danger-color:#ff4d4d;
+
+}
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +22,33 @@ body {
 
 }
 
+button {
+    cursor: pointer;
+}
 
+/* Removing the default behavior of HTML input blur when user put their cursor */
+form input:focus {
+    outline: none;
+    border-width: 2px;
+}
+
+form input {
+    border-radius: 5px;
+    border-width: .5px;
+}
+
+/* Used from
+ https://stackoverflow.com/questions/69958117/how-to-change-checkbox-background-color-in-simple-html 
+ (Jun 25, 2022, AlThePal78)*/
+input[type="checkbox"] {
+    accent-color: var(--primary-color);
+}
+
+/* COLOR styles */
+
+.highlight-text {
+    color: var(--primary-color);
+}
 
 
 .white-bg {
@@ -48,20 +83,37 @@ body {
     background-color: #e9de4b;
 }
 
-
-
-.highlight-text {
-    color: #0003b9;
-}
-
-button {
-    cursor: pointer;
-}
-
-.form-btn-div{
- 
+/* Generic button styles */
+#add-another-btn {
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    border-style: dotted;
+    border-width: 3px;
+    border-radius: 10px;
+    border-color: var(--primary-color);
+    font-size: 1rem;
     display: flex;
-    gap:50px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#add-another-btn i {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+#next-btn {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.form-btn-div {
+
+    display: flex;
+    gap: 50px;
     margin: 50px 0;
 }
 
@@ -77,7 +129,3 @@ button {
     text-align: center;
     text-decoration: none;
 }
-
-/* .section-suggestion{
-   
-} */
