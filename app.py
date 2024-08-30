@@ -1,15 +1,17 @@
 import os
 import openai
 import uuid
+from uuid import UUID
+import json
 from dotenv import load_dotenv
-
-from flask import Flask, render_template
+from sqlalchemy.exc import NoResultFound
 from flask_sqlalchemy import SQLAlchemy
 from db import get_session, init_db
-from tables import User, WorkExperience, Skill, Template
+from tables import Resume, WorkExperience, Education, Skill, Template, User, Address
 from hashlib import md5
-from utils import get_resume_from_db, save_template_file, save_profile_image
-from flask import Flask, request, jsonify, send_from_directory
+from utils import get_resume_from_db, save_template_file, save_profile_image, get_start_end_dates, get_all_templates
+from flask import Flask, request, render_template, jsonify, send_from_directory, abort
+from sqlalchemy.orm import Session
 
 load_dotenv()
 app = Flask("CV-builder")
@@ -57,24 +59,178 @@ def get_user():
 
     # User.query.filter(User.name == 'admin').first()
 
+
+
+
+
+def add_address(session,city, country) -> uuid.UUID:
+    existing_address = session.query(Address).filter_by(
+    city=city,
+    country=country
+    ).first()
+
+    if existing_address:
+        address_id = existing_address.id
+    else:
+       
+        address_id = uuid.uuid4()
+        address = Address(
+            id=address_id,
+            city=city,
+            country=country
+        )
+        session.add(address)
+        session.commit()
+    return address_id
+
+
+
+def create_work_experience_instances(resume_id:uuid.UUID, data: list[dict]) -> list[WorkExperience]:
+    work_experiences = []
+    try:
+        for work_exp in data:
+            start_date, end_date = get_start_end_dates(work_exp["start_date", work_exp["end_date"]])
+                    
+            work_experience = WorkExperience(
+                id=uuid.uuid4(),
+                resume_id=resume_id,
+                company_name=work_exp['company'],
+                position=work_exp['job'],
+                location=work_exp['location'],
+                start_date= start_date,
+                end_date=end_date,
+                is_working=work_exp['isWorking'],
+                summary=work_exp['achievements']
+            )
+            work_experiences.append(work_experience)
+    except Exception as err:
+        print(err)
+        print("An error occurred while processing the work experience")
+    return work_experiences
+    
+
+def create_education_instances(resume_id:int, data:list[dict]) -> list[Education]:
+    education_instances =  []
+    try:
+        for edu in data:
+            start_date, end_date = get_start_end_dates(edu["start_date", edu["end_date"]])
+            education = Education(
+                id=uuid.uuid4(),
+                resume_id=resume_id,
+                name=edu['school'],
+                location=edu['location'],
+                degree=edu['degree'],
+                start_date=start_date,
+                end_date= end_date,
+                is_graduate=edu['is_working']
+            )
+            education_instances.append(education)
+    except Exception as err:
+       
+            print(err)
+            print("An error occurred while processing the education")
+    return education_instances
+
+
+def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
+    skills = []
+    try:
+        for skill in data:
+            skill_instance = Skill(
+                id=uuid.uuid4(),
+                resume_id=resume_id,
+                name=skill['skill'],
+                # Converting to the enum name
+                proficiency=skill['expertiseLevel'].upper()  
+            )
+            skills.append(skill_instance)
+    except Exception as err:
+                
+            print(err)
+            print("Error ocucrred in skill")
+            
+    return skills
+
+def get_template(session: Session, template_id: str) -> Template:
+    try:
+        # Convert string to UUID if necessary
+        template_id = UUID(template_id) if isinstance(template_id, str) else template_id
+        print("Template ID:", template_id)
+
+        result = session.query(Template).filter_by(id=template_id).one()
+        return result
+
+    except Exception as err:
+        print(err)
+        print(f"Failed to retrieve the template {template_id}")
 #=========== Resume APIs ================
 
-@app.route("/resume/select-template")
-def resume_template():
-    templates_svg_files = {
-        'template1': 'static/images/resume/template1.svg',
-        'template2': 'static/images/resume/template2.svg',
-        'template3': 'static/images/resume/template3.svg'
-    }
+@app.route("/resume", methods=["POST"])
+def create_resume():
+    with get_session() as session: 
 
-    contents = {"template_svg_files": [], "other_data": "example_value"}
-    
-    for key, file_path in templates_svg_files.items():
-        with open(file_path, 'r') as file:
-            svg_file = {key: file.read()}
-            contents["template_svg_files"].append(svg_file)
-          
-    return render_template("resume.html", contents=contents)
+        data = request.json
+ 
+        heading_info = data.get('headingInfo')
+        work_exp_info = data.get('workExpInfo')
+        template_info = data.get('templateInfo')
+        education_info = data.get('eduInfo')
+        skill_info = data.get('skillInfo')
+         
+        heading = json.loads(heading_info)
+        work_experiences = json.loads(work_exp_info)
+        template_data = json.loads(template_info)
+        educations = json.loads(education_info)
+        skills = json.loads(skill_info)
+        
+  
+        resume_id = uuid.uuid4()
+        
+        user_id = uuid.uuid4() 
+
+        
+        address_id = add_address(session, heading["city"], heading["country"])
+        
+        
+            
+        try:
+            resume = Resume(
+                id=resume_id,
+                template_id=template_data['templateId'],
+                user_id=user_id,   
+                username=heading["username"],
+                profession=heading["username"], 
+                phone=heading.get("phone"),  
+                email= heading["email"],  
+                address_id=  address_id  
+            )
+       
+        except Exception as err:
+       
+            print(err)
+            abort(500, description="An error occurred while processing the request")
+     
+        
+        resume.work_experiences  = create_work_experience_instances(resume_id= resume_id, data= work_experiences)
+        resume.educations = create_education_instances(resume_id=resume_id , data=educations)
+        resume.skills = create_skill_instances(resume_id, skills)
+        resume.template = get_template(session=session, template_id=template_data['templateId'])
+     
+           
+        try:         
+      
+            session.add(resume)
+            session.commit()
+        
+            return jsonify({"message": "Resume created successfully!", "resume_id": str(resume_id)}), 201
+
+        except Exception as err:
+       
+            print(err)
+            abort(500, description="An error occurred while processing the request")
+ 
+    return resume, 200
+
 
 @app.route("/resume/<int:resume_id>", methods=["GET"])
 def get_resume(resume_id):
@@ -133,7 +289,7 @@ def upload_template():
         return "Invalid file type", 400
     
     with get_session() as session:
-        template = Template(file_name=file_name, file_path=file_path)
+        template = Template(id = uuid.uuid4(), name=file_name, template_file_path=file_path)
         session.add(template)
         session.commit()
     
@@ -169,16 +325,35 @@ def get_skills():
     print(completion.choices[0].message.content)
     return {"message":"success"}
 
-   
     
-@app.route("/auth/template", methods=["GET"])
-def template_page():
-    return render_template("template-uploader.html")
-
 
 # =============================================
 #  Render Page APIs for Resume section pages 
 # =============================================
+
+
+@app.route("/resume/select-template")
+def render_resume_template_page():
+    
+    
+    with get_session() as session:
+        template_instances = session.query(Template).all()
+
+        templates_svg_files ={}
+        for template in template_instances:
+            print(template.id)
+        templates_svg_files[template.id] = 'static/images/resume/template3.svg'
+  
+        contents = {"template_svg_files": [], "other_data": "example_value"}
+        
+        for key, file_path in templates_svg_files.items():
+            with open(file_path, 'r') as file:
+                svg_file = {key: file.read()}
+                contents["template_svg_files"].append(svg_file)
+          
+        return render_template("resume.html", contents=contents)
+
+
 @app.route("/resume/section/heading",  methods=["GET"])
 def render_heading_page():
     return render_template("header-resume.html")
@@ -195,6 +370,17 @@ def render_work_experience_page():
 @app.route("/resume/section/skill",  methods=["GET"])
 def render_skill_page():
     return render_template("skill-resume.html")
+
+@app.route("/resume/section/summary",  methods=["GET"])
+def render_summary_page():
+    return render_template("summary-resume.html")
+
+
+
+
+@app.route("/auth/template", methods=["GET"])
+def template_page():
+    return render_template("template-uploader.html")
 
 if __name__ == "__main__":
     app.debug

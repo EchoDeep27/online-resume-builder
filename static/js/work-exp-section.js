@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const CACHE_NAME = "workExpInfo"
 
     let workExpFormsContainer = document.getElementById('work-exp-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
@@ -144,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
             workExpcationData.push(workExpData);
         });
 
-        localStorage.setItem('workExpInfo', JSON.stringify(workExpcationData));
+        localStorage.setItem(CACHE_NAME, JSON.stringify(workExpcationData));
 
         window.location.href = '/resume/section/skill';
     }
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem('workExpInfo');
+        let cachedData = localStorage.getItem(CACHE_NAME);
 
         if (cachedData) {
             let workExpcationData = JSON.parse(cachedData);

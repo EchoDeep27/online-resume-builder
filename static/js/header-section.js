@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const pollingInterval = 3000;
-    let isHeadshot = false;
+    const TEMPATE_CACHE_NAME = "templateInfo"
+    const HEADING_CACHE_NAME = "headingInfo"
 
+    let pollingInterval = 3000;
+    let isHeadshot = false;
 
     let form = document.getElementById('heading-form');
     let profileImageUpload = document.getElementById('profile-image-upload');
@@ -9,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let profileImagePreview = document.getElementById('profile-image-preview');
 
     // Load cached data
-    let savedData = JSON.parse(localStorage.getItem('heading')) || {};
-    let storedInfo = localStorage.getItem('template_info');
+    let savedData = JSON.parse(localStorage.getItem(HEADING_CACHE_NAME)) || {};
+    let storedInfo = localStorage.getItem(TEMPATE_CACHE_NAME);
 
     let profileFileName = savedData["profile_file_name"] || null
 
@@ -111,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         let dataChanged = Object.keys(currentData).some(key => currentData[key] !== savedData[key]);
         if (dataChanged) {
-            localStorage.setItem('heading', JSON.stringify(currentData));
+            localStorage.setItem(HEADING_CACHE_NAME, JSON.stringify(currentData));
             // updatePreview(currentData);
         }
     }

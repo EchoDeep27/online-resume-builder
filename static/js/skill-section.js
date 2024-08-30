@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Expert: "Expert",
     };
     const CACHED_NAME = "skillInfo"
-
+    
     // let skillFormsContainer = document.getElementById('skill-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let submitBtn = document.getElementById('next-btn');
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         localStorage.setItem(CACHED_NAME, JSON.stringify(skillcationData));
 
-        // window.location.href = '/resume/section/work_experience';
+        window.location.href = '/resume/section/summary';
     }
 
 

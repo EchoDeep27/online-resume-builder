@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const CACHE_NAME = "eduInfo"
 
     let eduFormsContainer = document.getElementById('edu-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
             educationData.push(eduData);
         });
 
-        localStorage.setItem('education_info', JSON.stringify(educationData));
+        localStorage.setItem(CACHE_NAME, JSON.stringify(educationData));
 
         window.location.href = '/resume/section/work_experience';
     }
@@ -140,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem('education_info');
+        let cachedData = localStorage.getItem(CACHE_NAME);
 
         if (cachedData) {
             let educationData = JSON.parse(cachedData);

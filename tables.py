@@ -4,7 +4,6 @@ from typing import List
 from enum import Enum
 from db import Base
 from sqlalchemy.dialects.postgresql import ENUM
-from uuid import UUID
 
 
 proficiency_enum = ENUM(
@@ -26,13 +25,13 @@ class Proficiency(Enum):
  
 class WorkExperience(Base):
     __tablename__ = "work_experience"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     company_name: Mapped[str] = mapped_column(String(40), nullable=False)
     position: Mapped[str] = mapped_column(String(40), nullable=False)
     location: Mapped[str] = mapped_column(String(150))
     start_date: Mapped[Date] = mapped_column(Date)
-    end_date: Mapped[Date] = mapped_column(Date)
+    end_date: Mapped[Date] = mapped_column(Date, nullable= True)
     is_working: Mapped[bool] = mapped_column(Boolean)
     summary: Mapped[str] = mapped_column(nullable=True)
 
@@ -41,13 +40,13 @@ class WorkExperience(Base):
 
 class Education(Base):
     __tablename__ = "education"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(40), nullable=False)
     location: Mapped[str] = mapped_column(String(150))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     degree: Mapped[str] = mapped_column(String(40), nullable=False)
     start_date: Mapped[Date] = mapped_column(Date)
-    end_date: Mapped[Date] = mapped_column(Date)
+    end_date: Mapped[Date] = mapped_column(Date, nullable= True)
     is_graduate: Mapped[bool] = mapped_column(Boolean)
 
     resume: Mapped["Resume"] = relationship(back_populates="educations")
@@ -55,7 +54,7 @@ class Education(Base):
 
 class Skill(Base):
     __tablename__ = "skill"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     name: Mapped[str] = mapped_column(String(30))
     proficiency: Mapped[Proficiency] = mapped_column(proficiency_enum)
@@ -65,7 +64,7 @@ class Skill(Base):
 
 class Address(Base):
     __tablename__ = "address"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     city: Mapped[str] = mapped_column(String(40), nullable=False)
     country: Mapped[str] = mapped_column(String(40), nullable=False)
 
@@ -80,7 +79,7 @@ class Address(Base):
     
 class Resume(Base):
     __tablename__ = "resume"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     template_id: Mapped[int] = mapped_column(ForeignKey("template.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     username: Mapped[str] = mapped_column(String(40), nullable=False)
@@ -106,13 +105,13 @@ class Resume(Base):
 
 class Template(Base):
     __tablename__ ="template"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     name:Mapped[str] = mapped_column(String(40),nullable=False)
     template_file_path:Mapped[str] = mapped_column(String(150),nullable=False)
     
 class User(Base):
     __tablename__ = "users"
-    id: Mapped[UUID] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(30), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False)
     password: Mapped[str] = mapped_column(String(250), nullable=False)
