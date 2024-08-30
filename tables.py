@@ -1,10 +1,10 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import String, Boolean, Date, ForeignKey, UniqueConstraint
+from sqlalchemy import String, Boolean, Date, ForeignKey, UniqueConstraint, text, UUID
 from typing import List
 from enum import Enum
 from db import Base
+import uuid
 from sqlalchemy.dialects.postgresql import ENUM
-
 
 proficiency_enum = ENUM(
     "Beginner",
@@ -25,7 +25,7 @@ class Proficiency(Enum):
  
 class WorkExperience(Base):
     __tablename__ = "work_experience"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     company_name: Mapped[str] = mapped_column(String(40), nullable=False)
     position: Mapped[str] = mapped_column(String(40), nullable=False)
@@ -40,7 +40,7 @@ class WorkExperience(Base):
 
 class Education(Base):
     __tablename__ = "education"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     name: Mapped[str] = mapped_column(String(40), nullable=False)
     location: Mapped[str] = mapped_column(String(150))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
@@ -54,7 +54,7 @@ class Education(Base):
 
 class Skill(Base):
     __tablename__ = "skill"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     name: Mapped[str] = mapped_column(String(30))
     proficiency: Mapped[Proficiency] = mapped_column(proficiency_enum)
@@ -64,7 +64,7 @@ class Skill(Base):
 
 class Address(Base):
     __tablename__ = "address"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     city: Mapped[str] = mapped_column(String(40), nullable=False)
     country: Mapped[str] = mapped_column(String(40), nullable=False)
 
@@ -79,7 +79,7 @@ class Address(Base):
     
 class Resume(Base):
     __tablename__ = "resume"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     template_id: Mapped[int] = mapped_column(ForeignKey("template.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     username: Mapped[str] = mapped_column(String(40), nullable=False)
@@ -105,13 +105,13 @@ class Resume(Base):
 
 class Template(Base):
     __tablename__ ="template"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     name:Mapped[str] = mapped_column(String(40),nullable=False)
     template_file_path:Mapped[str] = mapped_column(String(150),nullable=False)
     
 class User(Base):
     __tablename__ = "users"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     name: Mapped[str] = mapped_column(String(30), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False)
     password: Mapped[str] = mapped_column(String(250), nullable=False)

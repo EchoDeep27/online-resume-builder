@@ -70,18 +70,17 @@ def add_address(session,city, country) -> uuid.UUID:
     ).first()
 
     if existing_address:
-        address_id = existing_address.id
+        return existing_address.id
     else:
        
-        address_id = uuid.uuid4()
         address = Address(
-            id=address_id,
             city=city,
             country=country
         )
         session.add(address)
         session.commit()
-    return address_id
+        
+    return address.id
 
 
 
@@ -92,7 +91,6 @@ def create_work_experience_instances(resume_id:uuid.UUID, data: list[dict]) -> l
             start_date, end_date = get_start_end_dates(work_exp["start_date", work_exp["end_date"]])
                     
             work_experience = WorkExperience(
-                id=uuid.uuid4(),
                 resume_id=resume_id,
                 company_name=work_exp['company'],
                 position=work_exp['job'],
@@ -115,7 +113,6 @@ def create_education_instances(resume_id:int, data:list[dict]) -> list[Education
         for edu in data:
             start_date, end_date = get_start_end_dates(edu["start_date", edu["end_date"]])
             education = Education(
-                id=uuid.uuid4(),
                 resume_id=resume_id,
                 name=edu['school'],
                 location=edu['location'],
@@ -137,7 +134,6 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
     try:
         for skill in data:
             skill_instance = Skill(
-                id=uuid.uuid4(),
                 resume_id=resume_id,
                 name=skill['skill'],
                 # Converting to the enum name
@@ -153,9 +149,8 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
 
 def get_template(session: Session, template_id: str) -> Template:
     try:
-        # Convert string to UUID if necessary
-        template_id = UUID(template_id) if isinstance(template_id, str) else template_id
-        print("Template ID:", template_id)
+    
+ 
 
         result = session.query(Template).filter_by(id=template_id).one()
         return result
@@ -163,8 +158,11 @@ def get_template(session: Session, template_id: str) -> Template:
     except Exception as err:
         print(err)
         print(f"Failed to retrieve the template {template_id}")
+        
+        
+# =======================================       
 #=========== Resume APIs ================
-
+# =======================================
 @app.route("/resume", methods=["POST"])
 def create_resume():
     with get_session() as session: 
@@ -183,34 +181,22 @@ def create_resume():
         educations = json.loads(education_info)
         skills = json.loads(skill_info)
         
-  
-        resume_id = uuid.uuid4()
-        
-        user_id = uuid.uuid4() 
+        user_id = str( uuid.uuid4() )
 
-        
         address_id = add_address(session, heading["city"], heading["country"])
-        
-        
-            
-        try:
-            resume = Resume(
-                id=resume_id,
-                template_id=template_data['templateId'],
-                user_id=user_id,   
-                username=heading["username"],
-                profession=heading["username"], 
-                phone=heading.get("phone"),  
-                email= heading["email"],  
-                address_id=  address_id  
-            )
-       
-        except Exception as err:
-       
-            print(err)
-            abort(500, description="An error occurred while processing the request")
      
+        resume = Resume(
+            
+            template_id=template_data['templateId'],
+            user_id=user_id,   
+            username=heading["username"],
+            profession=heading["username"], 
+            phone=heading.get("phone"),  
+            email= heading["email"],  
+            address_id=  address_id  
+        )
         
+        resume_id = resume.id
         resume.work_experiences  = create_work_experience_instances(resume_id= resume_id, data= work_experiences)
         resume.educations = create_education_instances(resume_id=resume_id , data=educations)
         resume.skills = create_skill_instances(resume_id, skills)
@@ -237,11 +223,7 @@ def get_resume(resume_id):
     resume = get_resume_from_db(resume_id)   
     return render_template("resume_template.html", resume=resume)
 
-
-
-
-
-
+ 
 # Profile Image API 
 
 @app.route("/profile/upload", methods=['POST'])
@@ -289,7 +271,7 @@ def upload_template():
         return "Invalid file type", 400
     
     with get_session() as session:
-        template = Template(id = uuid.uuid4(), name=file_name, template_file_path=file_path)
+        template = Template(name=file_name, template_file_path=file_path)
         session.add(template)
         session.commit()
     
