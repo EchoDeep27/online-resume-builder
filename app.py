@@ -1,4 +1,5 @@
 import os
+import re
 import openai
 import uuid
 from uuid import UUID
@@ -24,10 +25,14 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DB_URI")
 db = SQLAlchemy(app)
 
 
-# @app.teardown_appcontext
-# def shutdown_session(exception=None):
-#     with get_session as session:
-#         session.remove()
+#  HTML element formatter APIs
+
+def replace_newlines(text):
+    formatted_text = re.sub(r'\n(.)', r'</li><li>\1', text)
+    return f"<li>{formatted_text}</li>"
+
+
+app.jinja_env.filters['replace_newlines'] = replace_newlines
 
 
 @app.route("/")
@@ -99,7 +104,7 @@ def create_work_experience_instances(resume_id:uuid.UUID, data: list[dict]) -> l
                 start_date= start_date,
                 end_date=end_date,
                 is_working=work_exp['isWorking'],
-                summary=work_exp['achievements']
+                achievement=work_exp['achievements']
             )
             work_experiences.append(work_experience)
         return work_experiences
@@ -364,9 +369,24 @@ def render_summary_page():
     return render_template("summary-resume.html")
 
 
+@app.route("/auth/template-preview", methods=["GET"])
+def render_template_preview():
+    resume_id = "69d86e91-049f-4ac7-9b70-c91317aca914"
+    with get_session() as session:
+        resume:Resume = session.query(Resume).filter_by(id=resume_id).options(
+            joinedload(Resume.work_experiences),
+            joinedload(Resume.educations),
+            joinedload(Resume.skills),
+            joinedload(Resume.address),
+            joinedload(Resume.template),
+            joinedload(Resume.user)
+        ).one()
+        print("email")
+        print(resume.email)
 
 
- 
+        return render_template('resume-templates/template1.html', resume=resume)
+
 
 @app.route("/auth/template", methods=["GET"])
 def template_page():
