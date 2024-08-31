@@ -133,6 +133,16 @@
             </ul>
         </div>
     </div>
+    <script>
+		(function () {
+			const progressBars = document.getElementsByClassName('progress-bar');
+			progressBars.forEach(progressBar => {
+                const valueNow = progressBar.getAttribute('aria-valuenow');
+                progressBar.style.width = valueNow + '%';
+                
+            });
+		})();
+	</script>
 </body>
 
 </html>

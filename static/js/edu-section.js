@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 location: '',
                 start_date: '0-0-0',
                 end_date: '0-0-0',
-                is_working: false
+                is_studying: false
             }
                 ;
         }
@@ -77,9 +77,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div>
                             <label for="end-date">End Date</label>
-                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}" ${eduInfo.is_working ? 'disabled' : ''}>
+                            <input type="date" id="end-date" name="end-date" value="${eduInfo.end_date}" ${eduInfo.is_studying ? 'disabled' : ''}>
                         </div>
-                        <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_working ? 'checked' : ''}>
+                        <input type="checkbox" name="is-studying" id="is-studying" ${eduInfo.is_studying ? 'checked' : ''}>
                         <label for="is-studying">I haven't graduated yet</label>
                     </div>
                     ${showRemoveBtn ? '<button type="button" class="remove-form-btn">Remove</button>' : ''}
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 location: form.querySelector('input[name="location"]').value,
                 start_date: form.querySelector('input[name="start-date"]').value,
                 end_date: form.querySelector('input[name="end-date"]').value,
-                is_working: form.querySelector('input[name="is-studying"]').checked
+                is_studying: form.querySelector('input[name="is-studying"]').checked
             };
             educationData.push(eduData);
         });

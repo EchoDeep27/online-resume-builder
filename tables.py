@@ -12,6 +12,11 @@ class Proficiency(PyEnum):
     PROFICIENT = "Proficient"
     EXPERT = "Expert"
 
+class SocialMediaPlatform(PyEnum):
+    LINKEDIN = "LinkedIn"
+    FACEBOOK = "Facebook"
+    INSTAGRAM = "Instagram"
+    GITHUB = "GitHub"
 
  
 class WorkExperience(Base):
@@ -38,7 +43,7 @@ class Education(Base):
     degree: Mapped[str] = mapped_column(String(40), nullable=False)
     start_date: Mapped[Date] = mapped_column(Date)
     end_date: Mapped[Date] = mapped_column(Date, nullable= True)
-    is_graduate: Mapped[bool] = mapped_column(Boolean)
+    is_studying: Mapped[bool] = mapped_column(Boolean)
 
     resume: Mapped["Resume"] = relationship(back_populates="educations")
 

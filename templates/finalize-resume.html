@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/progress-bar.css')}}">
-<link rel="stylesheet" href="{{url_for('static',filename='css/summary-section.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/finalize-section.css')}}">
 {% endblock %}
 
 {% block body %}
@@ -13,24 +13,19 @@
 <!--End of Progress Section -->
 
 
-<section id="summary-section" class="resume-section">
-    <div id="summary-content">
+<section id="finalize-section" class="resume-section">
+    <div id="finalize-content">
         <h1>Great work~, Hein Min Min Maw</h1>
         <div class="section-suggestion">
             <i class="fas fa-star"></i>
             <span class="suggestion">Your Resume is looking good. We're just one step away from finalizing it! .</span>
         </div>
-        <div id="skill-forms-container">
-            <form id="summary-form">
-                <label for="summary">Summary</label>
-                <textarea name="summary" id="summary"></textarea>
-            </form>
-        </div>
+
 
 
         <div class="form-btn-div">
-            <a class="previous-btn" href="/resume/section/skill">Back</a>
-            <button id="next-btn" class="primary-btn" type="button">Confirm</button>
+            <a class="previous-btn" href="/resume/section/heading">Back</a>
+            <button id="confirm-btn" class="primary-btn" type="button">Confirm</button>
         </div>
     </div>
 
@@ -43,7 +38,7 @@
     <div class="spinner"></div>
     <p>Loading, please wait...</p>
 </div>
-<script src="{{url_for('static',filename='js/summary-section.js')}}">
+<script src="{{url_for('static',filename='js/finalize-section.js')}}">
 
 </script>
 {% endblock %}

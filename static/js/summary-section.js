@@ -1,59 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const nextBtn = document.getElementById('confirm-btn');
-    const loadingOverlay = document.getElementById('loading-overlay');
-
-    nextBtn.addEventListener('click', function () {
-        // Show the loading overlay
-        loadingOverlay.style.display = 'flex';
-
-        const cache_names = ["headingInfo", "workExpInfo", "templateInfo", "eduInfo", "skillInfo"];
-        let cachedData = {};
-
-        cache_names.forEach(cache_name => {
-            cachedData[cache_name] = localStorage.getItem(cache_name);
-        });
-
-        console.log(cachedData)
-
-        // 2-second custom loading time
-        const minLoadingTime = new Promise(resolve => setTimeout(resolve, 2000));
+    const CACHED_NAME = "summary"
+    let submitBtn = document.getElementById('next-btn');
+    submitBtn.addEventListener('click', cachedSummaryInfo);
+    loadCached()
 
 
-        const createResumeRequest = fetch('/resume', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(cachedData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(errorText => {
-                        throw new Error(errorText || 'Unknown error occurred');
-                    });
-                }
-                return response.json();
-            })
-            .catch(error => {
-          
-                console.error('Error:', error.message);
-             
-            });
 
-        // Wait for both the minimum loading time and the create reusme API request to complete
-        Promise.all([minLoadingTime, createResumeRequest])
-            .then(([_, data]) => {
-                console.log('Success:', data);
+    function cachedSummaryInfo() {
+        let summaryForm = document.getElementById('summary-form');
+ 
+        let summary = summaryForm.querySelector('textarea').value;
 
-                loadingOverlay.style.display = 'none';
-                // window.location.ref ="/resume/finalize"
+        localStorage.setItem(CACHED_NAME, summary);
 
-            })
-            .catch(error => {
-                console.error('Error:', error);
+        window.location.href = '/resume/section/finalize';
+    }
 
-                loadingOverlay.style.display = 'none';
 
-            });
-    });
+    function loadCached() {
+        let cachedData = localStorage.getItem(CACHED_NAME);
+
+        if (cachedData) {
+            let summary = cachedData;
+
+            let summaryForm = document.getElementById('summary-form');
+            summaryForm.querySelector('textarea').value = summary;
+
+        }
+    }
+
+
 });

@@ -126,7 +126,7 @@ def create_education_instances(resume_id:int, data:list[dict]) -> list[Education
                 degree=edu['degree'],
                 start_date=start_date,
                 end_date= end_date,
-                is_graduate=edu['is_working']
+                is_studying=edu['is_studying']
             )
             education_instances.append(education)
         return education_instances
@@ -145,7 +145,7 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
                 resume_id=resume_id,
                 name=skill['skill'],
                 # Converting to the enum name
-                proficiency=skill['expertiseLevel'] 
+                proficiency=str(skill['expertiseLevel']).upper()
             )
             skills.append(skill_instance)
         return skills
@@ -180,6 +180,7 @@ def create_resume():
         template_info = data.get('templateInfo')
         education_info = data.get('eduInfo')
         skill_info = data.get('skillInfo')
+        summary = data.get('summary')
          
         heading = json.loads(heading_info)
         work_experiences = json.loads(work_exp_info)
@@ -191,6 +192,11 @@ def create_resume():
 
         address_id = add_address(session, heading["city"], heading["country"])
         resume_id = str( uuid.uuid4())
+        profile_file_name = heading.get("profile_file_name")
+        if profile_file_name:
+            file_path = f"images/profile/{profile_file_name}"
+        else:
+            file_path = ""
         resume = Resume(
             id = resume_id,
             template_id=template_data['templateId'],
@@ -198,9 +204,10 @@ def create_resume():
             username=heading["username"],
             profession=heading["username"], 
             phone=heading.get("phone"),  
-            image_file_path=heading.get("profile_file_name",""),
+            image_file_path=file_path,
             email= heading["email"],  
-            address_id=  address_id  
+            address_id=  address_id, 
+            summary = summary
         )
         # # commit to get the resume.id
         # session.add(resume)
@@ -320,9 +327,9 @@ def get_skills():
 
     
 
-# =============================================
+# ===========================================
 #  Render Page APIs for Resume section pages 
-# =============================================
+# ===========================================
 
 
 @app.route("/resume/select-template")
@@ -368,21 +375,30 @@ def render_skill_page():
 def render_summary_page():
     return render_template("summary-resume.html")
 
+@app.route("/resume/section/finalize",  methods=["GET"])
+def render_finalize_page():
+    return render_template("finalize-resume.html")
 
 @app.route("/auth/template-preview", methods=["GET"])
 def render_template_preview():
-    resume_id = "69d86e91-049f-4ac7-9b70-c91317aca914"
+    resume_id = "c64095dc-deab-4398-b44f-2f966df08d5a"
     with get_session() as session:
-        resume:Resume = session.query(Resume).filter_by(id=resume_id).options(
+        # resume:Resume = session.query(Resume).filter_by(id=resume_id).options(
+        #     joinedload(Resume.work_experiences),
+        #     joinedload(Resume.educations),
+        #     joinedload(Resume.skills),
+        #     joinedload(Resume.address),
+        #     joinedload(Resume.template),
+        #     joinedload(Resume.user)
+        # ).one()
+        resume:Resume = session.query(Resume).options(
             joinedload(Resume.work_experiences),
             joinedload(Resume.educations),
             joinedload(Resume.skills),
             joinedload(Resume.address),
             joinedload(Resume.template),
             joinedload(Resume.user)
-        ).one()
-        print("email")
-        print(resume.email)
+        ).first()
 
 
         return render_template('resume-templates/template1.html', resume=resume)
