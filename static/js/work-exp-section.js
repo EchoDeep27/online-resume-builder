@@ -74,11 +74,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="date-div">
                         <div>
                             <label for="start-date">Start Date</label>
-                            <input type="date" name="start-date" value="${workExpInfo.startDate}" id="start-date required>
+                            <input type="date" name="start-date" value="${workExpInfo.start_date}" id="start-date required>
                         </div>
                         <div>
                             <label for="end-date">End Date</label>
-                            <input type="date" name="end-date" value="${workExpInfo.endDate}" ${workExpInfo.isWorking ? 'disabled' : ''} id="end-date">
+                            <input type="date" name="end-date" value="${workExpInfo.end_date}" ${workExpInfo.isWorking ? 'disabled' : ''} id="end-date">
                             <input type="checkbox" name="is-working" id="is-working" ${workExpInfo.isWorking ? 'checked' : ''}>
                             <label for="is-working">I am in this job right now</label>
                         </div>
@@ -137,8 +137,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 job: form.querySelector('input[name="job"]').value,
                 company: form.querySelector('input[name="company"]').value,
                 location: form.querySelector('input[name="location"]').value,
-                startDate: form.querySelector('input[name="start-date"]').value,
-                endDate: form.querySelector('input[name="end-date"]').value,
+                start_date: form.querySelector('input[name="start-date"]').value,
+                end_date: form.querySelector('input[name="end-date"]').value,
                 achievements: form.querySelector('textarea').value,
                 isWorking: form.querySelector('input[name="is-working"]').checked
             };

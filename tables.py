@@ -1,21 +1,12 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy import String, Boolean, Date, ForeignKey, UniqueConstraint, text, UUID
 from typing import List
-from enum import Enum
 from db import Base
 import uuid
-from sqlalchemy.dialects.postgresql import ENUM
+from sqlalchemy import Enum
+from enum import Enum as PyEnum
 
-proficiency_enum = ENUM(
-    "Beginner",
-    "Intermediate",
-    "Proficient",
-    "Expert",
-    name="proficiency",
-    create_type=True, 
-)
-
-class Proficiency(Enum):
+class Proficiency(PyEnum):
     BEGINNER = "Beginner"
     INTERMEDIATE = "Intermediate"
     PROFICIENT = "Proficient"
@@ -57,7 +48,7 @@ class Skill(Base):
     id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     name: Mapped[str] = mapped_column(String(30))
-    proficiency: Mapped[Proficiency] = mapped_column(proficiency_enum)
+    proficiency: Mapped[Proficiency] = mapped_column(Enum(Proficiency, name="proficiency_enum"))
 
     resume: Mapped["Resume"] = relationship(back_populates="skills")
 
@@ -79,7 +70,7 @@ class Address(Base):
     
 class Resume(Base):
     __tablename__ = "resume"
-    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
+    id: Mapped[str] = mapped_column(primary_key=True)
     template_id: Mapped[int] = mapped_column(ForeignKey("template.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     username: Mapped[str] = mapped_column(String(40), nullable=False)
@@ -101,6 +92,7 @@ class Resume(Base):
     skills: Mapped[List[Skill]] = relationship(
         back_populates="resume", cascade="all, delete-orphan"
     )
+    template: Mapped["Template"] = relationship("Template", back_populates="resumes")
     user: Mapped["User"] = relationship(back_populates="resumes")
 
 class Template(Base):
@@ -108,6 +100,9 @@ class Template(Base):
     id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     name:Mapped[str] = mapped_column(String(40),nullable=False)
     template_file_path:Mapped[str] = mapped_column(String(150),nullable=False)
+    resumes: Mapped[List["Resume"]] = relationship(
+        back_populates="template"
+    )
     
 class User(Base):
     __tablename__ = "users"

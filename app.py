@@ -10,8 +10,8 @@ from db import get_session, init_db
 from tables import Resume, WorkExperience, Education, Skill, Template, User, Address
 from hashlib import md5
 from utils import get_resume_from_db, save_template_file, save_profile_image, get_start_end_dates, get_all_templates
-from flask import Flask, request, render_template, jsonify, send_from_directory, abort
-from sqlalchemy.orm import Session
+from flask import Flask, request, render_template, jsonify, send_from_directory, abort, Response
+from sqlalchemy.orm import Session, joinedload
 
 load_dotenv()
 app = Flask("CV-builder")
@@ -88,8 +88,9 @@ def create_work_experience_instances(resume_id:uuid.UUID, data: list[dict]) -> l
     work_experiences = []
     try:
         for work_exp in data:
-            start_date, end_date = get_start_end_dates(work_exp["start_date", work_exp["end_date"]])
-                    
+            start_date = work_exp.get("start_date")
+            end_date = work_exp.get("end_date")
+            start_date, end_date = get_start_end_dates(work_exp["start_date"], work_exp["end_date"])
             work_experience = WorkExperience(
                 resume_id=resume_id,
                 company_name=work_exp['company'],
@@ -101,17 +102,18 @@ def create_work_experience_instances(resume_id:uuid.UUID, data: list[dict]) -> l
                 summary=work_exp['achievements']
             )
             work_experiences.append(work_experience)
+        return work_experiences
     except Exception as err:
         print(err)
-        print("An error occurred while processing the work experience")
-    return work_experiences
+        error_mesg = "An error occurred while processing the work experience"
+        abort(Response(error_mesg, 505))
     
 
 def create_education_instances(resume_id:int, data:list[dict]) -> list[Education]:
     education_instances =  []
     try:
         for edu in data:
-            start_date, end_date = get_start_end_dates(edu["start_date", edu["end_date"]])
+            start_date, end_date = get_start_end_dates(edu["start_date"], edu["end_date"])
             education = Education(
                 resume_id=resume_id,
                 name=edu['school'],
@@ -122,11 +124,12 @@ def create_education_instances(resume_id:int, data:list[dict]) -> list[Education
                 is_graduate=edu['is_working']
             )
             education_instances.append(education)
+        return education_instances
     except Exception as err:
-       
-            print(err)
-            print("An error occurred while processing the education")
-    return education_instances
+        print(err)
+        error_mesg = "An error occurred while processing the education"
+        abort(Response(error_mesg, 505))
+    
 
 
 def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
@@ -137,28 +140,26 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
                 resume_id=resume_id,
                 name=skill['skill'],
                 # Converting to the enum name
-                proficiency=skill['expertiseLevel'].upper()  
+                proficiency=skill['expertiseLevel'] 
             )
             skills.append(skill_instance)
+        return skills
     except Exception as err:
                 
-            print(err)
-            print("Error ocucrred in skill")
+        print(err)
+        error_mesg = "Error ocucrred in skill"
+        abort(Response(error_mesg, 505))
             
-    return skills
 
 def get_template(session: Session, template_id: str) -> Template:
     try:
-    
- 
-
         result = session.query(Template).filter_by(id=template_id).one()
         return result
 
     except Exception as err:
         print(err)
-        print(f"Failed to retrieve the template {template_id}")
-        
+        error_mesg =f"Failed to retrieve the template {template_id}"
+        abort(Response(error_mesg, 505))
         
 # =======================================       
 #=========== Resume APIs ================
@@ -180,23 +181,26 @@ def create_resume():
         template_data = json.loads(template_info)
         educations = json.loads(education_info)
         skills = json.loads(skill_info)
-        
+ 
         user_id = str( uuid.uuid4() )
 
         address_id = add_address(session, heading["city"], heading["country"])
-     
+        resume_id = str( uuid.uuid4())
         resume = Resume(
-            
+            id = resume_id,
             template_id=template_data['templateId'],
             user_id=user_id,   
             username=heading["username"],
             profession=heading["username"], 
             phone=heading.get("phone"),  
+            image_file_path=heading.get("profile_file_name",""),
             email= heading["email"],  
             address_id=  address_id  
         )
+        # # commit to get the resume.id
+        # session.add(resume)
+        # session.commit()
         
-        resume_id = resume.id
         resume.work_experiences  = create_work_experience_instances(resume_id= resume_id, data= work_experiences)
         resume.educations = create_education_instances(resume_id=resume_id , data=educations)
         resume.skills = create_skill_instances(resume_id, skills)
@@ -271,13 +275,15 @@ def upload_template():
         return "Invalid file type", 400
     
     with get_session() as session:
-        template = Template(name=file_name, template_file_path=file_path)
-        session.add(template)
-        session.commit()
-    
-        return f"File uploaded successfully: {file_name}", 200
-    
-    return "Failed to save file to db", 500
+        try:
+            template = Template(name=file_name, template_file_path=file_path)
+            session.add(template)
+            session.commit()
+        
+            return f"File uploaded successfully: {file_name}", 200
+        except Exception as err:
+            print(err)
+            return "Failed to save file to db", 500
 
 
 # ========== Template APIs ==========
@@ -324,7 +330,7 @@ def render_resume_template_page():
         templates_svg_files ={}
         for template in template_instances:
             print(template.id)
-        templates_svg_files[template.id] = 'static/images/resume/template3.svg'
+            templates_svg_files[template.id] = 'static/images/resume/template3.svg'
   
         contents = {"template_svg_files": [], "other_data": "example_value"}
         
@@ -359,6 +365,8 @@ def render_summary_page():
 
 
 
+
+ 
 
 @app.route("/auth/template", methods=["GET"])
 def template_page():
