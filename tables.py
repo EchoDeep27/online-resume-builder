@@ -1,5 +1,5 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from sqlalchemy import String, Boolean, Date, ForeignKey, UniqueConstraint, text, UUID
+from sqlalchemy import String, Boolean, Date, ForeignKey, UniqueConstraint, Text, UUID
 from typing import List
 from db import Base
 import uuid
@@ -24,7 +24,7 @@ class WorkExperience(Base):
     start_date: Mapped[Date] = mapped_column(Date)
     end_date: Mapped[Date] = mapped_column(Date, nullable= True)
     is_working: Mapped[bool] = mapped_column(Boolean)
-    summary: Mapped[str] = mapped_column(nullable=True)
+    achievement: Mapped[str] = mapped_column(nullable=True)
 
     resume: Mapped["Resume"] = relationship(back_populates="work_experiences")
 
@@ -78,6 +78,7 @@ class Resume(Base):
     image_file_path:Mapped[str] = mapped_column(String(150), nullable=True)
     phone: Mapped[str] = mapped_column(String(40), nullable=False)
     email: Mapped[str] = mapped_column(String(40), nullable=False)
+    summary: Mapped[str] = mapped_column(Text, nullable=False)
     address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
     address: Mapped["Address"] = relationship(
         back_populates="resumes"

@@ -31,23 +31,25 @@ def get_all_templates():
 
 
 
-def allowed_file(filename: str, extensions: list) -> bool:
+def allowed_file_type(filename: str, extensions: list) -> bool:
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in extensions
 
 def save_template_file(file, upload_folder_path: str) -> Tuple[Optional[str], Optional[str]]:
-    if file and allowed_file(file.filename, ["html"]): 
-        return _save_file(file, upload_folder_path, "html")
+    if file and allowed_file_type(file.filename, ["html"]): 
+        return _save_file(file, upload_folder_path)
     return None, None
 
 def save_profile_image(file, upload_folder_path: str) -> Tuple[Optional[str], Optional[str]]:
-    if file and allowed_file(file.filename, ["png", "jpeg", "jpg"]): 
-        return _save_file(file, upload_folder_path, file.filename.rsplit('.', 1)[1].lower())
+    if file and allowed_file_type(file.filename, ["png", "jpeg", "jpg"]): 
+        return _save_file(file, upload_folder_path)
     return None, None
 
-def _save_file(file, upload_folder_path: str, file_extension: Optional[str] = None) -> Tuple[str, str]:
+def _save_file(file, upload_folder_path: str,  custom_extension: Optional[str] = None) -> Tuple[str, str]:
     file_id = uuid.uuid4()
-    file_name = f"{file_id}.{file_extension or file.filename.rsplit('.', 1)[1].lower()}"
+    file_name, file_extension = file.filename.rsplit('.', 1)
+
+    file_name = f"{file_name}-{file_id}.{custom_extension or file_extension}"
     file_path = f"{upload_folder_path}/{file_name}"
     file.save(file_path)
     return file_name, file_path
