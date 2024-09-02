@@ -40,8 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function insertEducationForm(eduInfo = {}, showRemoveBtn = true) {
         if (Object.keys(eduInfo).length == 0) {
-            eduInfo =
-            {
+            eduInfo = {
                 degree: '',
                 school: '',
                 location: '',

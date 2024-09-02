@@ -375,8 +375,13 @@ def render_skill_page():
 def render_summary_page():
     return render_template("summary-resume.html")
 
+# @app.route("/resume/section/additional_resume",  methods=["GET"])
+# def render_additional_page():
+#     return render_template("additional-section-resume.html")
+
 @app.route("/resume/section/finalize",  methods=["GET"])
 def render_finalize_page():
+    
     return render_template("finalize-resume.html")
 
 @app.route("/auth/template-preview", methods=["GET"])

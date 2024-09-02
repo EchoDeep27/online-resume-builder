@@ -73,6 +73,22 @@ class Address(Base):
         back_populates="address"
     )
     
+
+class SocialMedia(Base):
+    __tablename__ = "social_media"
+    id: Mapped[str] = mapped_column(primary_key=True)
+    name: Mapped[SocialMediaPlatform] = mapped_column(Enum(SocialMediaPlatform, name="social_media_enum"))
+    link:Mapped[str] = mapped_column(String(100), nullable=False)
+    resume: Mapped["Resume"] = relationship(back_populates="social_media")
+
+class Language(Base):
+    __tablename__ = "language"
+    id: Mapped[str] = mapped_column(primary_key=True)
+    name:Mapped[str] = mapped_column(String(100), nullable=False)
+    flunent_level:Mapped[str] = mapped_column(String(100), nullable=False)
+    resume: Mapped["Resume"] = relationship(back_populates="languages")
+
+
 class Resume(Base):
     __tablename__ = "resume"
     id: Mapped[str] = mapped_column(primary_key=True)
@@ -88,6 +104,12 @@ class Resume(Base):
     address: Mapped["Address"] = relationship(
         back_populates="resumes"
     )
+    social_media: Mapped[List[SocialMedia]] = relationship(
+        back_populates="resume", cascade="all, delete-orphan"
+    )
+    languages: Mapped[List[Language]] = relationship(
+        back_populates="resume", cascade="all, delete-orphan"
+    )
 
     work_experiences: Mapped[List[WorkExperience]] = relationship(
         back_populates="resume", cascade="all, delete-orphan"
@@ -100,7 +122,7 @@ class Resume(Base):
     )
     template: Mapped["Template"] = relationship("Template", back_populates="resumes")
     user: Mapped["User"] = relationship(back_populates="resumes")
-
+    
 class Template(Base):
     __tablename__ ="template"
     id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))

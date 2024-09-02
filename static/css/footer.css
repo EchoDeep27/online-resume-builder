@@ -96,27 +96,14 @@
   transition: all 0.3s linear;
 }
 
-/* 2.1 icon styling  */
-#social li:nth-child(1) .fab {
-  color: #f8f8f8;
-}
-#social li:nth-child(2) .fab {
-  color: #d72888;
-}
-#social li:nth-child(3) .fab {
-  color: #007bb6;
-}
-#social li:nth-child(4) .fab {
-  color: #ff0000;
-}
-
 /* 2.2 before and after styling */
 #social li:nth-child(1):before {
   border: 2px solid #dadcdd;
 }
 #social li:nth-child(1):after {
-  background: #1da1f2;
+  background: #dadcdd;
 }
+
 #social li:nth-child(2):before {
   border: 2px solid #d72888;
 }
@@ -151,6 +138,11 @@
   transition: 0.3s linear;
   z-index: 1;
 }
+#social li:nth-child(1):hover .fab {
+  color: #000000;
+ 
+}
+
 #social li:hover:before {
   transform: scale(1.1);
 }

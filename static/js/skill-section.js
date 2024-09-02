@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Expert: "Expert",
     };
     const CACHED_NAME = "skillInfo"
-    
+
     // let skillFormsContainer = document.getElementById('skill-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let submitBtn = document.getElementById('next-btn');
@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function insertSkillForm(skillInfo = {}, showRemoveBtn = true) {
         if (Object.keys(skillInfo).length == 0) {
             skillInfo = {
-                "skill": "",
-                "expertiseLevel": ExpertiseLevel.Beginner
+                skill: "",
+                expertiseLevel: ExpertiseLevel.Beginner
             }
         }
 
@@ -90,17 +90,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function cachedskillInfo() {
         let skillForms = document.querySelectorAll('.skill-form');
-        let skillcationData = [];
+        let skillInfo = [];
 
         skillForms.forEach(form => {
             let skillData = {
                 skill: form.querySelector('input[name="skill"]').value,
-                expertiseLevel: form.querySelector('select[name="expertiseLevel"]').value, // Use 'select' instead of 'input'
+                expertiseLevel: form.querySelector('select[name="expertiseLevel"]').value,
             };
-            skillcationData.push(skillData);
+            skillInfo.push(skillData);
         });
 
-        localStorage.setItem(CACHED_NAME, JSON.stringify(skillcationData));
+        localStorage.setItem(CACHED_NAME, JSON.stringify(skillInfo));
 
         window.location.href = '/resume/section/summary';
     }
@@ -110,13 +110,13 @@ document.addEventListener('DOMContentLoaded', function () {
         let cachedData = localStorage.getItem(CACHED_NAME);
 
         if (cachedData) {
-            let skillcationData = JSON.parse(cachedData);
+            let skillData = JSON.parse(cachedData);
 
             let skillFormsContainer = document.getElementById('skill-forms-container');
             skillFormsContainer.innerHTML = '';
             let formCount = 0;
 
-            skillcationData.forEach(skillInfo => {
+            skillData.forEach(skillInfo => {
                 formCount++;
                 if (formCount == 1) {
                     insertSkillForm(skillInfo, false);

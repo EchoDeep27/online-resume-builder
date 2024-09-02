@@ -40,8 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function insertWorkExpForm(workExpInfo = {}, showRemoveBtn = true) {
         if (Object.keys(workExpInfo).length == 0) {
-            workExpInfo =
-            {
+            workExpInfo = {
                 job: "",
                 company: "",
                 location: "",

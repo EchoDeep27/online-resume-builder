@@ -1,46 +1,35 @@
 #finalize-section {
-    height: 100vh;
+    height: 80vh;
     display: flex;
     padding: 20px;
     justify-content: space-around;
-    /* align-items: center; */
+    align-items: center;
     overflow: hidden;
 
 }
-
-#language-forms-container {
+#additional-skill-forms-container {
     max-height: 60vh;
     overflow-y: auto;
     width: 800px;
     padding: 20px;
-    /* margin: 20px auto; */
+    margin: 20px auto;
     box-sizing: border-box;
 }
 
-#social-media-input-container {
-    height: fit-content;
-    width: 800px;
-    padding: 15px 20px;
-}
-
-#social-media-form {
-    display: grid;
-    grid-template-columns: repeat(2, 340px);
-}
-
-#social-media-form .input-block {
-    margin: 10px;
-}
-
-.language-skill-form-wrapper {
+.additional-skill-form-wrapper {
     margin-bottom: 20px;
     position: relative;
 }
 
 .language-skill-form {
-    width: 100%;
+    /* margin: 30px 0; */
     display: grid;
-    grid-template-columns: repeat(2, 1fr) 100px;
+    grid-template-columns: repeat(2, 1fr)  ;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 7px;
+    box-shadow: 3px 5px 5px 2px #b5a7a7;
+    justify-content: space-between;
     gap: 30px;
 }
 
@@ -48,22 +37,8 @@
     min-height: 75px;
 }
 
+ 
 
-#social-media-form,
-.language-skill-form {
-    padding: 10px 20px;
-    border-radius: 7px;
-    box-shadow: 3px 5px 5px 2px #b5a7a7;
-    justify-content: space-between;
-}
-
-
-#social-media-input-container i.fa-github {
-    color: #000;
-}
-
-
-#social-media-input-container input[type="text"],
 .language-skill-form input[type="text"] {
     width: 100%;
     height: 30px;
@@ -71,14 +46,6 @@
     background-color: white;
     padding: 5px 10px;
     font-size: 1rem;
-    border-radius: 7px;
-}
-
-
-.language-skill-form .remove-form-btn {
-    width: 75px;
-    height: 75px;
-    background-color: transparent;
 }
 
 
@@ -91,27 +58,6 @@
     border: none;
 }
 
-
-
-#add-social-media-btn {
-    width: 100%;
-    height: 50px;
-    background-color: transparent;
-    border-style: dotted;
-    border-width: 3px;
-    border-radius: 10px;
-    border-color: var(--primary-color);
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-#add-social-media-btn i {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-}
 
 #loading-overlay {
     position: fixed;
@@ -129,17 +75,6 @@
     color: white;
     font-size: 1.2rem;
     text-align: center;
-}
-
-.add-another-btn-div{
-    margin: 20px 0;
-}
-
-#add-social-media-btn{
-    border-color: #4caf50
-}
-#add-social-media-btn i{
-    color: #4caf50;
 }
 
 .resume-preview {
