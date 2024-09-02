@@ -4,13 +4,22 @@
 {% block title %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+<style>
+    #template-upload-section{
+        height: 55dvh;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
 {% include 'components/navbar.html' %}
 <!-- Hero Section -->
 
-<section id="template" class="template-section">
+<section id="template-upload-section">
+    {% if contents%}
+       {{ contents['message']}}
+    {% endif %}
+
     <form method="POST" action="/template/upload" enctype="multipart/form-data">
         <label for="">Upload your html resume template</label>
         <input type="file" name="template_file" accept=".html" required>

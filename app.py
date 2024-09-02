@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from sqlalchemy.exc import NoResultFound
 from flask_sqlalchemy import SQLAlchemy
 from db import get_session, init_db
-from tables import Resume, WorkExperience, Education, Skill, Template, User, Address
+from tables import Resume, WorkExperience, Education, Skill, Template, User, Address, SocialMedia, Language
 from hashlib import md5
 from utils import get_resume_from_db, save_template_file, save_profile_image, get_start_end_dates, get_all_templates
 from flask import Flask, request, render_template, jsonify, send_from_directory, abort, Response
@@ -154,9 +154,27 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
         print(err)
         error_mesg = "Error ocucrred in skill"
         abort(Response(error_mesg, 505))
-            
+
+def create_social_media_instances(resume_id:str, data:dict) -> list[SocialMedia]:
+    social_media = []
+    for name, value in data.items():
+        social_media_instance = SocialMedia(name=name, link=value, resume_id = resume_id)
+        social_media.append(social_media_instance)
+    return social_media
+
+def create_language_instances(resume_id:str, data:list[dict]) -> list[Language]:
+    languages = []
+    for item in data:
+        print("item")
+        print(item)
+        name = item.get("language")
+        flunent_level = item.get("fluentLevel")
+        language_instance = Language(name=name, flunent_level= flunent_level, resume_id = resume_id)
+        languages.append(language_instance)
+    return languages
 
 def get_template(session: Session, template_id: str) -> Template:
+    
     try:
         result = session.query(Template).filter_by(id=template_id).one()
         return result
@@ -181,12 +199,19 @@ def create_resume():
         education_info = data.get('eduInfo')
         skill_info = data.get('skillInfo')
         summary = data.get('summary')
+        additional_info = data.get("additionalInfo")
+        
+       
          
         heading = json.loads(heading_info)
         work_experiences = json.loads(work_exp_info)
         template_data = json.loads(template_info)
         educations = json.loads(education_info)
         skills = json.loads(skill_info)
+        additional_data = json.loads(additional_info)
+        
+        social_media= additional_data.get("socialMediaInfo")
+        languages = additional_data.get("langInfo")
  
         user_id = str( uuid.uuid4() )
 
@@ -209,9 +234,12 @@ def create_resume():
             address_id=  address_id, 
             summary = summary
         )
-        # # commit to get the resume.id
-        # session.add(resume)
-        # session.commit()
+        if social_media:
+            social_media = create_social_media_instances(resume_id=resume_id,data= social_media)
+            resume.social_media = social_media
+        if len(languages) > 0:
+            languages = create_language_instances(resume_id = resume_id, data =languages)
+            resume.languages = languages
         
         resume.work_experiences  = create_work_experience_instances(resume_id= resume_id, data= work_experiences)
         resume.educations = create_education_instances(resume_id=resume_id , data=educations)
@@ -223,7 +251,6 @@ def create_resume():
       
             session.add(resume)
             session.commit()
-        
             return jsonify({"message": "Resume created successfully!", "resume_id": str(resume_id)}), 201
 
         except Exception as err:
@@ -292,7 +319,8 @@ def upload_template():
             session.add(template)
             session.commit()
         
-            return f"File uploaded successfully: {file_name}", 200
+        
+            return render_template("template-uploader.html", contents = {'message':"File uploaded successfully"})
         except Exception as err:
             print(err)
             return "Failed to save file to db", 500
@@ -402,7 +430,9 @@ def render_template_preview():
             joinedload(Resume.skills),
             joinedload(Resume.address),
             joinedload(Resume.template),
-            joinedload(Resume.user)
+            joinedload(Resume.user),
+            joinedload(Resume.Language),
+            joinedload(Resume.SocialMedia)
         ).first()
 
 

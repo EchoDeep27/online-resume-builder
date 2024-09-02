@@ -76,14 +76,16 @@ class Address(Base):
 
 class SocialMedia(Base):
     __tablename__ = "social_media"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
+    resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     name: Mapped[SocialMediaPlatform] = mapped_column(Enum(SocialMediaPlatform, name="social_media_enum"))
     link:Mapped[str] = mapped_column(String(100), nullable=False)
     resume: Mapped["Resume"] = relationship(back_populates="social_media")
 
 class Language(Base):
     __tablename__ = "language"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
+    resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     name:Mapped[str] = mapped_column(String(100), nullable=False)
     flunent_level:Mapped[str] = mapped_column(String(100), nullable=False)
     resume: Mapped["Resume"] = relationship(back_populates="languages")
