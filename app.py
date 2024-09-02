@@ -158,15 +158,14 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
 def create_social_media_instances(resume_id:str, data:dict) -> list[SocialMedia]:
     social_media = []
     for name, value in data.items():
-        social_media_instance = SocialMedia(name=name, link=value, resume_id = resume_id)
-        social_media.append(social_media_instance)
+        if len(value) > 0:
+            social_media_instance = SocialMedia(name=name, link=value, resume_id = resume_id)
+            social_media.append(social_media_instance)
     return social_media
 
 def create_language_instances(resume_id:str, data:list[dict]) -> list[Language]:
     languages = []
     for item in data:
-        print("item")
-        print(item)
         name = item.get("language")
         flunent_level = item.get("fluentLevel")
         language_instance = Language(name=name, flunent_level= flunent_level, resume_id = resume_id)
@@ -248,7 +247,6 @@ def create_resume():
      
            
         try:         
-      
             session.add(resume)
             session.commit()
             return jsonify({"message": "Resume created successfully!", "resume_id": str(resume_id)}), 201
@@ -431,8 +429,8 @@ def render_template_preview():
             joinedload(Resume.address),
             joinedload(Resume.template),
             joinedload(Resume.user),
-            joinedload(Resume.Language),
-            joinedload(Resume.SocialMedia)
+            joinedload(Resume.languages),
+            joinedload(Resume.social_media)
         ).first()
 
 
