@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 socialMediaForm.querySelector('input[name="linkedIn"]').value = socialMediaInfo.linkedIn
                 socialMediaForm.querySelector('input[name="gitHub"]').value = socialMediaInfo.gitHub
                 socialMediaForm.querySelector('input[name="facebook"]').value = socialMediaInfo.facebook
-                socialMediaForm.querySelector('input[name="porfolio"]').value = socialMediaInfo.porfolio
+                socialMediaForm.querySelector('input[name="portfolio"]').value = socialMediaInfo.portfolio
             }
         }
 
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
             linkedIn: socialMediaForm.querySelector('input[name="linkedIn"]').value,
             gitHub: socialMediaForm.querySelector('input[name="gitHub"]').value,
             facebook: socialMediaForm.querySelector('input[name="facebook"]').value,
-            porfolio: socialMediaForm.querySelector('input[name="porfolio"]').value
+            portfolio: socialMediaForm.querySelector('input[name="portfolio"]').value
         }
         let cache = JSON.parse(localStorage.getItem(CACHE_NAME)) || {};
 

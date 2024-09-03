@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from sqlalchemy.exc import NoResultFound
 from flask_sqlalchemy import SQLAlchemy
 from db import get_session, init_db
-from tables import Resume, WorkExperience, Education, Skill, Template, User, Address, SocialMedia, Language
+from tables import Resume, WorkExperience, Education, Skill, Template, User, Address, SocialMedia, Language, SocialMediaPlatform
 from hashlib import md5
 from utils import get_resume_from_db, save_template_file, save_profile_image, get_start_end_dates, get_all_templates
 from flask import Flask, request, render_template, jsonify, send_from_directory, abort, Response
@@ -155,20 +155,31 @@ def create_skill_instances(resume_id:int, data:list[dict]) -> list[Skill]:
         error_mesg = "Error ocucrred in skill"
         abort(Response(error_mesg, 505))
 
-def create_social_media_instances(resume_id:str, data:dict) -> list[SocialMedia]:
+def create_social_media_instances(resume_id: str, data: dict) -> list[SocialMedia]:
     social_media = []
+ 
     for name, value in data.items():
         if len(value) > 0:
-            social_media_instance = SocialMedia(name=name, link=value, resume_id = resume_id)
+            try:
+                platform = SocialMediaPlatform[name.upper()]  
+            except KeyError:
+
+                print(f"Warning: '{name}' is not a valid social media platform. Skipping...")
+                continue
+            
+ 
+            social_media_instance = SocialMedia(name=platform, link=value, resume_id=resume_id)
             social_media.append(social_media_instance)
+    
     return social_media
+
 
 def create_language_instances(resume_id:str, data:list[dict]) -> list[Language]:
     languages = []
     for item in data:
         name = item.get("language")
-        flunent_level = item.get("fluentLevel")
-        language_instance = Language(name=name, flunent_level= flunent_level, resume_id = resume_id)
+        fluent_level = item.get("fluentLevel")
+        language_instance = Language(name=name, fluent_level= fluent_level, resume_id = resume_id)
         languages.append(language_instance)
     return languages
 

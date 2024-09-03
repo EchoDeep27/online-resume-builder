@@ -17,6 +17,7 @@ class SocialMediaPlatform(PyEnum):
     FACEBOOK = "Facebook"
     INSTAGRAM = "Instagram"
     GITHUB = "GitHub"
+    PORTFOLIO = "Portfolio"
 
  
 class WorkExperience(Base):
@@ -87,7 +88,7 @@ class Language(Base):
     id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     resume_id: Mapped[int] = mapped_column(ForeignKey("resume.id"))
     name:Mapped[str] = mapped_column(String(100), nullable=False)
-    flunent_level:Mapped[str] = mapped_column(String(100), nullable=False)
+    fluent_level:Mapped[str] = mapped_column(String(100), nullable=False)
     resume: Mapped["Resume"] = relationship(back_populates="languages")
 
 
