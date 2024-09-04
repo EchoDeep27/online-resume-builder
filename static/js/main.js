@@ -29,15 +29,12 @@ function setProgressBar(reachedProgress) {
     steps.forEach((step, index) => {
         const stepNumber = index + 1;
 
-
         if (stepNumber < reachedProgress) {
             step.classList.add("completed");
             step.classList.remove("active");
         } else if (stepNumber === reachedProgress) {
             step.classList.add("completed", "active");
-        } else {
-            step.classList.remove("completed", "active");
-        }
+        } 
     });
 }
 
