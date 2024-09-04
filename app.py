@@ -315,6 +315,8 @@ def get_profile(file_name:str):
         return  jsonify({"success": False, "message":"Invalid file type"}), 400
     
     profile_folder_path = os.environ.get("PROFILE_FILE_PATH")
+    print("profile_folder_path")
+    print(profile_folder_path)
     try:
         return send_from_directory(profile_folder_path, file_name)
     except FileNotFoundError:

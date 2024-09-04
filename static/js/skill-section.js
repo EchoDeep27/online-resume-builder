@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
     addAnotherBtn.addEventListener('click', () => insertSkillForm(skillInfo = {}));
 
     // Loading cached data if exists
-    loadCached()
+    loadCached();
+    setProgressBar(ProgressMileStone.skill);
 
 
     function removeSkillForm(skillFormWrapper) {

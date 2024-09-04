@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const CACHED_NAME = "summary"
     let submitBtn = document.getElementById('next-btn');
     submitBtn.addEventListener('click', cachedSummaryInfo);
-    loadCached()
+    loadCached();
+    setProgressBar(ProgressMileStone.summary)
 
 
 

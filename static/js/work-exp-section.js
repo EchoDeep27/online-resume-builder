@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     addAnotherBtn.addEventListener('click', () => insertWorkExpForm(workExpInfo = {}));
 
     // Loading cached data if exists
-    loadCached()
+    loadCached();
+    setProgressBar(ProgressMileStone.workExperience);
 
     function setMaxEndDate(form) {
         let today = new Date();

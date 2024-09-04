@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     addAnotherBtn.addEventListener('click', () => insertEducationForm(eduInfo = {}));
 
     // Loading cached data if exists
-    loadCached()
+    loadCached();
+    setProgressBar(ProgressMileStone.education)
 
     function setMaxEndDate(form) {
         let today = new Date();

@@ -33,8 +33,13 @@
     height: 25px;
     border-radius: 50%;
     border: .4px solid rgb(0, 0, 0);
+    cursor: pointer;
 }
 
+.color-radio:hover {
+    border: 3px solid var(--primary-color);
+}
+ 
 .headshot-radio div {
     display: block;
 }

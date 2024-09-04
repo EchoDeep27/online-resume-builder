@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let profileFileName = savedData["profile_file_name"] || null
 
+    setProgressBar(ProgressMileStone.heading)
+
     if (storedInfo) {
         let templateInfo = JSON.parse(storedInfo);
         console.log(templateInfo);
