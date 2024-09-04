@@ -39,17 +39,21 @@ headshotRadios.forEach(radio => {
     });
 })
 function selectTemplate(templateId) {
-    document.querySelectorAll('.template-card').forEach(card => {
-        card.classList.remove('selected');
+
+    document.querySelectorAll('.resume-preview').forEach(card => {
+        card.classList.remove('active');
     });
 
     const selectedTemplate = document.getElementById(templateId);
     if (selectedTemplate) {
-        selectedTemplate.classList.add('selected');
+        selectedTemplate.classList.add('active');
+        selectedTemplateId = templateId;
+        console.log("Selected template: " + templateId);
     }
-    selectedTemplateId = templateId
-    console.log("Selected template: " + templateId);
 }
+
+
+
 
 function changeSVGBackground(color) {
     document.querySelectorAll(".template-card svg").forEach(svgElement => {

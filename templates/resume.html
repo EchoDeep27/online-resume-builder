@@ -4,6 +4,7 @@
 {% block title %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css')}}">
+
 {% endblock %}
 
 {% block body %}
@@ -43,30 +44,32 @@
                     </div>
                 </div>
             </div>
-            {% if contents['template_svg_files']|length > 0 %}
+
+            {% if contents['templates']|length > 0 %}
             <div class="template-card-container">
-                {% for svg_file in contents['template_svg_files'] %}
-                {% for key, svg in svg_file.items() %}
-                <div id="{{ key }}" class="template-card" onclick="selectTemplate('{{ key }}')">
-                    {{ svg|safe }}
+                {% for template in contents['templates'] %}
+                {% set template_id = template['template_id'] %}
+                {% set resume = template["resume"] %}
+                <div id="{{ template_id }}" class="template-card" onclick="selectTemplate('{{ template_id }}')">
+                    {% include template["template_file_path"] %}
                 </div>
                 {% endfor %}
-                {% endfor %}
-                <div class="resume-btn-div">
-                    <button id="next-btn" class="primary-btn" onclick="cachedTemplateInfo()">Next</button>
-                </div>
             </div>
+
             {% else %}
             <p>No templates available.</p>
             {% endif %}
         </div>
 
-
+        <div id="resume-btn-div">
+            <button id="next-btn" class="primary-btn" onclick="cachedTemplateInfo()">Next</button>
+        </div>
     </div>
+
 </section>
 
 <script src="{{url_for('static',filename='js/template-resume.js')}}">
 
-     
+
 </script>
 {% endblock %}

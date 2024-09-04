@@ -8,8 +8,7 @@
 }
 
 .template-section {
-    /* display: grid;
-    place-items: center;      */
+    position: relative;
     margin-top: 60px;
     height: 70vh;
     overflow: hidden;
@@ -39,7 +38,7 @@
 .color-radio:hover {
     border: 3px solid var(--primary-color);
 }
- 
+
 .headshot-radio div {
     display: block;
 }
@@ -48,44 +47,39 @@
     display: grid;
     grid-template-columns: 400px auto;
     justify-content: center;
+    margin: 50px 0;
 }
 
 
 
-/* template-card */
 
-.template-card-container div {
-    margin: 20px 10px;
+.template-card-container {
+
+    display: flex;
 }
+
 
 .template-card {
-    width: 260px;
-    height: 360px;
-    display: inline-block;
-    border: 3px solid grey;
-    overflow: hidden;
-    border-radius: 10px;
+    transform: scale(0.35);
+    transform-origin: top left;
+    transition: outline 0.5s ease-out;
 }
 
 .template-card:hover {
     cursor: pointer;
-    border: 3px solid blue;
+    outline: 3px solid blue;
 }
 
-.template-card svg {
-    width: inherit;
-    height: inherit;
-    background-color: transparent;
-}
-
-.template-card.selected {
-    border: 3px solid blue;
+.template-card.active {
+    border: 5px solid blue;
 }
 
 
-
-.resume-btn-div {
+#resume-btn-div {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
 }

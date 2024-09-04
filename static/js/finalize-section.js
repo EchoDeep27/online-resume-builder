@@ -218,7 +218,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('Success:', data);
 
                 loadingOverlay.style.display = 'none';
-                window.location.ref =`/resume/section/complete?resume_id=${data.resume_id}`
+                console.log("nothting")
+                console.log(data.resume_id)
+                window.location.href =`/resume/section/complete?resume_id=${data.resume_id}`
 
             })
             .catch(error => {

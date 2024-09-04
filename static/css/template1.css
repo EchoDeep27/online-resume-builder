@@ -156,33 +156,6 @@ select {
   text-transform: none;
 }
 
-button,
-html [type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
-}
-
-button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-  padding: 0;
-  border-style: none;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-  box-sizing: border-box;
-  padding: 0;
-}
-
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"],
-input[type="month"] {
-  -webkit-appearance: listbox;
-}
 
 textarea {
   overflow: auto;
@@ -496,7 +469,7 @@ pre code {
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
+  margin-right: -15px !important;
   margin-left: -15px;
 }
 
@@ -1183,7 +1156,7 @@ pre code {
 
   .col-lg-9 {
     flex: 0 0 75%;
-    max-width: 75%;
+    max-width: 67%;
   }
 
   .col-lg-10 {
@@ -9057,63 +9030,7 @@ button.bg-dark:focus {
 .text-center {
   text-align: center !important;
 }
-
-@media (min-width: 576px) {
-  .text-sm-left {
-    text-align: left !important;
-  }
-
-  .text-sm-right {
-    text-align: right !important;
-  }
-
-  .text-sm-center {
-    text-align: center !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .text-md-left {
-    text-align: left !important;
-  }
-
-  .text-md-right {
-    text-align: right !important;
-  }
-
-  .text-md-center {
-    text-align: center !important;
-  }
-}
-
-@media (min-width: 992px) {
-  .text-lg-left {
-    text-align: left !important;
-  }
-
-  .text-lg-right {
-    text-align: right !important;
-  }
-
-  .text-lg-center {
-    text-align: center !important;
-  }
-}
-
-@media (min-width: 1200px) {
-  .text-xl-left {
-    text-align: left !important;
-  }
-
-  .text-xl-right {
-    text-align: right !important;
-  }
-
-  .text-xl-center {
-    text-align: center !important;
-  }
-}
-
+ 
 .text-lowercase {
   text-transform: lowercase !important;
 }
@@ -9468,9 +9385,13 @@ a.theme-btn-on-bg:active,
 #profile-div {
   width: 220px;
   height: 100%;
+ 
+}
+#profile-div img{
+  border-radius: 50%;
 }
 
-#resume-preview {
+.resume-preview {
   /* transform: scale(0.6); */
   transform-origin: top left;
   height: auto;

@@ -1,9 +1,9 @@
 import uuid
 from typing import Optional
-from tables import Address, WorkExperience, Skill, Education, SocialMedia, Language
+from tables import Address, WorkExperience, Skill, Education, SocialMedia, Language, Template
 
 class Resume:
-    id: uuid.UUID
+    id: str
     username: str
     profession: str
     phone: str
@@ -16,6 +16,7 @@ class Resume:
     educations: list["Education"]= []
     language:list["Language"] = []
     social_media:list["SocialMedia"] = []
+    template: Template
     
 
     def __init__(
@@ -25,6 +26,7 @@ class Resume:
         phone: str,
         email: str,
         summary: str,
+        template: Template,
         image_file_path: Optional[str] = "",
         work_experiences: list["WorkExperience"]  = [],
         skills: list["Skill"] = [],
@@ -46,3 +48,5 @@ class Resume:
         self.social_media = social_media
         self.language =  language
         self.summary = summary
+        self.template = template
+        self.id = str(uuid.uuid4())
