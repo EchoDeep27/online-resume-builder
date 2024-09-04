@@ -1,4 +1,4 @@
-<article class="resume-wrapper text-center position-relative" >
+<article class="resume-wrapper text-center position-relative">
 	<div id="resume-preview" class="resume-wrapper-inner mx-auto text-left bg-white ">
 		<header class="resume-header pt-4 pt-md-0">
 			<div class="media flex-column flex-md-row">
@@ -13,7 +13,7 @@
 					<div class="primary-info">
 						<h1 class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{ resume.username }}
 						</h1>
-						<div class="title mb-3">{{ resume.profession }}</div>
+						<div class="title mb-3">{{ resume.profession.title() }}</div>
 						<ul class="list-unstyled">
 							<li class="mb-2">
 								<i class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
@@ -138,34 +138,6 @@
 
 								</ul>
 							</div>
-
-							<!-- <div class="resume-skill-item">
-									<h4 class="resume-skills-cat font-weight-bold">Soft Skills</h4>
-									<ul class="list-unstyled mb-4">
-										{% set proficiency_levels = {
-										'BEGINNER': 25,
-										'INTERMEDIATE': 50,
-										'PROFICIENT': 75,
-										'EXPERT': 100
-										} %}
-										{% for skill in resume.skills %}
-										<li class="mb-2">
-											<div class="resume-skill-name">{{ skill.name }} <span
-													class="resume-skill-proficiency">{{ skill.proficiency.name.title()
-													}}</span>
-											</div>
-											<div class="progress resume-progress">
-												<div class="progress-bar" class="progress-bar theme-progress-bar-dark"
-													role="progressbar"
-													aria-valuenow="{{ proficiency_levels[skill.proficiency.name] }}"
-													aria-valuemin="0" aria-valuemax="100">
-												</div>
-											</div>
-										</li>
-										{% endfor %}
-
-									</ul>
-								</div> -->
 
 							<div class="resume-skill-item">
 								<h4 class="resume-skills-cat font-weight-bold">Soft Skills</h4>

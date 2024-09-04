@@ -238,7 +238,7 @@ def create_resume():
             template_id=template_data['templateId'],
             user_id=user_id,   
             username=heading["username"],
-            profession=heading["username"], 
+            profession=heading["profession"], 
             phone=heading.get("phone"),  
             image_file_path=file_path,
             email= heading["email"],  
@@ -289,8 +289,7 @@ def render_finalized_resume():
         selected_template_path = resume.template.template_file_path
  
         return render_template('complete-resume.html', contents ={"template_path": selected_template_path , "resume":resume} )
-        # return render_template(selected_template_path, resume =resume )
-
+ 
  
 # Profile Image API 
 
