@@ -10,9 +10,10 @@ from flask_sqlalchemy import SQLAlchemy
 from db import get_session, init_db
 from tables import Resume, WorkExperience, Education, Skill, Template, User, Address, SocialMedia, Language, SocialMediaPlatform
 from hashlib import md5
-from utils import get_resume_from_db, save_template_file, save_profile_image, get_start_end_dates, get_all_templates
-from flask import Flask, request, render_template, jsonify, send_from_directory, abort, Response
+from utils import save_template_file, save_profile_image, get_start_end_dates, get_all_templates
+from flask import Flask, request, render_template, jsonify, send_from_directory, abort, Response, send_file
 from sqlalchemy.orm import Session, joinedload
+
 
 load_dotenv()
 app = Flask("CV-builder")
@@ -260,7 +261,7 @@ def create_resume():
         try:         
             session.add(resume)
             session.commit()
-            return jsonify({"message": "Resume created successfully!", "resume_id": str(resume_id)}), 201
+            return jsonify({"message": "Resume created successfully!", "resume_id": resume_id}), 201
 
         except Exception as err:
        
@@ -269,11 +270,26 @@ def create_resume():
  
     return resume, 200
 
-
-@app.route("/resume/<int:resume_id>", methods=["GET"])
-def get_resume(resume_id):
-    resume = get_resume_from_db(resume_id)   
-    return render_template("resume_template.html", resume=resume)
+@app.route("/resume/section/complete", methods=["GET"])
+def render_finalized_resume():
+    resume_id = request.args.get('resume_id')
+    if resume_id is None:
+        return jsonify({"message": "Resume id must be included"}), 403
+    print("resuem_id ",  resume_id)
+    print(type(resume_id))
+    with get_session() as session:
+        resume:Resume = session.query(Resume).filter_by(id=resume_id).options(
+            joinedload(Resume.work_experiences),
+            joinedload(Resume.educations),
+            joinedload(Resume.skills),
+            joinedload(Resume.address),
+            joinedload(Resume.template),
+            joinedload(Resume.user)
+        ).one()
+        selected_template_path = resume.template.template_file_path
+ 
+        return render_template('complete-resume.html', contents ={"template_path": selected_template_path , "resume":resume} )
+        # return render_template(selected_template_path, resume =resume )
 
  
 # Profile Image API 
@@ -367,8 +383,6 @@ def get_skills():
 # ===========================================
 #  Render Page APIs for Resume section pages 
 # ===========================================
-
-
 @app.route("/resume/select-template")
 def render_resume_template_page():
     

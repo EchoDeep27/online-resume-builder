@@ -6,13 +6,7 @@ from datetime import datetime, date
 from tables import Template
 from models import Resume
 
-def get_resume_from_db(resume_id: int) -> Resume:
-    pass
-    with get_session() as session:
-        resume = (
-            session.query(Resume).filter_by(id=resume_id).one() 
-        )
-        return resume
+
     
 def get_template(template_id: str) -> Template:
     template = None

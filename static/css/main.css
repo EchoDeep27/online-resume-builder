@@ -104,23 +104,23 @@ input[type="checkbox"] {
 
 /* Social Media Icon styling  */
 i.fa-github {
-    color: #f8f8f8;
+    color: #f8f8f8 !important;
 }
 
 i.fa-instagram {
-    color: #d72888;
+    color: #d72888 !important;
 }
 
 i.fa-linkedin-in {
-    color: #007bb6;
+    color: #007bb6 !important;
 }
 
 i.fa-facebook {
-    color: #1193f4;
+    color: #1193f4 !important;
 }
 
 i.fa-youtube {
-    color: #ff0000;
+    color: #ff0000 !important;
 }
 
 /* Generic button styles */
