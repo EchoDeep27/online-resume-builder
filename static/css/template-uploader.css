@@ -1,0 +1,33 @@
+#template-upload-section{
+    display: flex;
+    justify-content: center;
+}
+
+#template-upload-section form{
+    background-color: white;
+    width: 400px;
+    height: 380px;
+    box-shadow: 5px 5px 3px rgb(197, 189, 189);
+    border: 1px solid rgb(197, 189, 189);
+    border-radius: 10px;
+    padding: 20px;
+}
+#template-upload-section form div{
+    height: 80px;
+    margin: 20px 0;
+    
+}
+#template-upload-section form button{
+    padding: 15px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 100%;
+    background-color: darkblue;
+    color: white;
+    font-weight: 900;
+    font-size: 1rem;
+}
+
+#template-upload-section form button:hover{
+    background-color:  var(--primary-color);
+}

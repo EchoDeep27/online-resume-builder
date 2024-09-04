@@ -8,7 +8,10 @@ from dotenv import load_dotenv
 from sqlalchemy.exc import NoResultFound
 from flask_sqlalchemy import SQLAlchemy
 from db import get_session, init_db
+
 from tables import Resume, WorkExperience, Education, Skill, Template, User, Address, SocialMedia, Language, SocialMediaPlatform
+from models import Resume as ResumeModel
+
 from hashlib import md5
 from utils import save_template_file, save_profile_image, get_start_end_dates, get_all_templates
 from flask import Flask, request, render_template, jsonify, send_from_directory, abort, Response, send_file
@@ -328,14 +331,15 @@ def get_profile(file_name:str):
 @app.route("/template/upload", methods=["POST"])
 def upload_template():
   
-    if 'template_file' not in request.files:
-        return "No file part", 400
+    if 'template_file' not in request.files or 'svg_file' not in request.files:
+        return "Missing file part", 400
     
     template_file = request.files['template_file']
     
-    template_folder_path = os.environ.get("TEMPLATE_FILE_PATH")
-    
+    template_folder_path = os.environ.get("TEMPLATE_FILE_PATH")    
+ 
     file_name, file_path = save_template_file(file=template_file, upload_folder_path=template_folder_path)
+    
     if file_name is None:
         return "Invalid file type", 400
     
@@ -387,6 +391,8 @@ def get_skills():
 @app.route("/resume/select-template")
 def render_resume_template_page():
     
+
+    sample_resume.template = get_template(session=session, template_id=template_data['templateId'])
     
     with get_session() as session:
         template_instances = session.query(Template).all()
@@ -394,7 +400,7 @@ def render_resume_template_page():
         templates_svg_files ={}
         for template in template_instances:
             print(template.id)
-            templates_svg_files[template.id] = 'static/images/resume/template3.svg'
+            templates_svg_files[template.id] = f'static/images/resume/{template.id}.svg'
   
         contents = {"template_svg_files": [], "other_data": "example_value"}
         

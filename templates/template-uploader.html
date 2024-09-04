@@ -3,9 +3,9 @@
 
 {% block title %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/template-uploader.css')}}">
 <style>
-    #template-upload-section{
+    #template-upload-section {
         height: 55dvh;
     }
 </style>
@@ -17,13 +17,22 @@
 
 <section id="template-upload-section">
     {% if contents%}
-       {{ contents['message']}}
+    {{ contents['message']}}
     {% endif %}
 
     <form method="POST" action="/template/upload" enctype="multipart/form-data">
-        <label for="">Upload your html resume template</label>
-        <input type="file" name="template_file" accept=".html" required>
-        <button type="submit">Upload</button>
+        <h2>Resume Template Uploader</h2>
+        <div>
+            <label for="template_file">Upload your html resume template</label>
+            <input type="file" name="template_file" id="template_file" accept=".html" required>
+
+        </div>
+        <div>
+            <label for="svg_file">Upload your template SVG for tempalte showcase</label>
+            <input type="file" name="svg_file" id="svg_file" accept=".svg" required>
+
+        </div>
+        <button type="submit">Submit</button>
     </form>
 
 </section>

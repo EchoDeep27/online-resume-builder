@@ -7,7 +7,26 @@ from tables import Template
 from models import Resume
 
 
-    
+
+def get_sample_resume(template_id:str):
+    sample_resume = ResumeModel(
+        username = "Hein Min Min Maw",
+    profession = "Full-stack Developer",
+    phone = "09-77943 5552",
+    email= "heinmin2maw.it@gmail.com",
+    summary= """ 
+    A passionate full-stack developer who are actively working on software engineering environemtn.
+    With 2+ years of experience in designing, developing, and maintaining web applications and services, I am proficient in Python, JS, and SQLAlchemy, with a strong foundation in front-end technologies and backend APIs, I have worked on various projects.
+    """,
+    image_file_path = "images/profile/sample_user.jpeg",
+    address= "Taunggyi Myanmar"
+        
+    ) 
+    sample_resume.work_experiences  = create_work_experience_instances()
+    sample_resume.educations  = create_education_instances()
+    sample_resume.social_media  = create_social_media_instances()
+    return sample_resume
+
 def get_template(template_id: str) -> Template:
     template = None
     with get_session() as session:
