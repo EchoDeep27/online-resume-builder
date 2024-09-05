@@ -96,6 +96,7 @@ class Resume(Base):
     __tablename__ = "resume"
     id: Mapped[str] = mapped_column(primary_key=True)
     template_id: Mapped[int] = mapped_column(ForeignKey("template.id"))
+    address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     username: Mapped[str] = mapped_column(String(40), nullable=False)
     profession: Mapped[str] = mapped_column(String(40), nullable=False)
@@ -103,7 +104,7 @@ class Resume(Base):
     phone: Mapped[str] = mapped_column(String(40), nullable=False)
     email: Mapped[str] = mapped_column(String(40), nullable=False)
     summary: Mapped[str] = mapped_column(Text, nullable=False)
-    address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
+    template_theme : Mapped[str] = mapped_column(String(50),nullable=False)
     address: Mapped["Address"] = relationship(
         back_populates="resumes"
     )

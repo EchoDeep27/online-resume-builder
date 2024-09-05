@@ -40,7 +40,7 @@ headshotRadios.forEach(radio => {
 })
 function selectTemplate(templateId) {
 
-    document.querySelectorAll('.resume-preview').forEach(card => {
+    document.querySelectorAll('.template-card').forEach(card => {
         card.classList.remove('active');
     });
 

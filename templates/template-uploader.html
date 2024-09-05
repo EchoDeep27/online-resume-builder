@@ -16,9 +16,12 @@
 <!-- Hero Section -->
 
 <section id="template-upload-section">
-    {% if contents%}
-    {{ contents['message']}}
-    {% endif %}
+
+    <div>
+        {% if contents%}
+        <h2> {{ contents['message']}} </h2>
+        {% endif %}
+    </div>
 
     <form method="POST" action="/template/upload" enctype="multipart/form-data">
         <h2>Resume Template Uploader</h2>
@@ -27,11 +30,11 @@
             <input type="file" name="template_file" id="template_file" accept=".html" required>
 
         </div>
-        <div>
+        <!-- <div>
             <label for="svg_file">Upload your template SVG for tempalte showcase</label>
             <input type="file" name="svg_file" id="svg_file" accept=".svg" required>
 
-        </div>
+        </div> -->
         <button type="submit">Submit</button>
     </form>
 

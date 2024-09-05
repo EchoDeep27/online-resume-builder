@@ -30,6 +30,7 @@ const navigation = {
     summary: "summary"
 };
 
+
 function setProgressBar(reachedProgress) {
     let res = checkCache(reachedProgress)
     if (!res.success) {

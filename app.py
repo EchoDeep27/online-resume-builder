@@ -148,8 +148,7 @@ def get_profile(file_name:str):
         return  jsonify({"success": False, "message":"Invalid file type"}), 400
     
     profile_folder_path = os.environ.get("PROFILE_FILE_PATH")
-    print("profile_folder_path")
-    print(profile_folder_path)
+
     try:
         return send_from_directory(profile_folder_path, file_name)
     except FileNotFoundError:
@@ -200,6 +199,8 @@ def upload_template():
  
     file_name, file_path = save_template_file(file=template_file, upload_folder_path=template_folder_path)
     
+    # Remove the "template/" prefix as Jinja loading already handles it during file rendering
+    file_path = file_path.replace("templates/", "", 1)
     if file_name is None:
         return "Invalid file type", 400
     
@@ -263,7 +264,7 @@ def render_resume_template_page():
             contents["templates"].append(data)
        
           
-        return render_template("resume.html", contents=contents)
+        return render_template("template-resume.html", contents=contents)
 
 
 @app.route("/resume/section/heading",  methods=["GET"])
