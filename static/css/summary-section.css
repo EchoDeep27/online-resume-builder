@@ -41,4 +41,7 @@
     padding: 10px 15px;
     line-height: 1.5rem;
     text-align: justify;
+    border: 1px solid black;
+    border-radius: 10px;
+    outline: none;
 }

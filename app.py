@@ -246,7 +246,7 @@ def index():
         init_db()
     return render_template("index.html")
 
-@app.route("/resume/select-template")
+@app.route("/resume/section/select-template")
 def render_resume_template_page():
     
     with get_session() as session:

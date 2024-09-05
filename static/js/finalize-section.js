@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             loadSocialMediaData(socialMediaInfo);
+            socialMediaBtn.style.display = "none"
 
         } else {
             insertLanguageForm(languageInfo = {}, showRemoveBtn = true);

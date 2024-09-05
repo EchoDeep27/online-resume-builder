@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Load cached data
     let savedData = JSON.parse(localStorage.getItem(HEADING_CACHE_NAME)) || {};
+
     let storedInfo = localStorage.getItem(TEMPATE_CACHE_NAME);
 
     let profileFileName = savedData["profile_file_name"] || null
@@ -22,9 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let templateInfo = JSON.parse(storedInfo);
         console.log(templateInfo);
         isHeadshot = templateInfo["isHeadshot"];
-    } else {
-        alert("No template selected. Please choose one of the templates.");
-        window.location.href = "/resume/select-template";
     }
 
     for (let [key, value] of Object.entries(savedData)) {
@@ -113,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (profileFileName) {
             currentData['profile_file_name'] = profileFileName;
         }
-        let dataChanged = Object.keys(currentData).some(key => currentData[key] !== savedData[key]);
+        let dataChanged = Object.keys(currentData).some(key => (currentData[key] != "" && currentData[key] !== savedData[key]));
         if (dataChanged) {
             localStorage.setItem(HEADING_CACHE_NAME, JSON.stringify(currentData));
             // updatePreview(currentData);

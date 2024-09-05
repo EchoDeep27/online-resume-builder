@@ -7,7 +7,14 @@
     margin: 0 auto;
     padding: 20px;
 }
-
+#progress-bar-container a{
+    text-decoration: none;
+}
+#progress-bar-container a:visited,
+#progress-bar-container a:active
+{
+    text-decoration: none;
+}
 .step {
     display: flex;
     flex-direction: column;
