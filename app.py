@@ -106,7 +106,8 @@ def create_resume():
             file_path = ""
         resume = Resume(
             id = resume_id,
-            template_id=template_data['templateId'],
+            template_id=template_data["templateId"],
+            template_theme= template_data["templateTheme"],
             user_id=user_id,   
             username=heading["username"],
             profession=heading["profession"], 

@@ -1,7 +1,13 @@
 <link id="theme-style" rel="stylesheet" href="{{url_for('static',filename='css/template1.css')}}">
-
+{% if resume.template.template_theme %}
+<style>
+	:root {
+		--template-bg-color: {{resume.template.template_theme }};
+	}
+</style>
+{% endif %}
 <!-- <article class="resume-wrapper text-center position-relative"> -->
-	<div class="resume-template resume-wrapper-inner mx-auto text-left bg-white ">
+	<div class="resume-wrapper-inner mx-auto text-left bg-white ">
 		<header class="resume-header pt-4 pt-md-0">
 			<div class="media flex-column flex-md-row">
 				{% if resume.image_file_path %}

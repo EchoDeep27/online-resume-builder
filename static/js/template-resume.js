@@ -2,16 +2,16 @@
 const CACHE_NAME = "templateInfo"
 let selectedTemplateId = null
 let isHeadshot = false
-let selectedColor = "#ffffff"
+let selectedColor = "#434E5E"
 let headshotRadios = document.querySelectorAll('input[name="headshot"]');
 
 // Load cache
 let templateInfo = JSON.parse(localStorage.getItem(CACHE_NAME))
 if (templateInfo) {
     selectedTemplateId = templateInfo["templateId"]
-    selectedColor = templateInfo["templateColor"]
+    selectedColor = templateInfo["templateTheme"]
     selectTemplate(selectedTemplateId)
-    changeSVGBackground(selectedColor);
+    changeTemplateTheme(selectedColor);
 
     isHeadshot = templateInfo["isHeadshot"]
     if (isHeadshot) {
@@ -26,7 +26,7 @@ if (templateInfo) {
 document.querySelectorAll(".color-radio").forEach(radio => {
     radio.addEventListener("click", function () {
         selectedColor = this.getAttribute("data-color");
-        changeSVGBackground(selectedColor);
+        changeTemplateTheme(selectedColor);
     });
 });
 
@@ -40,7 +40,7 @@ headshotRadios.forEach(radio => {
 })
 function selectTemplate(templateId) {
 
-    document.querySelectorAll('.template-card').forEach(card => {
+    document.querySelectorAll('.resume-template').forEach(card => {
         card.classList.remove('active');
     });
 
@@ -55,10 +55,9 @@ function selectTemplate(templateId) {
 
 
 
-function changeSVGBackground(color) {
-    document.querySelectorAll(".template-card svg").forEach(svgElement => {
-        svgElement.style.backgroundColor = color;
-    });
+function changeTemplateTheme(color) {
+    const root = document.documentElement;
+    root.style.setProperty('--template-bg-color', color);
 }
 
 function cachedTemplateInfo() {
@@ -66,7 +65,7 @@ function cachedTemplateInfo() {
         tempateInfo = {
             "templateId": selectedTemplateId,
             "isHeadshot": isHeadshot,
-            "templateColor": selectedColor
+            "templateTheme": selectedColor
         }
         localStorage.setItem(CACHE_NAME, JSON.stringify(tempateInfo));
         window.location.href = "/resume/section/heading"

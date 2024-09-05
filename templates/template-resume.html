@@ -21,9 +21,9 @@
                 <div class="template-filter">
                     <label>Choose Color</label>
                     <div class="color-container">
-                        <div class="color-radio white-bg" data-color="#ffffff"></div>
+                        <div class="color-radio dark-green-bg" data-color="#434E5E"></div>
                         <div class="color-radio grey-bg" data-color="#cccccc"></div>
-                        <div class="color-radio crimson-bg" data-color="#dc143c"></div>
+                        <div class="color-radio crimson-bg" data-color="#bb002f"></div>
                         <div class="color-radio purple-bg" data-color="#800080"></div>
 
                         <div class="color-radio blue-bg" data-color="#0003b9"></div>
@@ -50,8 +50,10 @@
                 {% for template in contents['templates'] %}
                 {% set template_id = template['template_id'] %}
                 {% set resume = template["resume"] %}
-                <div id="{{ template_id }}" class="template-card" onclick="selectTemplate('{{ template_id }}')">
-                    {% include template["template_file_path"] %}
+                <div class="template-card">
+                    <div id="{{ template_id }}"  onclick="selectTemplate('{{ template_id }}')"  class="resume-template">
+                        {% include template["template_file_path"] %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>

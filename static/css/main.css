@@ -4,6 +4,7 @@
     --highlight-color: #2196f3;
     --danger-color: #ff4d4d;
     --input-width: 330px;
+    --template-bg-color: #ffffff;
 }
 
 
@@ -74,7 +75,7 @@ input[type="checkbox"] {
 }
 
 .crimson-bg {
-    background-color: rgb(187, 0, 47);
+    background-color: #bb002f;
 }
 
 .purple-bg {
@@ -90,7 +91,7 @@ input[type="checkbox"] {
 }
 
 .dark-green-bg {
-    background-color: #01502f;
+    background-color: #434E5E;
 }
 
 .yellow-bg {
