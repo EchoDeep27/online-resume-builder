@@ -10,6 +10,7 @@ let templateInfo = JSON.parse(localStorage.getItem(CACHE_NAME))
 if (templateInfo) {
     selectedTemplateId = templateInfo["templateId"]
     selectedColor = templateInfo["templateTheme"]
+
     selectTemplate(selectedTemplateId)
     changeTemplateTheme(selectedColor);
 
@@ -68,7 +69,7 @@ function cachedTemplateInfo() {
             "templateTheme": selectedColor
         }
         localStorage.setItem(CACHE_NAME, JSON.stringify(tempateInfo));
-        window.location.href = "/resume/section/heading"
+        window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
 
     } else {
         alert("Please choose one of the template.")

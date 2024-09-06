@@ -1,9 +1,8 @@
 <link id="theme-style" rel="stylesheet" href="{{url_for('static',filename='css/template1.css')}}">
-
-{% if resume.template.template_theme %}
+{% if resume.template_theme %}
 <style>
 	:root {
-		--template-bg-color: {{resume.template.template_theme }};
+		--template-bg-color: {{resume.template_theme }};
 	}
 </style>
 {% endif %}

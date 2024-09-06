@@ -26,7 +26,7 @@
                         <div class="color-radio crimson-bg" data-color="#bb002f"></div>
                         <div class="color-radio purple-bg" data-color="#800080"></div>
 
-                        <div class="color-radio blue-bg" data-color="#0003b9"></div>
+                        <div class="color-radio dark-blue-bg" data-color="#00026e"></div>
                         <div class="color-radio black-bg" data-color="#352e2e"></div>
                         <div class="color-radio dark-green-bg" data-color="#01502f"></div>
                         <div class="color-radio yellow-bg" data-color="#e9de4b"></div>
@@ -45,14 +45,14 @@
                 </div>
             </div>
 
-            {% if contents['templates']|length > 0 %}
+            {% if contents['resumes']|length > 0 %}
             <div class="template-card-container">
-                {% for template in contents['templates'] %}
-                {% set template_id = template['template_id'] %}
-                {% set resume = template["resume"] %}
+                {% for resume in contents['resumes'] %}
+                {% set template_id = resume.template.template_id %}
+         
                 <div class="template-card">
                     <div id="{{ template_id }}"  onclick="selectTemplate('{{ template_id }}')"  class="resume-template">
-                        {% include template["template_file_path"] %}
+                        {% include resume.template.template_file_path %}
                     </div>
                 </div>
                 {% endfor %}

@@ -253,24 +253,26 @@ def render_resume_template_page():
     
     with get_session() as session:
         template_instances = session.query(Template).all()
-        contents = {"templates": []}
+        contents = {"resumes": []}
         for template in template_instances:
-     
-            sample_resume = get_sample_resume(template=template)
- 
-            
-            data = {"template_id": template.id, "template_file_path": template.template_file_path, "resume": sample_resume }
-       
         
-            contents["templates"].append(data)
-       
+            sample_resume = get_sample_resume(template=template)
+            contents["resumes"].append(sample_resume)       
           
         return render_template("template-resume.html", contents=contents)
 
 
 @app.route("/resume/section/heading",  methods=["GET"])
 def render_heading_page():
-    return render_template("header-resume.html")
+    template_id = request.args.get('template_id')
+    if template_id is None:
+        return jsonify({"message": "Template id must be included"}), 403
+    
+    with get_session() as session:
+        template = get_template(session, template_id)
+        
+        sample_resume = get_sample_resume(template=template)
+    return render_template("header-resume.html", resume=sample_resume)
 
 
 @app.route("/resume/section/education",  methods=["GET"])

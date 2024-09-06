@@ -76,12 +76,12 @@
     left: 0;
     transform: scale(0.35);
     transform-origin: top left;
-    transition: outline 0.5s ease-out;
+    transition: outline 0.3s ease-out;
 }
 
 .resume-template:hover {
     cursor: pointer;
-    outline: 3px solid blue;
+    outline: 5px solid blue;
 }
 
 .resume-template.active {

@@ -64,7 +64,14 @@
         </form>
     </div>
     <div id="heading-preview" class="resume-preview">
+           
+ 
+        {% if template_path %}
+        <div id="resume-preview">
 
+            {% include template_path %}
+        </div>
+        {% endif %}
     </div>
 
 </section>

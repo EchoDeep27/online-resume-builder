@@ -9203,6 +9203,7 @@ a.theme-btn-on-bg:active,
 .resume-header {
   background: var(--template-bg-color);
   color: rgba(255, 255, 255, 0.9);
+  font-weight: bold;
 }
 
 .resume-header .picture {
