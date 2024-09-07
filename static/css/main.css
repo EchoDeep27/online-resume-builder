@@ -247,3 +247,27 @@ i.fa-star {
         opacity: 0;
     }
 }
+
+
+/*  Style for Resume Preview  */
+.resume-preview {
+    transform: scale(.7);
+    transform-origin: top;
+    height: auto;
+
+}
+
+#profile-image-preview {
+    width: 150px;
+    border-radius: 50%;
+}
+
+
+#pv-city,
+#pv-country {
+    text-transform: capitalize;
+}
+
+#pv-profession {
+    text-transform: capitalize;
+}

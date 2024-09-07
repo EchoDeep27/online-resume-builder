@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Loading cached data if exists
     loadCached();
-    setProgressBar(ProgressMileStone.workExperience);
+    setProgressBar(Page.workExperience);
 
     function setMaxEndDate(form) {
         let today = new Date();
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         localStorage.setItem(CACHE_NAME, JSON.stringify(workExpcationData));
 
-        window.location.href = '/resume/section/skill';
+        window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
     }
 
 

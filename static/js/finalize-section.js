@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     socialMediaBtn.addEventListener('click', showSocialMediaForm)
     addAnotherBtn.addEventListener('click', () => insertLanguageForm(languageInfo = {}));
 
-    setProgressBar(ProgressMileStone.finalize);
+    setProgressBar(Page.finalize);
     loadCache();
 
     function showSocialMediaForm() {

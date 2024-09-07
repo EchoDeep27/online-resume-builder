@@ -29,12 +29,17 @@
 
 
         <div class="form-btn-div">
-            <a class="previous-btn" href="/resume/section/skill">Back</a>
+            <a class="previous-btn" href="/resume/section/skill?template_id={{resume.template.id}}">Previous</a>
             <button id="next-btn" class="primary-btn" type="button">Next</button>
         </div>
     </div>
 
     <div class="resume-preview" class="resume-preview">
+        {% if resume %}
+
+        {% include resume.template.template_file_path %}
+
+        {% endif %}
     </div>
 </section>
 

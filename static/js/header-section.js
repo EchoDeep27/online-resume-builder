@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const TEMPATE_CACHE_NAME = "templateInfo"
-    const HEADING_CACHE_NAME = "headingInfo"
+    const CACHE_NAME = "headingInfo"
 
     let pollingInterval = 3000;
     let isHeadshot = false;
@@ -14,18 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Load cached data
-    let headingInfo = JSON.parse(localStorage.getItem(HEADING_CACHE_NAME)) || {};
+    let headingInfo = JSON.parse(localStorage.getItem(CACHE_NAME)) || {};
 
     let storedInfo = localStorage.getItem(TEMPATE_CACHE_NAME);
 
     let profileFileName = headingInfo["profile_file_name"] || null
 
-    if(headingInfo){
+    if (headingInfo) {
         updatePreview(headingInfo)
     }
-    form.addEventListener('submit',handleHeadingForm);
+    form.addEventListener('submit', handleHeadingForm);
 
-    setProgressBar(ProgressMileStone.heading)
+    setProgressBar(Page.heading)
 
     if (storedInfo) {
         let templateInfo = JSON.parse(storedInfo);
@@ -116,43 +116,30 @@ document.addEventListener('DOMContentLoaded', function () {
         return data;
     }
 
-    function checkForUpdates() {
+    function handleHeadingInfo() {
         let currentData = getFormData();
-        let headingInfo = JSON.parse(localStorage.getItem('heading')) || {};
-        if (profileFileName) {
+        if (typeof profileFileName !== 'undefined' && profileFileName) {
             currentData['profile_file_name'] = profileFileName;
         }
-        let dataChanged = Object.keys(currentData).some(key => (currentData[key] != "" && currentData[key] !== headingInfo[key]));
-        if (dataChanged) {
-            localStorage.setItem(HEADING_CACHE_NAME, JSON.stringify(currentData));
-            updatePreview(currentData);
-        }
+        checkForUpdate(Page.heading, CACHE_NAME, currentData)
     }
 
-    setInterval(checkForUpdates, pollingInterval);
 
- 
+    setInterval(handleHeadingInfo, pollingInterval);
+
 
     function handleHeadingForm(event) {
 
         event.preventDefault();
-        console.log(isHeadshot)
-        console.log(profileFileName)
+ 
         if (isHeadshot && profileFileName === null) {
             alert("Please upload your profile")
             return
         }
-        checkForUpdates()
+        handleHeadingInfo()
 
-        window.location.href = "/resume/section/education"
-
-
-
+        window.location.href = `/resume/section/education?template_id=${TEMPLATE_ID}`
 
     }
-
-
-
-    
 
 });

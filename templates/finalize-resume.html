@@ -15,7 +15,7 @@
 
 <section id="finalize-section" class="resume-section">
     <div id="finalize-content">
-        <h1>Great work~, Hein Min Min Maw</h1>
+        <h2>Great work~, Hein Min Min Maw</h2>
         <div class="section-suggestion">
             <i class="fas fa-star"></i>
             <span class="suggestion">Your Resume is looking good. We're just one step away from finalizing it! .</span>
@@ -72,12 +72,17 @@
 
         </div>
         <div class="form-btn-div">
-            <a class="previous-btn" href="/resume/section/summary">Back</a>
+            <a class="previous-btn" href="/resume/section/summary?template_id={{resume.template.id}}">Back</a>
             <button id="confirm-btn" class="primary-btn" type="button">Confirm</button>
         </div>
     </div>
 
-    <div class="resume-preview" class="resume-preview">
+    <div id="finalize-preview" class="resume-preview">
+        {% if resume %}
+
+        {% include resume.template.template_file_path %}
+
+        {% endif %}
     </div>
 </section>
 

@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // let skillFormsContainer = document.getElementById('skill-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
-    let submitBtn = document.getElementById('next-btn');
+    let nextBtn = document.getElementById('next-btn');
 
-    submitBtn.addEventListener('click', cachedskillInfo);
+    nextBtn.addEventListener('click', cachedskillInfo);
     addAnotherBtn.addEventListener('click', () => insertSkillForm(skillInfo = {}));
 
     // Loading cached data if exists
     loadCached();
-    setProgressBar(ProgressMileStone.skill);
+    setProgressBar(Page.skill);
 
 
     function removeSkillForm(skillFormWrapper) {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         localStorage.setItem(CACHED_NAME, JSON.stringify(skillInfo));
 
-        window.location.href = '/resume/section/summary';
+        window.location.href = `/resume/section/summary?template_id=${TEMPLATE_ID}`;
     }
 
 

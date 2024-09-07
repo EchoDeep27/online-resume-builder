@@ -16,7 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let profession = document.getElementById("pv-profession")
     let email = document.getElementById("pv-email")
     let phone = document.getElementById("pv-phone")
-    let address = document.getElementById("pv-address")
+    let city = document.getElementById("pv-city")
+    let country = document.getElementById("pv-country")
+    let summary = document.getElementById("pv-summary")
 
     function typeText(text, element) {
         if (!text || text == "") {
@@ -52,8 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
             */
 
             if (index < newText.length) {
-
-                console.log(`"${newText.charAt(index)}"`)
                 element.innerHTML += newText.charAt(index)
 
                 index++;
@@ -69,12 +69,14 @@ document.addEventListener("DOMContentLoaded", function () {
         typeText(data?.profession, profession)
         typeText(data?.email, email)
         typeText(data?.phone, phone)
-        typeText(data?.city + " " + data?.country, address)
+        typeText(data?.city, city)
+        typeText(data?.country, country)
+        typeText(data?.summary, summary)
     }
 });
 
 
-const ProgressMileStone = {
+const Page = {
     heading: 1,
     education: 2,
     workExperience: 3,
@@ -90,12 +92,51 @@ const navigation = {
     skillInfo: "skill",
     summary: "summary"
 };
+let template = JSON.parse(localStorage.getItem("templateInfo")) || {};
+const TEMPLATE_ID = template["templateId"]
 
 
+function checkForUpdate(page, cache_name, currentData) {
+    let caches = getRequiredCache(page);
+    let aggregatedData = {};
+    let dataChanged = false;
+
+
+    caches.forEach(cache => {
+        let cacheData = JSON.parse(localStorage.getItem(cache)) || {};
+        aggregatedData = { ...aggregatedData, ...cacheData };
+    });
+
+    if (typeof currentData === 'string') {
+        if (!aggregatedData.summary || currentData !== aggregatedData.summary) {
+            dataChanged = true;
+            aggregatedData.summary = currentData;
+        }
+    } else {
+
+        dataChanged = Object.keys(currentData).some(key =>
+            currentData[key] !== "" && currentData[key] !== aggregatedData[key]
+        );
+
+        if (dataChanged) {
+            aggregatedData = { ...aggregatedData, ...currentData };
+        }
+    }
+
+    if (dataChanged) {
+        localStorage.setItem(cache_name, JSON.stringify(currentData));
+        updatePreview(aggregatedData);
+        console.log("Trigger changed");
+    }
+}
 
 
 function setProgressBar(reachedProgress) {
+    console.log("trigger")
     let res = checkCache(reachedProgress)
+    console.log("res")
+    console.log(res)
+
     if (!res.success) {
         alert(`Plesase fill the ${res.name} first!`)
         window.location.href = res.href
@@ -115,36 +156,38 @@ function setProgressBar(reachedProgress) {
     });
 }
 
-function checkCache(reachedProgress) {
-
-
+function getRequiredCache(reachedProgress) {
     let requiredCacheKeys = [];
 
     switch (reachedProgress) {
-        case ProgressMileStone.heading:
+        case Page.heading:
             requiredCacheKeys.push("templateInfo");
             break;
-        case ProgressMileStone.education:
+        case Page.education:
             requiredCacheKeys.push("templateInfo", "headingInfo");
             break;
-        case ProgressMileStone.workExperience:
+        case Page.workExperience:
             requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo");
             break;
-        case ProgressMileStone.skill:
+        case Page.skill:
             requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo", "workExpInfo");
             break;
-        case ProgressMileStone.summary:
+        case Page.summary:
             requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo");
             break;
-        case ProgressMileStone.finalize:
+        case Page.finalize:
             requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo", "summary");
             break;
         default:
-            return { success: true };
+            return [];
     }
+    return requiredCacheKeys;
+}
+function checkCache(reachedProgress) {
 
+    let requiredCache = getRequiredCache(reachedProgress)
 
-    for (let key of requiredCacheKeys) {
+    for (let key of requiredCache) {
         let data = localStorage.getItem(key)
 
         if (!data) {
@@ -157,6 +200,7 @@ function checkCache(reachedProgress) {
             } else {
                 let template_info = localStorage.getItem("templateInfo")
                 data = JSON.parse(template_info)
+                console.log(`/resume/section/${name}?template_id=${data['templateId']}`)
 
                 return { success: false, name: name, href: `/resume/section/${name}?template_id=${data['templateId']}` };
             }

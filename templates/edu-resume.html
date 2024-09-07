@@ -15,7 +15,7 @@
 
 <section id="edu-section" class="resume-section">
     <div id="edu-content">
-        <h1>Awesome! Now, what qualifications do you have?</h1>
+        <h2>Awesome! Now, what qualifications do you have?</h2>
         <div class="section-suggestion">
             <i class="fas fa-star"></i>
             <span class="suggestion">We suggest starting with your most recent period of education and working
@@ -33,11 +33,16 @@
 
 
         <div class="form-btn-div">
-            <a class="previous-btn" href="/resume/section/heading">Previous</a>
+            <a class="previous-btn" href="/resume/section/heading?template_id={{resume.template.id}}">Previous</a>
             <button id="next-btn" class="primary-btn" type="button">Next</button>
         </div>
     </div>
     <div id="education-preview" class="resume-preview">
+        {% if resume %}
+
+        {% include resume.template.template_file_path %}
+
+        {% endif %}
     </div>
 </section>
 

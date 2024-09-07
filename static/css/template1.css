@@ -9387,12 +9387,6 @@ a.theme-btn-on-bg:active,
   border-radius: 50%;
 }
 
-.resume-preview {
- 
-  transform-origin: top left;
-  height: auto;
-}
-
 .primary-info {
   width: 500px;
 }

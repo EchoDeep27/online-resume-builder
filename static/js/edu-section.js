@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
     const CACHE_NAME = "eduInfo"
+    let pollingInterval = 3000;
 
     let eduFormsContainer = document.getElementById('edu-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let submitBtn = document.getElementById('next-btn');
 
-    submitBtn.addEventListener('click', cachedEduInfo);
+    submitBtn.addEventListener('click', submitForm);
     addAnotherBtn.addEventListener('click', () => insertEducationForm(eduInfo = {}));
 
     // Loading cached data if exists
     loadCached();
-    setProgressBar(ProgressMileStone.education)
+    setProgressBar(Page.education)
 
     function setMaxEndDate(form) {
         let today = new Date();
@@ -115,11 +116,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-
-
-    function cachedEduInfo() {
+    function handleEduInfo() {
         let eduForms = document.querySelectorAll('.edu-form');
-        let educationData = [];
+        let currentData = [];
 
         eduForms.forEach(form => {
             let eduData = {
@@ -130,12 +129,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 end_date: form.querySelector('input[name="end-date"]').value,
                 is_studying: form.querySelector('input[name="is-studying"]').checked
             };
-            educationData.push(eduData);
+            currentData.push(eduData);
         });
 
-        localStorage.setItem(CACHE_NAME, JSON.stringify(educationData));
+        checkForUpdate(Page.education, CACHE_NAME, currentData)
+    }
 
-        window.location.href = '/resume/section/work_experience';
+
+    setInterval(handleEduInfo, pollingInterval);
+
+
+
+
+    function submitForm() {
+
+        handleEduInfo()
+
+        window.location.href = `/resume/section/work_experience?template_id=${TEMPLATE_ID}`;
     }
 
 

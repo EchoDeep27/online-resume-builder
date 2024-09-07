@@ -280,24 +280,67 @@ def render_heading_page():
 
 @app.route("/resume/section/education",  methods=["GET"])
 def render_education_page():
-    return render_template("edu-resume.html")
+    template_id = request.args.get('template_id')
+    if template_id is None:
+        return jsonify({"message": "Template id must be included"}), 403
+    
+    with get_session() as session:
+        template = get_template(session, template_id)
+        
+        sample_resume = get_sample_resume(template=template)
+        return render_template("edu-resume.html",resume= sample_resume)
 
 @app.route("/resume/section/work_experience",  methods=["GET"])
 def render_work_experience_page():
-    return render_template("work-exp-resume.html")
+    template_id = request.args.get('template_id')
+    if template_id is None:
+        return jsonify({"message": "Template id must be included"}), 403
+    
+    with get_session() as session:
+        template = get_template(session, template_id)
+        
+        sample_resume = get_sample_resume(template=template)
+    
+        return render_template("work-exp-resume.html", resume = sample_resume)
 
 @app.route("/resume/section/skill",  methods=["GET"])
 def render_skill_page():
-    return render_template("skill-resume.html")
+    template_id = request.args.get('template_id')
+    if template_id is None:
+        return jsonify({"message": "Template id must be included"}), 403
+    
+    with get_session() as session:
+        template = get_template(session, template_id)
+        
+        sample_resume = get_sample_resume(template=template)
+    
+        return render_template("skill-resume.html", resume = sample_resume)
 
 @app.route("/resume/section/summary",  methods=["GET"])
 def render_summary_page():
-    return render_template("summary-resume.html")
+    template_id = request.args.get('template_id')
+    if template_id is None:
+        return jsonify({"message": "Template id must be included"}), 403
+    
+    with get_session() as session:
+        template = get_template(session, template_id)
+        
+        sample_resume = get_sample_resume(template=template)
+    
+        return render_template("summary-resume.html", resume = sample_resume)
 
 @app.route("/resume/section/finalize",  methods=["GET"])
 def render_finalize_page():
+    template_id = request.args.get('template_id')
+    if template_id is None:
+        return jsonify({"message": "Template id must be included"}), 403
     
-    return render_template("finalize-resume.html")
+    with get_session() as session:
+        template = get_template(session, template_id)
+        
+        sample_resume = get_sample_resume(template=template)
+    
+        return render_template("finalize-resume.html", resume = sample_resume)
 
 
 @app.route("/resume/section/complete", methods=["GET"])
