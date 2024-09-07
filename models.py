@@ -17,6 +17,7 @@ class Resume:
     language:list["Language"] = []
     social_media:list["SocialMedia"] = []
     template: Template
+    template_theme: str
     
 
     def __init__(
@@ -34,6 +35,7 @@ class Resume:
         address: Optional[list["Address"]] = [],
         language: Optional[list["Language"]] = [],
         social_media: Optional[list["SocialMedia"]] = [],
+        template_theme:Optional[str] = "#00026e"
     ):
         self.id = uuid.uuid4()
         self.username = username
@@ -50,3 +52,4 @@ class Resume:
         self.summary = summary
         self.template = template
         self.id = str(uuid.uuid4())
+        self.template_theme = template_theme

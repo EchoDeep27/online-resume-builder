@@ -272,7 +272,7 @@ def render_heading_page():
         template = get_template(session, template_id)
         
         sample_resume = get_sample_resume(template=template)
-    return render_template("header-resume.html", resume=sample_resume)
+        return render_template("header-resume.html", resume=sample_resume)
 
 
 @app.route("/resume/section/education",  methods=["GET"])

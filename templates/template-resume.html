@@ -48,7 +48,7 @@
             {% if contents['resumes']|length > 0 %}
             <div class="template-card-container">
                 {% for resume in contents['resumes'] %}
-                {% set template_id = resume.template.template_id %}
+                {% set template_id = resume.template.id %}
          
                 <div class="template-card">
                     <div id="{{ template_id }}"  onclick="selectTemplate('{{ template_id }}')"  class="resume-template">

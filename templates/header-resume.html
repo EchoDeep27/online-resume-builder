@@ -64,17 +64,17 @@
         </form>
     </div>
     <div id="heading-preview" class="resume-preview">
-           
- 
-        {% if template_path %}
-        <div id="resume-preview">
 
-            {% include template_path %}
-        </div>
+
+        {% if resume %}
+
+        {% include resume.template.template_file_path %}
+
         {% endif %}
     </div>
 
 </section>
 <script src="{{url_for('static',filename='js/header-section.js')}}"></script>
+<script src="{{url_for('static',filename='js/preview-section.js')}}"> </script>
 
 {% endblock %}

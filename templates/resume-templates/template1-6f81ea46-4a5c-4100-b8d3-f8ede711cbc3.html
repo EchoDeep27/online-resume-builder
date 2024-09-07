@@ -13,27 +13,27 @@
 		<div class="media flex-column flex-md-row">
 			{% if resume.image_file_path %}
 			<div id="profile-div">
-				<img src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image" width="220"
+				<img id="profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image" width="220"
 					height="220">
 			</div>
 			{% endif %}
 
 			<div class="media-body p-4 d-flex flex-column flex-md-row mx-auto mx-lg-0">
 				<div class="primary-info">
-					<h1 class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{ resume.username }}
+					<h1 id="username" class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{ resume.username }}
 					</h1>
-					<div class="title mb-3">{{ resume.profession.title() }}</div>
+					<div id="profession" class="title mb-3">{{ resume.profession.title() }}</div>
 					<ul class="list-unstyled">
 						<li class="mb-2">
-							<i class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
+							<i id="email" class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
 								href="mailto:{{resume.email }}">Email: {{
 								resume.email }}</a>
 						</li>
-						<li class="mb-2"><a><i class="fas fa-mobile-alt fa-fw mr-2"
+						<li id="phone" class="mb-2"><a><i class="fas fa-mobile-alt fa-fw mr-2"
 									data-fa-transform="grow-6"></i>Phone: {{
 								resume.phone }}</a></li>
 
-						<li class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
+						<li id="location" class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
 									data-fa-transform="grow-6"></i>Location:
 								{{ resume.address.city }}, {{ resume.address.country }}</a></li>
 					</ul>

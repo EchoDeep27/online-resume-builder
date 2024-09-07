@@ -1,3 +1,6 @@
+#heading{
+    display: flex;
+}
 #heading-content {
     width: 800px;
     margin: 10px auto;
@@ -36,4 +39,8 @@
 #profile-image-preview{
     width: 150px; 
     border-radius: 50%;
+}
+
+.resume-preview{
+    transform: scale(.7);
 }

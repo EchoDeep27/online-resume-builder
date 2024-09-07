@@ -40,7 +40,7 @@ headshotRadios.forEach(radio => {
     });
 })
 function selectTemplate(templateId) {
-
+    console.log("here")
     document.querySelectorAll('.resume-template').forEach(card => {
         card.classList.remove('active');
     });
