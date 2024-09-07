@@ -11,7 +11,68 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+
+    let username = document.getElementById("pv-username")
+    let profession = document.getElementById("pv-profession")
+    let email = document.getElementById("pv-email")
+    let phone = document.getElementById("pv-phone")
+    let address = document.getElementById("pv-address")
+
+    function typeText(text, element) {
+        if (!text || text == "") {
+            return
+        }
+        // convert to lower case because the display text is in uppercase
+        text = text.toLowerCase();
+        let currentText = element.innerHTML.toLowerCase();
+        if (currentText === text) {
+            return;
+        }
+
+        let oldTextPart = "";
+        let newText = "";
+        let i = 0;
+
+        while (i < currentText.length && i < text.length && text[i] === currentText[i]) {
+            oldTextPart += text[i];
+            i++;
+        }
+
+        newText = text.slice(i);
+
+
+        element.innerHTML = oldTextPart;
+
+        let index = 0;
+
+        function type() {
+            /*
+             Custom function to achieve typing animation by concatenating character
+             by charcter per 100 miliseconds
+            */
+
+            if (index < newText.length) {
+
+                console.log(`"${newText.charAt(index)}"`)
+                element.innerHTML += newText.charAt(index)
+
+                index++;
+                setTimeout(type, 100);
+            }
+        }
+
+        type();
+    }
+
+    window.updatePreview = (data) => {
+        typeText(data?.username, username)
+        typeText(data?.profession, profession)
+        typeText(data?.email, email)
+        typeText(data?.phone, phone)
+        typeText(data?.city + " " + data?.country, address)
+    }
 });
+
 
 const ProgressMileStone = {
     heading: 1,
@@ -29,6 +90,8 @@ const navigation = {
     skillInfo: "skill",
     summary: "summary"
 };
+
+
 
 
 function setProgressBar(reachedProgress) {
@@ -53,6 +116,7 @@ function setProgressBar(reachedProgress) {
 }
 
 function checkCache(reachedProgress) {
+
 
     let requiredCacheKeys = [];
 
@@ -81,10 +145,22 @@ function checkCache(reachedProgress) {
 
 
     for (let key of requiredCacheKeys) {
-        if (!localStorage.getItem(key)) {
+        let data = localStorage.getItem(key)
+
+        if (!data) {
+
             let name = navigation[key];
-            console.log(`/resume/section/${name}`)
-            return { success: false, name: name, href: `/resume/section/${name}` };
+
+            if (key === "templateInfo") {
+                console.log(`/resume/section/${name}`)
+                return { success: false, name: name, href: `/resume/section/${name}` };
+            } else {
+                let template_info = localStorage.getItem("templateInfo")
+                data = JSON.parse(template_info)
+
+                return { success: false, name: name, href: `/resume/section/${name}?template_id=${data['templateId']}` };
+            }
+
         }
     }
 

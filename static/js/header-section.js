@@ -5,17 +5,25 @@ document.addEventListener('DOMContentLoaded', function () {
     let pollingInterval = 3000;
     let isHeadshot = false;
 
+
     let form = document.getElementById('heading-form');
     let profileImageUpload = document.getElementById('profile-image-upload');
     let profileImageInput = document.getElementById('profile-image');
     let profileImagePreview = document.getElementById('profile-image-preview');
+    let previewProfile = document.getElementById("pv-profile-img");
+
 
     // Load cached data
-    let savedData = JSON.parse(localStorage.getItem(HEADING_CACHE_NAME)) || {};
+    let headingInfo = JSON.parse(localStorage.getItem(HEADING_CACHE_NAME)) || {};
 
     let storedInfo = localStorage.getItem(TEMPATE_CACHE_NAME);
 
-    let profileFileName = savedData["profile_file_name"] || null
+    let profileFileName = headingInfo["profile_file_name"] || null
+
+    if(headingInfo){
+        updatePreview(headingInfo)
+    }
+    form.addEventListener('submit',handleHeadingForm);
 
     setProgressBar(ProgressMileStone.heading)
 
@@ -25,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         isHeadshot = templateInfo["isHeadshot"];
     }
 
-    for (let [key, value] of Object.entries(savedData)) {
+    for (let [key, value] of Object.entries(headingInfo)) {
         let input = document.querySelector(`[name="${key}"]`);
         if (input && input.type !== "file") {
             input.value = value;
@@ -40,19 +48,20 @@ document.addEventListener('DOMContentLoaded', function () {
         loadProfile(profileFileName)
     }
 
-
     profileImageInput.addEventListener('change', function () {
         const file = this.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 profileImagePreview.src = e.target.result;
+                previewProfile.src = e.target.result
                 profileImagePreview.style.display = 'block';
                 uploadProfile(file);
             };
             reader.readAsDataURL(file);
         } else {
             profileImagePreview.src = '';
+            previewProfile.src = 'images/profile/default_profile.jpg';
             profileImagePreview.style.display = 'none';
         }
     });
@@ -63,7 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }).then(response => response.blob())
             .then(blob => {
                 const url = URL.createObjectURL(blob);
+                console.log("reached now")
                 profileImagePreview.src = url;
+                previewProfile.src = url
             })
             .catch(error => {
                 console.error('Failed to fetch profile image:', error);
@@ -107,22 +118,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function checkForUpdates() {
         let currentData = getFormData();
-        let savedData = JSON.parse(localStorage.getItem('heading')) || {};
+        let headingInfo = JSON.parse(localStorage.getItem('heading')) || {};
         if (profileFileName) {
             currentData['profile_file_name'] = profileFileName;
         }
-        let dataChanged = Object.keys(currentData).some(key => (currentData[key] != "" && currentData[key] !== savedData[key]));
+        let dataChanged = Object.keys(currentData).some(key => (currentData[key] != "" && currentData[key] !== headingInfo[key]));
         if (dataChanged) {
             localStorage.setItem(HEADING_CACHE_NAME, JSON.stringify(currentData));
-            // updatePreview(currentData);
+            updatePreview(currentData);
         }
     }
 
     setInterval(checkForUpdates, pollingInterval);
 
+ 
 
+    function handleHeadingForm(event) {
 
-    document.getElementById('heading-form').addEventListener('submit', function (event) {
         event.preventDefault();
         console.log(isHeadshot)
         console.log(profileFileName)
@@ -136,6 +148,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    });
+
+    }
+
+
+
+    
 
 });

@@ -44,3 +44,9 @@
 .resume-preview{
     transform: scale(.7);
 }
+#pv-address {
+    text-transform: capitalize;
+}
+#pv-profession {
+    text-transform: capitalize;
+}

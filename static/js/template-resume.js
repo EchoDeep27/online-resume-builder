@@ -63,12 +63,12 @@ function changeTemplateTheme(color) {
 
 function cachedTemplateInfo() {
     if (selectedTemplateId !== null) {
-        tempateInfo = {
+        templateInfo = {
             "templateId": selectedTemplateId,
             "isHeadshot": isHeadshot,
             "templateTheme": selectedColor
         }
-        localStorage.setItem(CACHE_NAME, JSON.stringify(tempateInfo));
+        localStorage.setItem(CACHE_NAME, JSON.stringify(templateInfo));
         window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
 
     } else {

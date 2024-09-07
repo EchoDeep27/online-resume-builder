@@ -2,7 +2,7 @@
 {% if resume.template_theme %}
 <style>
 	:root {
-		--template-bg-color: {{resume.template_theme }};
+		--template-bg-color: {{resume.template_theme}};
 	}
 </style>
 {% endif %}
@@ -13,29 +13,31 @@
 		<div class="media flex-column flex-md-row">
 			{% if resume.image_file_path %}
 			<div id="profile-div">
-				<img id="profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image" width="220"
-					height="220">
+				<img id="pv-profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image"
+					width="220" height="220">
 			</div>
 			{% endif %}
 
 			<div class="media-body p-4 d-flex flex-column flex-md-row mx-auto mx-lg-0">
 				<div class="primary-info">
-					<h1 id="username" class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{ resume.username }}
+					<h1 id="pv-username" class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{
+						resume.username }}
 					</h1>
-					<div id="profession" class="title mb-3">{{ resume.profession.title() }}</div>
+					<div id="pv-profession" class="title mb-3">{{ resume.profession.title() }}</div>
 					<ul class="list-unstyled">
 						<li class="mb-2">
-							<i id="email" class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
-								href="mailto:{{resume.email }}">Email: {{
-								resume.email }}</a>
+							<i class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
+								href="mailto:{{resume.email }}">Email: <span id="pv-email">{{
+									resume.email }} </span> </a>
 						</li>
-						<li id="phone" class="mb-2"><a><i class="fas fa-mobile-alt fa-fw mr-2"
-									data-fa-transform="grow-6"></i>Phone: {{
-								resume.phone }}</a></li>
+						<li class="mb-2"><a><i class="fas fa-mobile-alt fa-fw mr-2"
+									data-fa-transform="grow-6"></i>Phone: <span id="pv-phone">{{
+									resume.phone }}</span></a></li>
 
-						<li id="location" class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
+						<li class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
 									data-fa-transform="grow-6"></i>Location:
-								{{ resume.address.city }}, {{ resume.address.country }}</a></li>
+								<span id="pv-address">{{ resume.address.city }}, {{ resume.address.country }}</span></a>
+						</li>
 					</ul>
 				</div>
 				<div class="secondary-info ml-md-auto mt-2">
@@ -67,7 +69,7 @@
 		<section class="resume-section summary-section mb-5">
 			<h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Summary</h2>
 			<div class="resume-section-content">
-				<p class="mb-0">{{resume.summary}} </p>
+				<p id="pv-summary" class="mb-0">{{resume.summary}} </p>
 			</div>
 		</section>
 		<div class="row">

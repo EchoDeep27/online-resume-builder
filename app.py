@@ -155,7 +155,7 @@ def get_profile(file_name:str):
     except FileNotFoundError:
         return jsonify({"success": False, "message": "File not found"}), 404
     
-@app.route("/template/<string:template_id>", methods=["GET"])
+@app.route("/templates/<string:template_id>", methods=["GET"])
 def get_template_html(template_id):
  
     template_path = f"templates/resume-templates/{template_id}.html"
@@ -274,6 +274,9 @@ def render_heading_page():
         sample_resume = get_sample_resume(template=template)
         return render_template("header-resume.html", resume=sample_resume)
 
+# @app.route("/resume/section/heading",  methods=["GET"])
+# def render_heading_page():
+#     return render_template("header-resume.html")
 
 @app.route("/resume/section/education",  methods=["GET"])
 def render_education_page():
