@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!text || text == "") {
             return
         }
+        // let originalText = text
         // convert to lower case because the display text is in uppercase
         text = text.toLowerCase();
         let currentText = element.innerHTML.toLowerCase();
@@ -46,6 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
         element.innerHTML = oldTextPart;
 
         let index = 0;
+        let minSpeed = 20;
+        let maxSpeed = 100;
+        let textLength = newText.length
+        // delay time is calculated based on the text length i.e if the text is too long, the typing animation will very quick
+        let delay = Math.max(minSpeed, Math.min(maxSpeed, maxSpeed - textLength));
+
 
         function type() {
             /*
@@ -57,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 element.innerHTML += newText.charAt(index)
 
                 index++;
-                setTimeout(type, 100);
+                setTimeout(type, delay);
             }
         }
 
@@ -98,17 +105,24 @@ const TEMPLATE_ID = template["templateId"]
 
 function checkForUpdate(page, cache_name, currentData) {
     let caches = getRequiredCache(page);
-    let aggregatedData = {};
+    caches.push(cache_name)
+  
     let dataChanged = false;
 
 
+    let aggregatedData = {}; 
+
     caches.forEach(cache => {
-        let cacheData = JSON.parse(localStorage.getItem(cache)) || {};
-        aggregatedData = { ...aggregatedData, ...cacheData };
+        let cacheData = JSON.parse(localStorage.getItem(cache)) || {};    
+        aggregatedData[cache] = cacheData;
     });
 
     if (typeof currentData === 'string') {
         if (!aggregatedData.summary || currentData !== aggregatedData.summary) {
+            console.log("old summary")
+            console.log(aggregatedData.summary)
+            console.log("New summary")
+            console.log(currentData)
             dataChanged = true;
             aggregatedData.summary = currentData;
         }

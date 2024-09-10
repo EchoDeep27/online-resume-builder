@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const CACHED_NAME = "summary"
-    let pollingInterval = 3000
+    let pollingInterval = 5000
     let submitBtn = document.getElementById('next-btn');
     submitBtn.addEventListener('click', submitForm);
     loadCached();
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let cachedData = localStorage.getItem(CACHED_NAME);
 
         if (cachedData) {
-            let summary = JSON.parse(cachedData);
+            let summary = JSON.parse(cachedData)
             
             let summaryForm = document.getElementById('summary-form');
             summaryForm.querySelector('textarea').value = summary;

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const CACHE_NAME = "eduInfo"
-    let pollingInterval = 3000;
+    let pollingInterval = 5000;
 
     let eduFormsContainer = document.getElementById('edu-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const TEMPATE_CACHE_NAME = "templateInfo"
     const CACHE_NAME = "headingInfo"
 
-    let pollingInterval = 3000;
+    let pollingInterval = 5000;
     let isHeadshot = false;
 
 
