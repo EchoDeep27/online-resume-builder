@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', handleHeadingForm);
 
     setProgressBar(Page.heading)
+    loadResumePreview(Page.heading)
 
     if (storedInfo) {
         let templateInfo = JSON.parse(storedInfo);
@@ -45,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
     profileImageUpload.style.display = isHeadshot ? "flex" : "none";
 
     if (profileFileName) {
-        loadProfile(profileFileName)
+        loadProfile(profileFileName, [profileImagePreview, previewProfile])
+
     }
 
     profileImageInput.addEventListener('change', function () {
@@ -66,21 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function loadProfile(profileFileName) {
-        fetch(`/profile/${profileFileName}`, {
-            method: "GET"
-        }).then(response => response.blob())
-            .then(blob => {
-                const url = URL.createObjectURL(blob);
-                console.log("reached now")
-                profileImagePreview.src = url;
-                previewProfile.src = url
-            })
-            .catch(error => {
-                console.error('Failed to fetch profile image:', error);
-            });
-    }
-
 
     function uploadProfile(file) {
         let formData = new FormData();
@@ -95,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     console.log('Image uploaded successfully');
                     profileFileName = data.file_name
-                    checkForUpdates()
                 } else {
                     console.error(data.message);
                 }
@@ -121,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (typeof profileFileName !== 'undefined' && profileFileName) {
             currentData['profile_file_name'] = profileFileName;
         }
-        checkForUpdate(Page.heading, CACHE_NAME, currentData)
+        checkForUpdate(CACHE_NAME, currentData)
     }
 
 
@@ -131,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleHeadingForm(event) {
 
         event.preventDefault();
- 
+
         if (isHeadshot && profileFileName === null) {
             alert("Please upload your profile")
             return

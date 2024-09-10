@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     submitBtn.addEventListener('click', submitForm);
     loadCached();
     setProgressBar(Page.summary)
-
-
+    loadResumePreview(Page.summary)
 
 
     setInterval(handleSummaryInfo, pollingInterval);
@@ -15,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let summaryForm = document.getElementById('summary-form');
 
         let summary = summaryForm.querySelector('textarea').value;
-        checkForUpdate(Page.summary, CACHED_NAME, summary)
+        checkForUpdate(CACHED_NAME, summary)
         // localStorage.setItem(CACHED_NAME, summary);
     }
 
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (cachedData) {
             let summary = JSON.parse(cachedData)
-            
+
             let summaryForm = document.getElementById('summary-form');
             summaryForm.querySelector('textarea').value = summary;
             handleSummaryInfo()

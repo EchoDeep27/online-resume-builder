@@ -9257,7 +9257,9 @@ a.theme-btn-on-bg:active,
   height: 1.5px;
   background: #8d9aad;
 }
-
+ul > li {
+  margin-bottom: 0.5rem !important;
+}
 .resume-section-content {
   color: #58677c;
 }

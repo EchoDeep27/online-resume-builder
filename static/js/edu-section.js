@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Loading cached data if exists
     loadCached();
+    loadResumePreview(Page.education)
     setProgressBar(Page.education)
 
     function setMaxEndDate(form) {
@@ -106,14 +107,15 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         if (removeBtn) {
             removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
-
+            
             eduFormWrapper.addEventListener('mouseover', function () {
                 removeBtn.classList.add('showed-remove-btn');
             });
-
+            
             eduFormWrapper.addEventListener('mouseout', function () {
                 removeBtn.classList.remove('showed-remove-btn');
             });
+            handleEduInfo()
         }
     }
     function handleEduInfo() {
@@ -131,13 +133,12 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             currentData.push(eduData);
         });
-
-        checkForUpdate(Page.education, CACHE_NAME, currentData)
+     
+        checkForUpdate(CACHE_NAME, currentData)
     }
 
 
     setInterval(handleEduInfo, pollingInterval);
-
 
 
 

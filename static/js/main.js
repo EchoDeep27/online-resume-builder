@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let city = document.getElementById("pv-city")
     let country = document.getElementById("pv-country")
     let summary = document.getElementById("pv-summary")
+    let profileImg = document.getElementById("pv-profile-img")
 
     function typeText(text, element) {
         if (!text || text == "") {
@@ -72,14 +73,102 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.updatePreview = (data) => {
-        typeText(data?.username, username)
-        typeText(data?.profession, profession)
-        typeText(data?.email, email)
-        typeText(data?.phone, phone)
-        typeText(data?.city, city)
-        typeText(data?.country, country)
-        typeText(data?.summary, summary)
+        console.log("data")
+        console.log(data)
+
+        let template = data["templateInfo"] || {}
+        let heading = data["headingInfo"] || {}
+        let education = data["eduInfo"] || []
+        console.log(education)
+        console.log(education)
+
+        let workExperience = data["workExpInfo"] || []
+        let skill = data["skillInfo"] || []
+        let summaryText = data["summary"] || ""
+
+        if (template && template.templateTheme) {
+            document.documentElement.style.setProperty('--template-bg-color', template.templateTheme);
+        }
+
+        if (heading) {
+            console.log("Yes, i am heading")
+            console.log(heading)
+            typeText(heading?.username, username)
+            typeText(heading?.profession, profession)
+            typeText(heading?.email, email)
+            typeText(heading?.phone, phone)
+            typeText(heading?.city, city)
+            typeText(heading?.country, country)
+            if (heading?.profile_file_name) {
+                loadProfile(heading.profile_file_name, imgElements = [profileImg])
+            }
+
+        }
+        if (summaryText.length > 0) {
+            typeText(summaryText, summary)
+
+        }
+        if (education.length > 0) {
+            let educationList = document.getElementById("education-list");
+            while (educationList.firstChild) {
+                educationList.removeChild(educationList.firstChild);
+            }
+            education.forEach(edu => {
+
+                let eduList = getEducationList(edu)
+                educationList.appendChild(eduList);
+            })
+
+
+
+        }
     }
+
+    function getEducationList(education) {
+
+        let educationItem = document.createElement("li");
+        // educationItem.classList.add("mb-2");
+
+        // Create a div for the degree
+        let degreeDiv = document.createElement("div");
+        degreeDiv.classList.add("resume-degree", "font-weight-bold");
+        degreeDiv.innerText = education.degree;
+
+        // Create a div for the organization/school name
+        let orgDiv = document.createElement("div");
+        orgDiv.classList.add("resume-degree-org");
+        orgDiv.innerText = education.school;
+
+        // Create a div for the time period
+        let timeDiv = document.createElement("div");
+        timeDiv.classList.add("resume-degree-time");
+
+        // Add the start date
+        if (education.start_date) {
+            let startDate = new Date(education.start_date);
+            timeDiv.innerText = startDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+        }
+
+        // Adding dash separator between start date and end date (e.g December 2020 - May 2022)
+        timeDiv.innerText += " - ";
+
+
+        if (education.is_studying) {
+            timeDiv.textContent += "Attending";
+        } else if (education.end_date) {
+            let endDate = new Date(education.end_date);
+            timeDiv.innerText += endDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+        } else {
+            timeDiv.innerText += "N/A";
+        }
+
+
+        educationItem.appendChild(degreeDiv);
+        educationItem.appendChild(orgDiv);
+        educationItem.appendChild(timeDiv);
+        return educationItem
+    }
+
 });
 
 
@@ -101,55 +190,88 @@ const navigation = {
 };
 let template = JSON.parse(localStorage.getItem("templateInfo")) || {};
 const TEMPLATE_ID = template["templateId"]
+let isLoaded = false
 
-
-function checkForUpdate(page, cache_name, currentData) {
+function loadResumePreview(page) {
+    if (isLoaded) {
+        return
+    }
     let caches = getRequiredCache(page);
-    caches.push(cache_name)
-  
-    let dataChanged = false;
-
-
-    let aggregatedData = {}; 
+    let aggregatedData = {};
 
     caches.forEach(cache => {
-        let cacheData = JSON.parse(localStorage.getItem(cache)) || {};    
+        let cacheData = JSON.parse(localStorage.getItem(cache)) || {};
         aggregatedData[cache] = cacheData;
     });
+    updatePreview(aggregatedData)
+    isLoaded = true
+}
 
-    if (typeof currentData === 'string') {
-        if (!aggregatedData.summary || currentData !== aggregatedData.summary) {
-            console.log("old summary")
-            console.log(aggregatedData.summary)
-            console.log("New summary")
-            console.log(currentData)
-            dataChanged = true;
-            aggregatedData.summary = currentData;
-        }
+function loadProfile(profileFileName, imgElements) {
+    fetch(`/profile/${profileFileName}`, {
+        method: "GET"
+    }).then(response => response.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            console.log("reached now")
+            imgElements.forEach(img => img.src = url)
+        })
+        .catch(error => {
+            console.error('Failed to fetch profile image:', error);
+        });
+}
+
+
+function checkForUpdate(cache_name, updatedData) {
+
+    let dataChanged = false;
+
+    let cache = JSON.parse(localStorage.getItem(cache_name))
+    if (typeof updatedData === 'string') {
+        dataChanged = updatedData !== cache
+
     } else {
+        let cachedData = Array.isArray(cache) ? cache : [cache];
 
-        dataChanged = Object.keys(currentData).some(key =>
-            currentData[key] !== "" && currentData[key] !== aggregatedData[key]
-        );
+        let currentData = Array.isArray(updatedData) ? updatedData : [updatedData];
 
-        if (dataChanged) {
-            aggregatedData = { ...aggregatedData, ...currentData };
+
+        // Cached value is retrieved based on the length of current value and remove extra items since current value don't contain them  
+        if (currentData.length != cachedData.length) {
+            dataChanged = true;
+        } else {
+            // cachedData = cachedData.slice(0, currentData.length);
+
+            for (let i = 0; i < currentData.length; i++) {
+                let currentValue = currentData[i]
+                let currentCachedValue = cachedData[i]
+
+                dataChanged = Object.keys(currentValue).some(key => {
+
+                    return (currentValue[key] && currentValue[key] != currentCachedValue[key]);
+                });
+
+                if (dataChanged) {
+                    break;
+                }
+            }
         }
+
+
     }
+    console.log(`Data changed? : ${dataChanged}`)
 
     if (dataChanged) {
-        localStorage.setItem(cache_name, JSON.stringify(currentData));
-        updatePreview(aggregatedData);
+        localStorage.setItem(cache_name, JSON.stringify(updatedData));
+        updatePreview({ [cache_name]: updatedData });
         console.log("Trigger changed");
     }
 }
 
 
 function setProgressBar(reachedProgress) {
-    console.log("trigger")
+
     let res = checkCache(reachedProgress)
-    console.log("res")
-    console.log(res)
 
     if (!res.success) {
         alert(`Plesase fill the ${res.name} first!`)
@@ -209,12 +331,12 @@ function checkCache(reachedProgress) {
             let name = navigation[key];
 
             if (key === "templateInfo") {
-                console.log(`/resume/section/${name}`)
+
                 return { success: false, name: name, href: `/resume/section/${name}` };
             } else {
                 let template_info = localStorage.getItem("templateInfo")
                 data = JSON.parse(template_info)
-                console.log(`/resume/section/${name}?template_id=${data['templateId']}`)
+
 
                 return { success: false, name: name, href: `/resume/section/${name}?template_id=${data['templateId']}` };
             }
