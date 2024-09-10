@@ -78,12 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let template = data["templateInfo"] || {}
         let heading = data["headingInfo"] || {}
-        let education = data["eduInfo"] || []
-        console.log(education)
-        console.log(education)
+        let educations = data["eduInfo"] || []
+        console.log(educations)
+        console.log(educations)
 
-        let workExperience = data["workExpInfo"] || []
-        let skill = data["skillInfo"] || []
+        let workExperiences = data["workExpInfo"] || []
+        let skills = data["skillInfo"] || []
         let summaryText = data["summary"] || ""
 
         if (template && template.templateTheme) {
@@ -108,67 +108,193 @@ document.addEventListener("DOMContentLoaded", function () {
             typeText(summaryText, summary)
 
         }
-        if (education.length > 0) {
+        if (educations.length > 0) {
             let educationList = document.getElementById("education-list");
             while (educationList.firstChild) {
                 educationList.removeChild(educationList.firstChild);
             }
-            education.forEach(edu => {
+            educations.forEach(education => {
 
-                let eduList = getEducationList(edu)
-                educationList.appendChild(eduList);
+                let eduElement = createEducationList(education)
+                educationList.appendChild(eduElement);
             })
+        }
 
+        if (workExperiences.length > 0) {
 
+            let workExperienceParent = document.getElementById("work-experience-parent");
 
+            // Remove all current children (clear the work experience list)
+            while (workExperienceParent.firstChild) {
+                workExperienceParent.removeChild(workExperienceParent.firstChild);
+            }
+            workExperiences.forEach(experience => {
+
+                let workExpElement = createWorkExperienceList(experience);
+                workExperienceParent.appendChild(workExpElement)
+
+            });
+        }
+
+        if (skills.length > 0) {
+            let skillList = document.getElementById("skill-list");
+            while (skillList.firstChild) {
+                skillList.removeChild(skillList.firstChild);
+            }
+            skills.forEach(skill => {
+
+                let skillElement = createSkillList(skill)
+                skillList.appendChild(skillElement);
+            })
         }
     }
 
-    function getEducationList(education) {
+    function createEducationList(education) {
 
         let educationItem = document.createElement("li");
-        // educationItem.classList.add("mb-2");
 
-        // Create a div for the degree
+
         let degreeDiv = document.createElement("div");
+        let orgDiv = document.createElement("div");
+
+        let timeDiv = document.createElement("div");
+        let startDate = education.start_date ? formatDate(education.start_date) : '';
+        let endDate = education.is_studying ? 'Attending' : (education.end_date ? formatDate(education.end_date) : 'N/A');
+
         degreeDiv.classList.add("resume-degree", "font-weight-bold");
         degreeDiv.innerText = education.degree;
 
-        // Create a div for the organization/school name
-        let orgDiv = document.createElement("div");
         orgDiv.classList.add("resume-degree-org");
         orgDiv.innerText = education.school;
 
-        // Create a div for the time period
-        let timeDiv = document.createElement("div");
+
         timeDiv.classList.add("resume-degree-time");
-
-        // Add the start date
-        if (education.start_date) {
-            let startDate = new Date(education.start_date);
-            timeDiv.innerText = startDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-        }
-
+        timeDiv.innerText = startDate
         // Adding dash separator between start date and end date (e.g December 2020 - May 2022)
         timeDiv.innerText += " - ";
-
-
-        if (education.is_studying) {
-            timeDiv.textContent += "Attending";
-        } else if (education.end_date) {
-            let endDate = new Date(education.end_date);
-            timeDiv.innerText += endDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-        } else {
-            timeDiv.innerText += "N/A";
-        }
-
+        timeDiv.innerText += endDate
 
         educationItem.appendChild(degreeDiv);
         educationItem.appendChild(orgDiv);
         educationItem.appendChild(timeDiv);
         return educationItem
     }
+    function capitalizeFirstLetter(str) {
+        if (!str) return str;
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
 
+
+    function createSkillList(skill) {
+
+        let proficiencyLevels = {
+            'BEGINNER': 25,
+            'INTERMEDIATE': 50,
+            'PROFICIENT': 75,
+            'EXPERT': 100
+        };
+
+
+        let skillItem = document.createElement("li");
+
+        let skillNameDiv = document.createElement("div");
+        let skillProficiencySpan = document.createElement("span");
+
+        let progressDiv = document.createElement("div");
+        let progressBarDiv = document.createElement("div");
+
+        let proficiency = skill.expertiseLevel.toUpperCase()
+        let proficiecnyLevel = proficiencyLevels[proficiency]
+
+        skillNameDiv.classList.add("resume-skill-name");
+        skillNameDiv.innerText = skill.skill;
+
+        skillProficiencySpan.classList.add("resume-skill-proficiency");
+
+        skillProficiencySpan.innerText = capitalizeFirstLetter(skill.expertiseLevel)
+
+        skillNameDiv.appendChild(skillProficiencySpan);
+
+        progressDiv.classList.add("progress", "resume-progress");
+
+        progressBarDiv.classList.add("progress-bar", "theme-progress-bar-dark");
+        progressBarDiv.setAttribute("role", "progressbar");
+
+        progressBarDiv.setAttribute("aria-valuemin", "0");
+        progressBarDiv.setAttribute("aria-valuemax", "100");
+        progressBarDiv.setAttribute("aria-valuenow", proficiecnyLevel);
+        progressBarDiv.style.width = proficiecnyLevel + "%";
+
+        skillItem.appendChild(skillNameDiv);
+
+        progressDiv.appendChild(progressBarDiv);
+        skillItem.appendChild(progressDiv);
+
+        return skillItem
+    }
+
+
+
+    function createWorkExperienceList(experience) {
+
+        let experienceItem = document.createElement("article");
+        let headerDiv = document.createElement("div");
+        let positionTitle = document.createElement("h3");
+
+        let titleCompanyDiv = document.createElement("div");
+        let companyNameDiv = document.createElement("div");
+
+        let descriptionDiv = document.createElement("div");
+        let achievementList = document.createElement("ul");
+
+        let timePeriodDiv = document.createElement("div");
+
+        let startDate = experience.start_date ? formatDate(experience.start_date) : '';
+        let endDate = experience.isWorking ? 'Present' : (experience.end_date ? formatDate(experience.end_date) : 'N/A');
+
+        experienceItem.classList.add("resume-timeline-item", "position-relative", "pb-5");
+        headerDiv.classList.add("resume-timeline-item-header", "mb-2");
+        titleCompanyDiv.classList.add("d-flex", "flex-column", "flex-md-row");
+
+        positionTitle.classList.add("resume-position-title", "font-weight-bold", "mb-1");
+        positionTitle.innerText = experience.job;
+
+        companyNameDiv.classList.add("resume-company-name", "ml-auto");
+        companyNameDiv.innerText = experience.company;
+
+
+        titleCompanyDiv.appendChild(positionTitle);
+        titleCompanyDiv.appendChild(companyNameDiv);
+
+        timePeriodDiv.classList.add("resume-position-time");
+
+
+        timePeriodDiv.innerText = `${startDate} - ${endDate}`;
+
+        headerDiv.appendChild(titleCompanyDiv);
+        headerDiv.appendChild(timePeriodDiv);
+
+
+        descriptionDiv.classList.add("resume-timeline-item-desc");
+
+        achievementList.innerHTML = experience.achievements.replace(/\n/g, "<li>");
+
+        descriptionDiv.appendChild(achievementList);
+
+        experienceItem.appendChild(headerDiv);
+        experienceItem.appendChild(descriptionDiv);
+        return experienceItem;
+
+
+    }
+
+
+    function formatDate(dateString) {
+        let date = new Date(dateString);
+        // Formatting date obj in September 2024 format
+        const options = { year: 'numeric', month: 'long' };
+        return date.toLocaleDateString('en-US', options);
+    }
 });
 
 

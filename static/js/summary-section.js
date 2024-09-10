@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let summary = summaryForm.querySelector('textarea').value;
         checkForUpdate(CACHED_NAME, summary)
-        // localStorage.setItem(CACHED_NAME, summary);
+    
     }
 
     function submitForm() {
