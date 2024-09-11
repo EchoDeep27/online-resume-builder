@@ -2,7 +2,13 @@
 {% if resume.template_theme %}
 <style>
 	:root {
-		--template-bg-color: {{resume.template_theme}};
+		--template-bg-color: {
+				{
+				resume.template_theme
+			}
+		}
+
+		;
 	}
 </style>
 {% endif %}
@@ -36,7 +42,8 @@
 
 						<li class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
 									data-fa-transform="grow-6"></i>Location:
-								<span id="pv-city">{{ resume.address.city }}</span>, <span id="pv-country">{{ resume.address.country }}</span></a>
+								<span id="pv-city">{{ resume.address.city }}</span>, <span id="pv-country">{{
+									resume.address.country }}</span></a>
 						</li>
 					</ul>
 				</div>
@@ -44,7 +51,7 @@
 					<ul id="social-media-list" class="resume-social list-unstyled">
 						{% if resume.social_media %}
 						{% for social_media in resume.social_media %}
-						{% set media_name = social_media['name'].value.lower()  %}
+						{% set media_name = social_media['name'].value.lower() %}
 						<li id="{{media_name}}-item" class="mb-3">
 							<a href="{{ social_media['link'] }}">
 								<span class="fa-container text-center mr-2">
@@ -211,19 +218,19 @@
 								</ul>
 							</div>
 						</section> -->
-						{% if resume.languages|length > 0 %}
+				{% if resume.languages|length > 0 %}
 				<section class="resume-section language-section mb-5">
 					<h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">I Can Speak
 					</h2>
 					<div class="resume-section-content">
-						<ul class="list-unstyled resume-lang-list">
+						<ul id="language-list" class="list-unstyled resume-lang-list">
 
 							{% for language in resume.languages %}
 							<li class="mb-2"><span class="resume-lang-name font-weight-bold">{{language["name"]}}</span>
 								<small class="text-muted font-weight-normal">({{language["fluent_level"]}})</small>
 							</li>
 							{% endfor %}
-						
+
 						</ul>
 					</div>
 				</section>

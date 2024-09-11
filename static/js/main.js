@@ -159,12 +159,44 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!isEmptyObj(socialMedia)) {
-
             loadSocialMediaPreview(socialMedia)
+        }
+
+        if (languages.length > 0) {
+            let parent = document.getElementById("language-list")
 
 
+            loadLanguageList(languages, parent)
         }
     }
+
+
+    function loadLanguageList(languages, parent) {
+
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+        languages.forEach(language => {
+
+            let languageItem = document.createElement("li");
+            let languageName = document.createElement("span");
+            let fluentLevel = document.createElement("small");
+
+            languageName.classList.add("resume-lang-name", "font-weight-bold");
+            languageName.textContent = language.language;
+
+
+            fluentLevel.classList.add("text-muted", "font-weight-normal");
+            fluentLevel.textContent = `(${language.fluentLevel})`;
+
+
+            languageItem.appendChild(languageName);
+            languageItem.appendChild(fluentLevel);
+
+            parent.appendChild(languageItem);
+        });
+    }
+
 
     const socialMedia = {
         LINKEDIN: "linkedIn",

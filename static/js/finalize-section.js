@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (cachedData) {
             let additionalData = JSON.parse(cachedData);
-            let languageData = additionalData[LANGUAGE_INFO_KEY]
+            let languageData = additionalData[LANGUAGE_INFO_KEY] || []
             let socialMediaInfo = additionalData[SOCIAL_MEDIA_INFO_kEY]
 
             let formContainer = document.getElementById('language-forms-container');
@@ -181,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formWrapper.addEventListener('mouseout', function () {
                 removeBtn.classList.remove('showed-remove-btn');
             });
+           
         }
 
         formContainer.appendChild(formWrapper);
@@ -191,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!isConfirmed) {
             return
         }
-
+        handleAdditionalInfo()
         formWrapper.classList.add('fade-out');
         setTimeout(() => {
             formWrapper.remove();

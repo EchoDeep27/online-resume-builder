@@ -210,7 +210,7 @@ def get_sample_resume(template:Template):
     sample_resume.educations  = create_education_instances(sample_resume.id, eduI_info)
     sample_resume.social_media  = create_social_media_instances(sample_resume.id,social_media_info)
     sample_resume.skills = create_skill_instances(sample_resume.id, skill_info)
-    sample_resume.language = create_language_instances(sample_resume.id, lang_info)
+    sample_resume.languages = create_language_instances(sample_resume.id, lang_info)
     return sample_resume
 
  

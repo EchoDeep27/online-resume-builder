@@ -14,7 +14,7 @@ class Resume:
     work_experiences: list["WorkExperience"]= []
     skills: list["Skill"]= []
     educations: list["Education"]= []
-    language:list["Language"] = []
+    languages:list["Language"] = []
     social_media:list["SocialMedia"] = []
     template: Template
     template_theme: str
@@ -33,7 +33,7 @@ class Resume:
         skills: list["Skill"] = [],
         educations: list["Education"] = [],
         address: Optional[list["Address"]] = [],
-        language: Optional[list["Language"]] = [],
+        languages: Optional[list["Language"]] = [],
         social_media: Optional[list["SocialMedia"]] = [],
         template_theme:Optional[str] = "#00026e"
     ):
@@ -48,7 +48,7 @@ class Resume:
         self.skills = skills
         self.educations = educations
         self.social_media = social_media
-        self.language =  language
+        self.languages =  languages
         self.summary = summary
         self.template = template
         self.id = str(uuid.uuid4())
