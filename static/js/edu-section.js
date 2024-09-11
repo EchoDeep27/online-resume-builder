@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const CACHE_NAME = "eduInfo"
-    let pollingInterval = 5000;
-
+ 
+    let typingTimer;
     let eduFormsContainer = document.getElementById('edu-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let submitBtn = document.getElementById('next-btn');
@@ -108,15 +107,15 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         if (removeBtn) {
             removeBtn.addEventListener('click', () => removeEducationForm(eduFormWrapper));
-            
+
             eduFormWrapper.addEventListener('mouseover', function () {
                 removeBtn.classList.add('showed-remove-btn');
             });
-            
+
             eduFormWrapper.addEventListener('mouseout', function () {
                 removeBtn.classList.remove('showed-remove-btn');
             });
-           
+
         }
     }
     function handleEduInfo() {
@@ -134,12 +133,16 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             currentData.push(eduData);
         });
-     
-        checkForUpdate(CACHE_NAME, currentData)
+
+        checkForUpdate(CACHE_NAMES.EDU, currentData)
     }
 
 
-    setInterval(handleEduInfo, pollingInterval);
+    // setInterval(handleEduInfo, pollingInterval);
+    document.addEventListener('input', () => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(handleEduInfo, INPUT_TYPING_DELAY);
+    });
 
 
 
@@ -153,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem(CACHE_NAME);
+        let cachedData = localStorage.getItem(CACHE_NAMES.EDU);
 
         if (cachedData) {
             let educationData = JSON.parse(cachedData);

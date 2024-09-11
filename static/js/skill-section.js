@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
         Proficient: "Proficient",
         Expert: "Expert",
     };
-    const CACHED_NAME = "skillInfo"
 
     // let skillFormsContainer = document.getElementById('skill-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
@@ -102,14 +101,14 @@ document.addEventListener('DOMContentLoaded', function () {
             skillInfo.push(skillData);
         });
 
-        localStorage.setItem(CACHED_NAME, JSON.stringify(skillInfo));
+        localStorage.setItem(CACHE_NAMES.SKILL, JSON.stringify(skillInfo));
 
         window.location.href = `/resume/section/summary?template_id=${TEMPLATE_ID}`;
     }
 
 
     function loadCached() {
-        let cachedData = localStorage.getItem(CACHED_NAME);
+        let cachedData = localStorage.getItem(CACHE_NAMES.SKILL);
 
         if (cachedData) {
             let skillData = JSON.parse(cachedData);

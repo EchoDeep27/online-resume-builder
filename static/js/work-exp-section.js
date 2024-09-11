@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const CACHE_NAME = "workExpInfo"
- 
+
+    let typingTimer;
 
     let workExpFormsContainer = document.getElementById('work-exp-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
@@ -147,8 +147,8 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             workExpcationData.push(workExpData);
         });
-        checkForUpdate(CACHE_NAME, workExpcationData)
-        // localStorage.setItem(CACHE_NAME, JSON.stringify(workExpcationData));
+        checkForUpdate(CACHE_NAMES.WORK_EXP, workExpcationData)
+        // localStorage.setItem(WORK_EXP_CACHE_NAME, JSON.stringify(workExpcationData));
 
         window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
     }
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadCached() {
 
-        let cachedData = localStorage.getItem(CACHE_NAME);
+        let cachedData = localStorage.getItem(CACHE_NAMES.WORK_EXP);
 
         if (cachedData) {
             let workExpcationData = JSON.parse(cachedData);

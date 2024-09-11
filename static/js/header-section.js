@@ -1,10 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const TEMPATE_CACHE_NAME = "templateInfo"
-    const CACHE_NAME = "headingInfo"
-
-    let pollingInterval = 5000;
+    // let pollingInterval = 5000;
+    let typingTimer;
     let isHeadshot = false;
-
 
     let form = document.getElementById('heading-form');
     let profileImageUpload = document.getElementById('profile-image-upload');
@@ -14,11 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Load cached data
-    let headingInfo = JSON.parse(localStorage.getItem(CACHE_NAME)) || {};
+    let headingInfo = JSON.parse(localStorage.getItem(CACHE_NAMES.HEADING)) || {};
+    let storedInfo = localStorage.getItem(CACHE_NAMES.TEMPLATE);
 
-    let storedInfo = localStorage.getItem(TEMPATE_CACHE_NAME);
-
-    let profileFileName = headingInfo["profile_file_name"] || null
+    let profileFileName = headingInfo?.profile_file_name || null
 
     if (headingInfo) {
         updatePreview(headingInfo)
@@ -107,11 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (typeof profileFileName !== 'undefined' && profileFileName) {
             currentData['profile_file_name'] = profileFileName;
         }
-        checkForUpdate(CACHE_NAME, currentData)
+        checkForUpdate(CACHE_NAMES.HEADING, currentData)
     }
 
 
-    setInterval(handleHeadingInfo, pollingInterval);
+    // setInterval(handleHeadingInfo, pollingInterval);
+    document.addEventListener('input', () => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(handleHeadingInfo, INPUT_TYPING_DELAY);
+    });
 
 
     function handleHeadingForm(event) {

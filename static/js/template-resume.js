@@ -1,12 +1,12 @@
 
-const CACHE_NAME = "templateInfo"
+
 let selectedTemplateId = null
 let isHeadshot = false
 let selectedColor = "#434E5E"
 let headshotRadios = document.querySelectorAll('input[name="headshot"]');
 
 // Load cache
-let templateInfo = JSON.parse(localStorage.getItem(CACHE_NAME))
+let templateInfo = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE))
 if (templateInfo) {
     selectedTemplateId = templateInfo["templateId"]
     selectedColor = templateInfo["templateTheme"]
@@ -68,7 +68,7 @@ function cachedTemplateInfo() {
             "isHeadshot": isHeadshot,
             "templateTheme": selectedColor
         }
-        localStorage.setItem(CACHE_NAME, JSON.stringify(templateInfo));
+        localStorage.setItem(CACHE_NAMES.TEMPLATE, JSON.stringify(templateInfo));
         window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
 
     } else {

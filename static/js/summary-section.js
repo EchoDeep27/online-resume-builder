@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const CACHED_NAME = "summary"
-    let pollingInterval = 5000
+  
+    // let pollingInterval = 5000
+    let typingTimer;
     let submitBtn = document.getElementById('next-btn');
     submitBtn.addEventListener('click', submitForm);
     loadCached();
@@ -8,13 +9,17 @@ document.addEventListener('DOMContentLoaded', function () {
     loadResumePreview(Page.summary)
 
 
-    setInterval(handleSummaryInfo, pollingInterval);
+    // setInterval(handleSummaryInfo, pollingInterval);
+    document.addEventListener('input', () => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(handleSummaryInfo, INPUT_TYPING_DELAY);
+    });
 
     function handleSummaryInfo() {
         let summaryForm = document.getElementById('summary-form');
 
         let summary = summaryForm.querySelector('textarea').value;
-        checkForUpdate(CACHED_NAME, summary)
+        checkForUpdate(CACHE_NAMES.SUMMARY, summary)
     
     }
 
@@ -26,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function loadCached() {
-        let cachedData = localStorage.getItem(CACHED_NAME);
+        let cachedData = localStorage.getItem(CACHE_NAMES.SUMMARY);
 
         if (cachedData) {
             let summary = JSON.parse(cachedData)

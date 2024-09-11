@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Preview resume elements that need will be updated
+    let username = document.getElementById("pv-username")
+    let profession = document.getElementById("pv-profession")
+    let email = document.getElementById("pv-email")
+    let phone = document.getElementById("pv-phone")
+    let city = document.getElementById("pv-city")
+    let country = document.getElementById("pv-country")
+    let summary = document.getElementById("pv-summary")
+    let profileImg = document.getElementById("pv-profile-img")
+
+
     document.querySelectorAll("form input").forEach(input => {
         input.addEventListener("focus", function () {
             this.previousElementSibling.style.color = "var(--primary-color)";
@@ -12,23 +23,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    let username = document.getElementById("pv-username")
-    let profession = document.getElementById("pv-profession")
-    let email = document.getElementById("pv-email")
-    let phone = document.getElementById("pv-phone")
-    let city = document.getElementById("pv-city")
-    let country = document.getElementById("pv-country")
-    let summary = document.getElementById("pv-summary")
-    let profileImg = document.getElementById("pv-profile-img")
-
     function typeText(text, element) {
         if (!text || text == "") {
             return
         }
-        // let originalText = text
-        // convert to lower case because the display text is in uppercase
-        text = text.toLowerCase();
-        let currentText = element.innerHTML.toLowerCase();
+
+        let currentText = element.innerHTML;
         if (currentText === text) {
             return;
         }
@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         newText = text.slice(i);
-
 
         element.innerHTML = oldTextPart;
 
@@ -75,27 +74,36 @@ document.addEventListener("DOMContentLoaded", function () {
         return (Object.keys(obj).length == 0)
     }
 
+
+    function updateList(parentId, createElementFunc, items) {
+        // Allow to update the preview only if the updated data has at least one item
+        if (items.length == 0) {
+            return
+        }
+        const listItem = document.getElementById(parentId);
+
+        // Remove all current children
+        while (listItem.firstChild) {
+            listItem.removeChild(listItem.firstChild);
+        }
+        items.forEach(item => {
+            listItem.appendChild(createElementFunc(item));
+        });
+    };
+
+    // Making the updatePreview function global so that any files can access this function
     window.updatePreview = (data) => {
 
-
-        let template = data["templateInfo"] || {}
-        let heading = data["headingInfo"] || {}
-        let educations = data["eduInfo"] || []
-
-
-        let workExperiences = data["workExpInfo"] || []
-        let skills = data["skillInfo"] || []
-        let summaryText = data["summary"] || ""
-        let additionalInfo = data["additionalInfo"] || {}
+        let template = data[CACHE_NAMES.TEMPLATE] || {}
+        let heading = data[CACHE_NAMES.HEADING] || {}
+        let educations = data[CACHE_NAMES.EDU] || []
+        let workExperiences = data[CACHE_NAMES.WORK_EXP] || []
+        let skills = data[CACHE_NAMES.SKILL] || []
+        let additionalInfo = data[CACHE_NAMES.ADDITIONAL] || {}
+        let summaryText = data[CACHE_NAMES.SUMMARY] || ""
 
         let languages = []
         let socialMedia = []
-        console.log("additionalInfo")
-        console.log(additionalInfo)
-        if (!isEmptyObj(additionalInfo)) {
-            languages = additionalInfo["langInfo"] || []
-            socialMedia = additionalInfo["socialMediaInfo"] || {}
-        }
 
         if (!isEmptyObj(template)) {
             document.documentElement.style.setProperty('--template-bg-color', template.templateTheme);
@@ -114,59 +122,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
         }
+
         if (summaryText.length > 0) {
             typeText(summaryText, summary)
 
         }
-        if (educations.length > 0) {
-            let educationList = document.getElementById("education-list");
-            while (educationList.firstChild) {
-                educationList.removeChild(educationList.firstChild);
+        updateList(parentId = "education-list", createElementFunc = createEducationList, items = educations);
+        updateList(parentId = "work-experience-parent", createElementFunc = createWorkExperienceList, items = workExperiences);
+        updateList(parentId = "skill-list", createElementFunc = createSkillList, items = skills);
+
+        if (!isEmptyObj(additionalInfo)) {
+            languages = additionalInfo[LANGUAGE_INFO_KEY] || [];
+            socialMedia = additionalInfo[SOCIAL_MEDIA_INFO_kEY] || {};
+
+            if (!isEmptyObj(socialMedia)) {
+                loadSocialMediaPreview(socialMedia)
             }
-            educations.forEach(education => {
 
-                let eduElement = createEducationList(education)
-                educationList.appendChild(eduElement);
-            })
-        }
-
-        if (workExperiences.length > 0) {
-
-            let workExperienceParent = document.getElementById("work-experience-parent");
-
-            // Remove all current children (clear the work experience list)
-            while (workExperienceParent.firstChild) {
-                workExperienceParent.removeChild(workExperienceParent.firstChild);
+            if (languages.length > 0) {
+                let parent = document.getElementById("language-list")
+                loadLanguageList(languages, parent)
             }
-            workExperiences.forEach(experience => {
-
-                let workExpElement = createWorkExperienceList(experience);
-                workExperienceParent.appendChild(workExpElement)
-
-            });
-        }
-
-        if (skills.length > 0) {
-            let skillList = document.getElementById("skill-list");
-            while (skillList.firstChild) {
-                skillList.removeChild(skillList.firstChild);
-            }
-            skills.forEach(skill => {
-
-                let skillElement = createSkillList(skill)
-                skillList.appendChild(skillElement);
-            })
-        }
-
-        if (!isEmptyObj(socialMedia)) {
-            loadSocialMediaPreview(socialMedia)
-        }
-
-        if (languages.length > 0) {
-            let parent = document.getElementById("language-list")
-
-
-            loadLanguageList(languages, parent)
         }
     }
 
@@ -198,13 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    const socialMedia = {
-        LINKEDIN: "linkedIn",
-        GITHUB: "gitHub",
-        FACEBOOK: "facebook",
-        PORTFOLIO: "portfolio",
-        INSTAGRAM: "instagram",
-    }
+
     function loadSocialMediaPreview(socialMediaInfo) {
         for (let key of Object.values(socialMedia)) {
 
@@ -214,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (data) {
                 socialElement.style.display = "block";
-                loadSocialLink(socialElement, data);
+                addSocialLink(socialElement, data);
             } else {
                 socialElement.style.display = "none";
             }
@@ -222,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     }
-    function loadSocialLink(mediaElement, data) {
+    function addSocialLink(mediaElement, data) {
         let socialLink = mediaElement.querySelector("a");
         // updating the reference link
         socialLink.href = data;
@@ -268,14 +238,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function createSkillList(skill) {
-
-        let proficiencyLevels = {
-            'BEGINNER': 25,
-            'INTERMEDIATE': 50,
-            'PROFICIENT': 75,
-            'EXPERT': 100
-        };
-
 
         let skillItem = document.createElement("li");
 
@@ -367,8 +329,6 @@ document.addEventListener("DOMContentLoaded", function () {
         experienceItem.appendChild(headerDiv);
         experienceItem.appendChild(descriptionDiv);
         return experienceItem;
-
-
     }
 
 
@@ -380,6 +340,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// =============================
+// ===== Constant Variable ====
+// ============================
+const CACHE_NAMES = {
+    TEMPLATE: "templateInfo",
+    HEADING: "headingInfo",
+    EDU: "eduInfo",
+    WORK_EXP: "workExpInfo",
+    SKILL: "skillInfo",
+    SUMMARY: "summary",
+    ADDITIONAL: "additionalInfo",
+};
 
 const Page = {
     heading: 1,
@@ -397,15 +369,42 @@ const navigation = {
     skillInfo: "skill",
     summary: "summary"
 };
-let template = JSON.parse(localStorage.getItem("templateInfo")) || {};
-const TEMPLATE_ID = template["templateId"]
+
+const proficiencyLevels = {
+    'BEGINNER': 25,
+    'INTERMEDIATE': 50,
+    'PROFICIENT': 75,
+    'EXPERT': 100
+};
+const socialMedia = {
+    LINKEDIN: "linkedIn",
+    GITHUB: "gitHub",
+    FACEBOOK: "facebook",
+    PORTFOLIO: "portfolio",
+    INSTAGRAM: "instagram",
+}
+const INPUT_TYPING_DELAY = 2000
+
+
+const LANGUAGE_INFO_KEY = "langInfo";
+const SOCIAL_MEDIA_INFO_kEY = "socialMediaInfo";
+
+const WORK_FLOW_CACHE_DATA = ["templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo", "summary"]
+
+
+
+let template = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE)) || {};
+const TEMPLATE_ID = template.templateId
 let isLoaded = false
 
 function loadResumePreview(page) {
     if (isLoaded) {
         return
     }
+    console.log(page)
     let caches = getRequiredCache(page);
+    console.log("getRequiredCache")
+    console.log(caches)
     let aggregatedData = {};
 
     caches.forEach(cache => {
@@ -465,7 +464,6 @@ function checkForUpdate(cache_name, updatedData) {
             }
         }
 
-
     }
     console.log(`Data changed? : ${dataChanged}`)
 
@@ -502,32 +500,9 @@ function setProgressBar(reachedProgress) {
 }
 
 function getRequiredCache(reachedProgress) {
-    let requiredCacheKeys = [];
-
-    switch (reachedProgress) {
-        case Page.heading:
-            requiredCacheKeys.push("templateInfo");
-            break;
-        case Page.education:
-            requiredCacheKeys.push("templateInfo", "headingInfo");
-            break;
-        case Page.workExperience:
-            requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo");
-            break;
-        case Page.skill:
-            requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo", "workExpInfo");
-            break;
-        case Page.summary:
-            requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo");
-            break;
-        case Page.finalize:
-            requiredCacheKeys.push("templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo", "summary");
-            break;
-        default:
-            return [];
-    }
-    return requiredCacheKeys;
+    return reachedProgress > 0 ? WORK_FLOW_CACHE_DATA.slice(0, reachedProgress) : [];
 }
+
 function checkCache(reachedProgress) {
 
     let requiredCache = getRequiredCache(reachedProgress)
@@ -539,11 +514,11 @@ function checkCache(reachedProgress) {
 
             let name = navigation[key];
 
-            if (key === "templateInfo") {
+            if (key === CACHE_NAMES.TEMPLATE) {
 
                 return { success: false, name: name, href: `/resume/section/${name}` };
             } else {
-                let template_info = localStorage.getItem("templateInfo")
+                let template_info = localStorage.getItem(CACHE_NAMES.TEMPLATE)
                 data = JSON.parse(template_info)
 
 

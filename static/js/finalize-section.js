@@ -1,12 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const CACHE_NAME = "additionalInfo"
-    const LANGUAGE_INFO_KEY = "langInfo"
-    const SOCIAL_MEDIA_INFO_kEY = "socialMediaInfo"
-    const TYPING_DELAY = 2000;
-
     let typingTimer;
     let isFormShow = false
-    // let pollingInterval = 5000
+    
     let nextBtn = document.getElementById('confirm-btn');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let socialMediaBtn = document.getElementById('add-social-media-btn')
@@ -59,17 +54,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
     function getAllCache() {
-        const cache_names = ["headingInfo", "workExpInfo", "templateInfo", "eduInfo", "skillInfo", "summary", CACHE_NAME];
+        let cacheNames = Object.values(CACHE_NAMES)
         let cachedData = {};
 
-        cache_names.forEach(cache_name => {
-            cachedData[cache_name] = localStorage.getItem(cache_name);
+        cacheNames.forEach(name => {
+            cachedData[name] = localStorage.getItem(name);
         });
         return cachedData
     }
 
     function loadCache() {
-        let cachedData = localStorage.getItem(CACHE_NAME);
+        let cachedData = localStorage.getItem(CACHE_NAMES.ADDITIONAL);
 
         if (cachedData) {
             let additionalData = JSON.parse(cachedData);
@@ -94,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('input', () => {
         clearTimeout(typingTimer);
-        typingTimer = setTimeout(handleAdditionalInfo, TYPING_DELAY);
+        typingTimer = setTimeout(handleAdditionalInfo, INPUT_TYPING_DELAY);
     });
 
 
@@ -126,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 portfolio: socialMediaForm.querySelector('input[name="portfolio"]').value
             }
         }
-        // let cache = JSON.parse(localStorage.getItem(CACHE_NAME)) || {};
+
         let cache = {}
 
         if (languageData.length > 0) {
@@ -135,11 +130,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         cache[SOCIAL_MEDIA_INFO_kEY] = socialMediaInfo;
 
-        checkForUpdate(CACHE_NAME, cache)
+        checkForUpdate(CACHE_NAMES.ADDITIONAL, cache)
 
 
-
-        // localStorage.setItem(CACHE_NAME, JSON.stringify(cache));
     }
 
 
