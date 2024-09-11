@@ -41,13 +41,14 @@
 					</ul>
 				</div>
 				<div class="secondary-info ml-md-auto mt-2">
-					<ul class="resume-social list-unstyled">
+					<ul id="social-media-list" class="resume-social list-unstyled">
 						{% if resume.social_media %}
 						{% for social_media in resume.social_media %}
-						<li class="mb-3">
+						{% set media_name = social_media['name'].value.lower()  %}
+						<li id="{{media_name}}-item"" class="mb-3">
 							<a href="{{ social_media['link'] }}">
 								<span class="fa-container text-center mr-2">
-									{% if social_media['name'].value.lower() == 'portfolio' %}
+									{% if media_name == 'portfolio' %}
 									<i class="fas fa-globe"></i>
 									{% else %}
 									<i class="fab fa-{{ social_media['name'].value.lower() }}"></i>

@@ -71,34 +71,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
         type();
     }
+    function isEmptyObj(obj) {
+        return (Object.keys(obj).length == 0)
+    }
 
     window.updatePreview = (data) => {
-        console.log("data")
-        console.log(data)
+
 
         let template = data["templateInfo"] || {}
         let heading = data["headingInfo"] || {}
         let educations = data["eduInfo"] || []
-        console.log(educations)
-        console.log(educations)
+
 
         let workExperiences = data["workExpInfo"] || []
         let skills = data["skillInfo"] || []
         let summaryText = data["summary"] || ""
+        let additionalInfo = data["additionalInfo"] || {}
 
-        if (template && template.templateTheme) {
+        let languages = []
+        let socialMedia = []
+        console.log("additionalInfo")
+        console.log(additionalInfo)
+        if (!isEmptyObj(additionalInfo)) {
+            languages = additionalInfo["langInfo"] || []
+            socialMedia = additionalInfo["socialMediaInfo"] || {}
+        }
+
+        if (!isEmptyObj(template)) {
             document.documentElement.style.setProperty('--template-bg-color', template.templateTheme);
         }
 
-        if (heading) {
-            console.log("Yes, i am heading")
-            console.log(heading)
-            typeText(heading?.username, username)
-            typeText(heading?.profession, profession)
-            typeText(heading?.email, email)
+        if (!isEmptyObj(heading)) {
+            typeText(heading.username, username)
+            typeText(heading.profession, profession)
+            typeText(heading.email, email)
+            // optional
             typeText(heading?.phone, phone)
-            typeText(heading?.city, city)
-            typeText(heading?.country, country)
+            typeText(heading.city, city)
+            typeText(heading.country, country)
             if (heading?.profile_file_name) {
                 loadProfile(heading.profile_file_name, imgElements = [profileImg])
             }
@@ -147,6 +157,46 @@ document.addEventListener("DOMContentLoaded", function () {
                 skillList.appendChild(skillElement);
             })
         }
+
+        if (!isEmptyObj(socialMedia)) {
+
+            loadSocialMediaPreview(socialMedia)
+
+
+        }
+    }
+
+    const socialMedia = {
+        LINKEDIN: "linkedIn",
+        GITHUB: "gitHub",
+        FACEBOOK: "facebook",
+        PORTFOLIO: "portfolio",
+        INSTAGRAM: "instagram",
+    }
+    function loadSocialMediaPreview(socialMediaInfo) {
+        for (let key of Object.values(socialMedia)) {
+
+            let data = socialMediaInfo[key]
+            let id = `${key.toLocaleLowerCase()}-item`;
+            let socialElement = document.getElementById(id);
+
+            if (data) {
+                socialElement.style.display = "block";
+                loadSocialLink(socialElement, data);
+            } else {
+                socialElement.style.display = "none";
+            }
+
+        }
+
+    }
+    function loadSocialLink(mediaElement, data) {
+        let socialLink = mediaElement.querySelector("a");
+        // updating the reference link
+        socialLink.href = data;
+        // Updating the display link text of the  media link by not overwriting span and icon
+        socialLink.lastChild.textContent = data
+
     }
 
     function createEducationList(education) {
@@ -339,7 +389,6 @@ function loadProfile(profileFileName, imgElements) {
     }).then(response => response.blob())
         .then(blob => {
             const url = URL.createObjectURL(blob);
-            console.log("reached now")
             imgElements.forEach(img => img.src = url)
         })
         .catch(error => {
@@ -390,7 +439,6 @@ function checkForUpdate(cache_name, updatedData) {
     if (dataChanged) {
         localStorage.setItem(cache_name, JSON.stringify(updatedData));
         updatePreview({ [cache_name]: updatedData });
-        console.log("Trigger changed");
     }
 }
 

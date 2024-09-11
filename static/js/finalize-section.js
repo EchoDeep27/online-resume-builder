@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let typingTimer;
     let isFormShow = false
+    // let pollingInterval = 5000
     let nextBtn = document.getElementById('confirm-btn');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let socialMediaBtn = document.getElementById('add-social-media-btn')
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     addAnotherBtn.addEventListener('click', () => insertLanguageForm(languageInfo = {}));
 
     setProgressBar(Page.finalize);
+    loadResumePreview(Page.finalize)
+    // setInterval(handleAdditionalInfo, pollingInterval);
     loadCache();
 
     function showSocialMediaForm() {
@@ -91,16 +94,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('input', () => {
         clearTimeout(typingTimer);
-        typingTimer = setTimeout(cachedAdditionalInfo, TYPING_DELAY);
+        typingTimer = setTimeout(handleAdditionalInfo, TYPING_DELAY);
     });
 
 
-    function cachedAdditionalInfo() {
+    function handleAdditionalInfo() {
 
         let languageForms = document.querySelectorAll('.language-skill-form');
         let socialMediaForm = document.getElementById('social-media-form');
-        let languageData = [];
 
+        let languageData = [];
         languageForms.forEach(form => {
 
             let languageInfo = {
@@ -111,22 +114,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 languageData.push(languageInfo);
             }
         });
-        let socialMediaInfo = {
-            instagram: socialMediaForm.querySelector('input[name="instagram"]').value,
-            linkedIn: socialMediaForm.querySelector('input[name="linkedIn"]').value,
-            gitHub: socialMediaForm.querySelector('input[name="gitHub"]').value,
-            facebook: socialMediaForm.querySelector('input[name="facebook"]').value,
-            portfolio: socialMediaForm.querySelector('input[name="portfolio"]').value
+
+        let socialMediaInfo = {}
+        if (socialMediaForm) {
+
+            socialMediaInfo = {
+                instagram: socialMediaForm.querySelector('input[name="instagram"]').value,
+                linkedIn: socialMediaForm.querySelector('input[name="linkedIn"]').value,
+                gitHub: socialMediaForm.querySelector('input[name="gitHub"]').value,
+                facebook: socialMediaForm.querySelector('input[name="facebook"]').value,
+                portfolio: socialMediaForm.querySelector('input[name="portfolio"]').value
+            }
         }
-        let cache = JSON.parse(localStorage.getItem(CACHE_NAME)) || {};
+        // let cache = JSON.parse(localStorage.getItem(CACHE_NAME)) || {};
+        let cache = {}
 
         if (languageData.length > 0) {
             cache[LANGUAGE_INFO_KEY] = languageData;
         }
- 
+
         cache[SOCIAL_MEDIA_INFO_kEY] = socialMediaInfo;
- 
-        localStorage.setItem(CACHE_NAME, JSON.stringify(cache));
+
+        checkForUpdate(CACHE_NAME, cache)
+
+
+
+        // localStorage.setItem(CACHE_NAME, JSON.stringify(cache));
     }
 
 
@@ -221,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 loadingOverlay.style.display = 'none';
                 console.log("nothting")
                 console.log(data.resume_id)
-                window.location.href =`/resume/section/complete?resume_id=${data.resume_id}`
+                window.location.href = `/resume/section/complete?resume_id=${data.resume_id}`
 
             })
             .catch(error => {
