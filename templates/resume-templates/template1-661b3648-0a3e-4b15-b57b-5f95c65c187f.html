@@ -1,19 +1,17 @@
 <link id="theme-style" rel="stylesheet" href="{{url_for('static',filename='css/template1.css')}}">
-{% if resume.template_theme %}
-<style>
-	:root {
-		--template-bg-color: {
-				{
-				resume.template_theme
-			}
-		}
 
-		;
-	}
-</style>
-{% endif %}
 
 <!-- <article class="resume-wrapper text-center position-relative"> -->
+{% if resume.template_theme %}
+<!-- This javascript code is used to set the css variable "--template-bg-color" directly because  document formatting 
+	 can affect the <style> tag formatting which can break the Jinja template syntax, resulting in template theme update failure -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.documentElement.style.setProperty('--template-bg-color', '{{ resume.template_theme }}');
+	});
+</script>
+
+{% endif %}
 <div class="resume-wrapper-inner mx-auto text-left bg-white ">
 	<header class="resume-header pt-4 pt-md-0">
 		<div class="media flex-column flex-md-row">
@@ -111,7 +109,7 @@
 									</div>
 								</div>
 								<div class="resume-timeline-item-desc">
-									<ul>
+									<ul id="work-achievements">
 										{{ experience.achievement | replace_newlines | safe }}
 									</ul>
 								</div>

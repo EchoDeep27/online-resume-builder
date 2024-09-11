@@ -358,6 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         descriptionDiv.classList.add("resume-timeline-item-desc");
+        achievementList.classList.add("work-achievements")
 
         achievementList.innerHTML = experience.achievements.replace(/\n/g, "<li>");
 
