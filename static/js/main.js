@@ -453,7 +453,7 @@ function checkForUpdate(cache_name, updatedData) {
                 let currentValue = currentData[i]
                 let currentCachedValue = cachedData[i]
 
-                dataChanged = Object.keys(currentValue).some(key => {
+                dataChanged = Object.keys(currentCachedValue).some(key => {
 
                     return (currentValue[key] && currentValue[key] != currentCachedValue[key]);
                 });
@@ -469,6 +469,8 @@ function checkForUpdate(cache_name, updatedData) {
     console.log(`Data changed? : ${dataChanged}`)
 
     if (dataChanged) {
+        console.log("Update data")
+        console.log(updatedData)
         localStorage.setItem(cache_name, JSON.stringify(updatedData));
         updatePreview({ [cache_name]: updatedData });
     }

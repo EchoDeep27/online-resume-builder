@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
         skillFormWrapper.classList.add('fade-out');
         setTimeout(() => {
             skillFormWrapper.remove();
+            cachedskillInfo();
         }, 300);
     }
 

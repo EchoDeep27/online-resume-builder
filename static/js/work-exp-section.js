@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // setting the end-date of the first workExpcation form
     setMaxEndDate(document.querySelector('.work-exp-form'));
 
-    function removeworkExpcationForm(workExpFormWrapper) {
+    function removeWorkExpcationForm(workExpFormWrapper) {
         let isConfirmed = confirm("Are you sure you want to delete this workExpcation entry?");
 
         if (!isConfirmed) {
@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
         workExpFormWrapper.classList.add('fade-out');
         setTimeout(() => {
             workExpFormWrapper.remove();
+            // need to cache in case user do not leave with next button such as using progress navigation bar
+            handleWorkExpInfo()
         }, 300);
     }
 
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         if (removeBtn) {
-            removeBtn.addEventListener('click', () => removeworkExpcationForm(workExpFormWrapper));
+            removeBtn.addEventListener('click', () => removeWorkExpcationForm(workExpFormWrapper));
 
             workExpFormWrapper.addEventListener('mouseover', function () {
                 removeBtn.classList.add('showed-remove-btn');

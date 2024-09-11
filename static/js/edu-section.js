@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         eduFormWrapper.classList.add('fade-out');
         setTimeout(() => {
             eduFormWrapper.remove();
+            handleEduInfo()
         }, 300);
     }
 
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
             eduFormWrapper.addEventListener('mouseout', function () {
                 removeBtn.classList.remove('showed-remove-btn');
             });
-            handleEduInfo()
+           
         }
     }
     function handleEduInfo() {

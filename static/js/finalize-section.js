@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formWrapper.addEventListener('mouseout', function () {
                 removeBtn.classList.remove('showed-remove-btn');
             });
-           
+
         }
 
         formContainer.appendChild(formWrapper);
@@ -192,10 +192,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!isConfirmed) {
             return
         }
-        handleAdditionalInfo()
+
         formWrapper.classList.add('fade-out');
         setTimeout(() => {
             formWrapper.remove();
+            handleAdditionalInfo()
         }, 300);
     }
 
