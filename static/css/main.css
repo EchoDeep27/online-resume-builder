@@ -271,3 +271,61 @@ i.fa-star {
 #pv-profession {
     text-transform: capitalize;
 }
+
+
+/* AI Content Generator */
+#content-generator-section {
+    width: 700px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+ 
+}
+
+#content-generator-section .answers {
+    display: grid;
+    width: 550px;
+    grid-template-columns: 60px auto;
+    margin: 20px 0;
+    border: 1px solid #b1abab;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px 15px;
+ 
+    text-align: justify;
+
+}
+
+#content-generator-section .answers button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+#content-generator-section .answers button:hover{
+    color: var(--highlight-color);
+}
+#content-generator-section> * {
+
+    margin: 15px 0;
+}
+
+#work-exp-search {
+
+    width: 80%;
+    height: 40px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+}
+
+#work-exp-search~button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 0 10px;
+}

@@ -23,7 +23,7 @@
         </div>
         <div id="work-exp-forms-container">
             <div class="work-exp-form-wrapper">
-                
+
             </div>
 
         </div>
@@ -35,7 +35,25 @@
             <button id="next-btn" class="primary-btn" type="button">Next</button>
         </div>
     </div>
-    <div id="heading-preview" class="resume-preview">
+    <div id="content-generator-section">
+        <h2>AI Content Generator</h2>
+        <h4>Specify the desired position</h4>
+
+        <div>
+            <input type="text" name="work-exp-search" id="work-exp-search" placeholder=" full-stack developer">
+            <button onclick="getContent('work expereience')">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <h4 style="margin:15px 0">Recommendations</h4>
+            <ul id="result-box">
+                <li class="answers">
+                    <button onclick="addItem"><i class="fa-solid fa-circle-plus"></i></button>
+                    <p id="answer1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis amet laboriosam in
+                        deleniti nostrum accusantium hic at! Sint facilis dignissimos, rerum maxime provident eaque
+                        fugit? Nisi perferendis quo temporibus adipisci?</p>
+                </li>
+            </ul>
+        </div>
 
     </div>
 
@@ -43,5 +61,53 @@
 
 <script src="{{url_for('static',filename='js/work-exp-section.js')}}">
 
+</script>
+<script>
+    function getContent(section) {
+
+        let input = document.getElementById("work-exp-search");
+        let position = input.value
+        if (!section || !position) {
+            input.ariaPlaceholder = "Please describe your profession. E.g Full-stack developer";
+            return
+        }
+
+        const createResumeRequest = fetch('/contents/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                section,
+                profession: position,
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorText => {
+                        throw new Error(errorText || 'Unknown error occurred');
+                    });
+                }
+                return response.json();
+            })
+            .catch(error => {
+
+                console.error('Error:', error.message);
+
+            })
+            .then(data => {
+                console.log('Response Data:', data.result);
+
+                // document.getElementById('result-box').textContent = data.result;
+            });
+
+        console.log(Response)
+        console.log(createResumeRequest)
+
+
+    }
+    function addItem() {
+
+    }
 </script>
 {% endblock %}
