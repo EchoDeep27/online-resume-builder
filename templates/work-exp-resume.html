@@ -46,11 +46,8 @@
             </button>
             <h4 style="margin:15px 0">Recommendations</h4>
             <ul id="result-box">
-                <li class="answers">
-                    <button onclick="addItem"><i class="fa-solid fa-circle-plus"></i></button>
-                    <p id="answer1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis amet laboriosam in
-                        deleniti nostrum accusantium hic at! Sint facilis dignissimos, rerum maxime provident eaque
-                        fugit? Nisi perferendis quo temporibus adipisci?</p>
+                <li id="loading-placeholder" style="display: none;">
+                    <div id="loading-spinner"></div>
                 </li>
             </ul>
         </div>
@@ -63,16 +60,53 @@
 
 </script>
 <script>
-    function getContent(section) {
+    const maxRequst = 2
+    let currentReqCount = 1
+    let answerBox = document.getElementById("result-box")
 
+    function insertAnswer(index, answer) {
+        const id = "answer-" + index
+        let answerItem = document.createElement("li")
+        let button = document.createElement("button")
+        let answerText = document.createElement("p")
+        answerItem.classList.add("answers")
+        button.classList.add("answer-btns");
+
+        answerText.id = id
+        answerText.textContent = answer;
+
+        button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+
+        button.addEventListener("click", () => {
+            copyAnswer(answer, button);
+        });
+        answerItem.appendChild(button);
+        answerItem.appendChild(answerText);
+
+        // Inserting the answer on top of old answeers if they exist; second children is indexed because of the loading element being the first child 
+        if (answerBox.children.length > 1) {
+            answerBox.insertBefore(answerItem, answerBox.children[1]);
+        } else {
+            answerBox.appendChild(answerItem);
+        }
+
+
+    }
+    function getContent(section) {
+        if (currentReqCount > maxRequst) {
+            alert("Current version of the resume buider don't allow user to generate text more than two time per section.")
+            return
+        }
+        currentReqCount++;
         let input = document.getElementById("work-exp-search");
         let position = input.value
         if (!section || !position) {
             input.ariaPlaceholder = "Please describe your profession. E.g Full-stack developer";
             return
         }
+        document.getElementById("loading-placeholder").style.display = "flex";
 
-        const createResumeRequest = fetch('/contents/generate', {
+        fetch('/contents/generate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -97,17 +131,15 @@
             })
             .then(data => {
                 console.log('Response Data:', data.result);
+                document.getElementById("loading-placeholder").style.display = "none";
 
-                // document.getElementById('result-box').textContent = data.result;
+                for (let i = 0; i < data.result.length; i++) {
+                    let answer = data.result[i]
+                    insertAnswer(i, answer)
+
+                }
             });
-
-        console.log(Response)
-        console.log(createResumeRequest)
-
-
     }
-    function addItem() {
 
-    }
 </script>
 {% endblock %}

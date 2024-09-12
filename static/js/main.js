@@ -530,3 +530,33 @@ function checkCache(reachedProgress) {
 
     return { success: true };
 }
+
+async function copyAnswer(answer, button) {
+    /*    
+    adopted from https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
+    */
+    button.innerHTML = '<i class="fa-regular fa-circle-check" style="color:var(--primary-color);"></i>';
+
+    await navigator.clipboard.writeText(answer)
+        .then(() => {
+            console.log("Text copied to clipboard:", answer);
+            showInformBox("Copied to clipboard!");
+        })
+        .catch(err => {
+            console.error("Failed to copy text:", err);
+            showInformBox("Failed to copy!");
+        });
+}
+
+function showInformBox(message) {
+
+    const informBox = document.createElement("div");
+    informBox.id = "inform-box";
+    informBox.textContent = message;
+
+    document.body.appendChild(informBox);
+
+    setTimeout(() => {
+        informBox.remove();
+    }, 2000);
+}

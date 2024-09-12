@@ -51,6 +51,7 @@
 .work-exp-form .location-div input[type="text"] {
     width: calc(var(--input-width) * 2);
 }
+
 .work-exp-form .location-div {
     grid-column: span 2;
 }
@@ -62,7 +63,7 @@
     min-height: 50px;
 }
 
- 
+
 .work-exp-form .date-div>div {
     display: inline-block;
     margin: 5px 20px 5px 0;
@@ -78,4 +79,14 @@
     height: 100px;
     resize: none;
     font-family: Arial;
+}
+
+/* Content generator feature Styles */
+
+#work-exp-search {
+    width: 550px;
+}
+
+#result-box {
+    list-style: none;
 }
