@@ -33,15 +33,36 @@
 
 
         <div class="form-btn-div">
-            <a class="previous-btn" href="/resume/section/work_experience?template_id={{resume.template.id}}">Previous</a>
+            <a class="previous-btn"
+                href="/resume/section/work_experience?template_id={{resume.template.id}}">Previous</a>
             <button id="next-btn" class="primary-btn" type="button">Next</button>
         </div>
     </div>
-    <div id="skill-preview" class="resume-preview">
+    <div id="content-generator-section">
+        <h2>AI Content Generator</h2>
+        <h4>Specify the desired position for skill set</h4>
+
+        <div>
+            <input type="text" data-section-name="skill" name="search-box" id="search-box"
+                placeholder="Full stack developer">
+            <button onclick="getContent('skill')">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <h4 style="margin:15px 0">Recommendations</h4>
+            <ul id="result-box">
+                <li id="loading-placeholder" style="display: none;">
+                    <div id="loading-spinner"></div>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </section>
 
 <script src="{{url_for('static',filename='js/skill-section.js')}}">
+
+</script>
+<script src="{{url_for('static',filename='js/text-generator.js')}}">
 
 </script>
 

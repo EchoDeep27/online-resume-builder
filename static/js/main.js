@@ -383,6 +383,8 @@ const socialMedia = {
     PORTFOLIO: "portfolio",
     INSTAGRAM: "instagram",
 }
+
+ 
 const INPUT_TYPING_DELAY = 2000
 
 

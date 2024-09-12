@@ -273,7 +273,8 @@ i.fa-star {
 }
 
 
-/* AI Content Generator */
+/* Content generator feature Styles */
+
 #content-generator-section {
     width: 700px;
     display: flex;
@@ -319,7 +320,7 @@ i.fa-star {
     margin: 15px 0;
 }
 
-#work-exp-search {
+#search-box {
 
     width: 80%;
     height: 40px;
@@ -330,7 +331,7 @@ i.fa-star {
     font-size: 1rem;
 }
 
-#work-exp-search~button {
+#search-box~button {
     background: none;
     border: none;
     font-size: 1.5rem;
@@ -381,4 +382,13 @@ i.fa-star {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
+}
+
+
+#search-box {
+    width: 550px;
+}
+
+#result-box {
+    list-style: none;
 }

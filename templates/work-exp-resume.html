@@ -40,8 +40,9 @@
         <h4>Specify the desired position</h4>
 
         <div>
-            <input type="text" name="work-exp-search" id="work-exp-search" placeholder=" full-stack developer">
-            <button onclick="getContent('work expereience')">
+            <input type="text" data-section-name="work experience" name="search-box" id="search-box"
+                placeholder="full-stack developer">
+            <button onclick="getContent('work experience')">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
             <h4 style="margin:15px 0">Recommendations</h4>
@@ -59,87 +60,7 @@
 <script src="{{url_for('static',filename='js/work-exp-section.js')}}">
 
 </script>
-<script>
-    const maxRequst = 2
-    let currentReqCount = 1
-    let answerBox = document.getElementById("result-box")
-
-    function insertAnswer(index, answer) {
-        const id = "answer-" + index
-        let answerItem = document.createElement("li")
-        let button = document.createElement("button")
-        let answerText = document.createElement("p")
-        answerItem.classList.add("answers")
-        button.classList.add("answer-btns");
-
-        answerText.id = id
-        answerText.textContent = answer;
-
-        button.innerHTML = '<i class="fa-regular fa-copy"></i>';
-
-        button.addEventListener("click", () => {
-            copyAnswer(answer, button);
-        });
-        answerItem.appendChild(button);
-        answerItem.appendChild(answerText);
-
-        // Inserting the answer on top of old answeers if they exist; second children is indexed because of the loading element being the first child 
-        if (answerBox.children.length > 1) {
-            answerBox.insertBefore(answerItem, answerBox.children[1]);
-        } else {
-            answerBox.appendChild(answerItem);
-        }
-
-
-    }
-    function getContent(section) {
-        if (currentReqCount > maxRequst) {
-            alert("Current version of the resume buider don't allow user to generate text more than two time per section.")
-            return
-        }
-        currentReqCount++;
-        let input = document.getElementById("work-exp-search");
-        let position = input.value
-        if (!section || !position) {
-            input.ariaPlaceholder = "Please describe your profession. E.g Full-stack developer";
-            return
-        }
-        document.getElementById("loading-placeholder").style.display = "flex";
-
-        fetch('/contents/generate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                section,
-                profession: position,
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorText => {
-                        throw new Error(errorText || 'Unknown error occurred');
-                    });
-                }
-                return response.json();
-            })
-            .catch(error => {
-
-                console.error('Error:', error.message);
-
-            })
-            .then(data => {
-                console.log('Response Data:', data.result);
-                document.getElementById("loading-placeholder").style.display = "none";
-
-                for (let i = 0; i < data.result.length; i++) {
-                    let answer = data.result[i]
-                    insertAnswer(i, answer)
-
-                }
-            });
-    }
+<script src="{{url_for('static',filename='js/text-generator.js')}}">
 
 </script>
 {% endblock %}

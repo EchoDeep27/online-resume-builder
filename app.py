@@ -98,7 +98,7 @@ def content_generator():
     print("prompt :", prompt)
 
     try:
-        # client = cohere.Client(os.environ.get("COHERE_API_KEY"))
+        client = cohere.Client(os.environ.get("COHERE_API_KEY"))
 
         # response = client.generate(
         #     model="command-light",
