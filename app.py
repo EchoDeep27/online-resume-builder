@@ -23,12 +23,12 @@ from utils import (
     create_social_media_instances,
     create_skill_instances,
     create_work_experience_instances,
+    extract_json
 )
 
 from flask import Flask, request, render_template, jsonify, send_from_directory, abort
 from sqlalchemy.orm import joinedload
 
-from json import JSONDecodeError
 
 load_dotenv()
 app = Flask("CV-builder")
@@ -95,34 +95,30 @@ def content_generator():
     prompt_template = os.getenv("PROMPT_TEMPLATE", "")
 
     prompt = prompt_template % (section, profession)
-    print("prompt :", prompt)
 
     try:
         client = cohere.Client(os.environ.get("COHERE_API_KEY"))
 
-        response = client.generate(
+        for i in range(0, 2):
+            response = client.generate(
             model="command-light",
             prompt=prompt,
             max_tokens=105,
-            temperature=0.3,
-        )
-        print("Response")
-        print(response)
-        result = response.generations[0].text
-        # result = """
-        # ```json
-        # [
-        # "Collaborated with a team of engineers to design and implement advanced software solutions.",
-        # "Solved complex technical issues through innovative coding methodologies and frameworks.",
-        # "Assisted in creating robust software architectures and frameworks.",
-        # "Conducted thorough code reviews and provided feedback to team members."
-        # ] 
-        # """
-        result_list = extract_json(result)
-        # time.sleep(1)
-        
-        
-        
+            temperature=0.2,
+            )
+            result = response.generations[0].text
+            # result = """
+            # ```json
+            # [
+            # "Collaborated with a team of engineers to design and implement advanced software solutions.",
+            # "Solved complex technical issues through innovative coding methodologies and frameworks.",
+            # "Assisted in creating robust software architectures and frameworks.",
+            # "Conducted thorough code reviews and provided feedback to team members."
+            # ] 
+            # """
+            result_list = extract_json(result)
+            if result_list and len(result_list) > 0:
+                break     
 
         return (
             jsonify({"message": "Resume created successfully!", "result": result_list}),
@@ -136,19 +132,6 @@ def content_generator():
             200,
         )
 
-def extract_json(raw_result:str,retries = 3) -> list[str]:
-    raw_result = raw_result.strip()
-    clean_result = raw_result.strip().replace('```json', '').replace('', '').strip()
-    for attempt in range(retries):
-        try:
-
-            result_json = json.loads(clean_result)
-            return result_json
-        except JSONDecodeError as e:
-            print(f"JSON decoding failed on attempt {attempt + 1}: {e}")
-            clean_result = clean_result.replace('json','')
-        
-        
 
 # =======================================
 # ===========  APIs for Resume ==========

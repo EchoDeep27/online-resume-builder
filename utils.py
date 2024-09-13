@@ -1,7 +1,8 @@
 import re
 import uuid
+import json
+from json import JSONDecodeError
 from db import get_session
-
 from typing import Optional, Tuple
 from datetime import datetime, date
 from tables import (
@@ -282,3 +283,55 @@ def get_start_end_dates(start_date: str, end_date: str) -> Tuple[date, Optional[
     else:
         end_date = convert_to_date(end_date)
     return start_date, end_date
+
+
+
+
+def extract_json(raw_result: str) -> list:
+    raw_result = raw_result.strip()
+    
+        # Case 1: result starts directly with a JSON array
+    if raw_result.startswith('['):
+        if not raw_result.endswith(']'):
+            raw_result += "]"
+        result_json =extract_attempt(raw_result)
+        print("Case one :", raw_result)
+        if result_json:
+            return result_json
+
+    # Case 2: result start with JSON code block
+    start_index = raw_result.find('```json')
+    if start_index != -1:
+        start_index += len('```json')
+        end_index = raw_result.find('```', start_index)
+        if end_index != -1:
+            json_string = raw_result[start_index:end_index].strip()
+            result_json = extract_attempt(json_string)
+            print("Case two :", result_json)
+            if result_json:
+                return result_json
+    
+    # Case 3: result include pre-text
+    if not raw_result.startswith('['):
+    
+        start_index = raw_result.find('[')
+        if start_index != -1:
+            json_string = raw_result[start_index:].strip()
+            print("json_string")
+            print(json_string)
+            if not json_string.endswith(']'):
+                json_string += "]"
+            
+            result_json = extract_attempt(json_string)
+            print("Case three :", result_json)
+            if result_json:
+                return result_json
+
+    return []
+    
+def extract_attempt(str_list:str) -> str| None:
+    try:
+        return json.loads(str_list)
+    except JSONDecodeError as e:
+        print(f"JSON decoding failed on {str_list}")
+        return None
