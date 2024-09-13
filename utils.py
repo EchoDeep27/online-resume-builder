@@ -284,9 +284,6 @@ def get_start_end_dates(start_date: str, end_date: str) -> Tuple[date, Optional[
         end_date = convert_to_date(end_date)
     return start_date, end_date
 
-
-
-
 def extract_json(raw_result: str) -> list:
     raw_result = raw_result.strip()
     
@@ -298,6 +295,16 @@ def extract_json(raw_result: str) -> list:
         print("Case one :", raw_result)
         if result_json:
             return result_json
+        else:
+            # Directly extract string from the array in case it does not come with comma
+            raw_result = raw_result[1:-1].strip()
+            pattern = r'"([^"]*?)"'
+            matches = re.findall(pattern, raw_result)
+  
+            result_list = [match.strip() for match in matches]
+            if len(result_list) >0:
+                return result_list
+            
 
     # Case 2: result start with JSON code block
     start_index = raw_result.find('```json')
@@ -328,7 +335,6 @@ def extract_json(raw_result: str) -> list:
                 return result_json
 
     return []
-    
 def extract_attempt(str_list:str) -> str| None:
     try:
         return json.loads(str_list)

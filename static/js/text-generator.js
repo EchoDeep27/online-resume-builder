@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (event.key === 'Enter') {
             event.preventDefault();
-            getContent()
+            console.log("enter")
+            let section = input.dataset.sectionName;
+            getContent(section);
 
         }
     });

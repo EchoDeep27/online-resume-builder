@@ -94,28 +94,32 @@ def content_generator():
 
     prompt_template = os.getenv("PROMPT_TEMPLATE", "")
 
-    prompt = prompt_template % (section, profession)
+    prompt = prompt_template.format(profession=profession, section=section)
+ 
 
     try:
         client = cohere.Client(os.environ.get("COHERE_API_KEY"))
-
-        for i in range(0, 2):
-            response = client.generate(
-            model="command-light",
-            prompt=prompt,
-            max_tokens=105,
-            temperature=0.2,
-            )
-            result = response.generations[0].text
-            # result = """
-            # ```json
-            # [
-            # "Collaborated with a team of engineers to design and implement advanced software solutions.",
-            # "Solved complex technical issues through innovative coding methodologies and frameworks.",
-            # "Assisted in creating robust software architectures and frameworks.",
-            # "Conducted thorough code reviews and provided feedback to team members."
-            # ] 
-            # """
+ 
+    
+        for i in range(0, 1):
+            # response = client.generate(
+            # model="command-light",
+            # prompt=prompt,
+            # max_tokens=105,
+            # temperature=0.2,
+            # )
+            # result = response.generations[0].text
+            result = """
+            ```json
+            [
+            "Collaborated with a team of engineers to design and implement advanced software solutions.",
+            "Solved complex technical issues through innovative coding methodologies and frameworks.",
+            "Assisted in creating robust software architectures and frameworks.",
+            "Conducted thorough code reviews and provided feedback to team members."
+            ] 
+            """
+            print("Response")
+            print(result)
             result_list = extract_json(result)
             if result_list and len(result_list) > 0:
                 break     
