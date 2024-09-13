@@ -5,7 +5,9 @@
         {% if user %}
         <li><a href="/profile">Profile</a></li>
         {% else %}
-        <li><a href="/signup">Sign Up</a></li>
+          {% if not hide_signup_btn %}
+            <li><a href="/signup">Sign Up</a></li>
+            {% endif %}
         {% endif %}
         {% if user %}
         <li><a href="/resume">Resume</a></li>

@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-const maxRequst = 2
-let currentReqCount = 1
+const maxAnswers = 6
+let currentAnswerCount = 0
 
 
 function insertAnswer(index, answer) {
@@ -48,7 +48,8 @@ function insertAnswer(index, answer) {
 
 }
 function getContent(section) {
-    if (currentReqCount > maxRequst) {
+    console.log("currentAnswerCount ",currentAnswerCount)
+    if (currentAnswerCount > maxAnswers) {
         showInformBox("Current version of the resume buider don't allow user to generate text more than two time per section.")
         return
     }
@@ -88,7 +89,7 @@ function getContent(section) {
 
         })
         .then(data => {
-            currentReqCount++;
+            currentAnswerCount += data.result.length;
             console.log('Response Data:', data.result);
             document.getElementById("loading-placeholder").style.display = "none";
 

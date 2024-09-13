@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let addAnotherBtn = document.getElementById('add-another-btn');
     let nextBtn = document.getElementById('next-btn');
 
-    nextBtn.addEventListener('click', handleWorkExpInfo);
+    nextBtn.addEventListener('click', submitForm);
     addAnotherBtn.addEventListener('click', () => insertWorkExpForm(workExpInfo = {}));
 
     // Loading cached data if exists
     loadCached();
     setProgressBar(Page.workExperience);
- 
+
     function setMaxEndDate(form) {
         let today = new Date();
         let year = today.getFullYear();
@@ -41,7 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
+    function submitForm() {
+        handleWorkExpInfo();
+        window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
+    }
     function insertWorkExpForm(workExpInfo = {}, showRemoveBtn = true) {
         if (Object.keys(workExpInfo).length == 0) {
             workExpInfo = {
@@ -149,8 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         checkForUpdate(CACHE_NAMES.WORK_EXP, workExpcationData)
         // localStorage.setItem(WORK_EXP_CACHE_NAME, JSON.stringify(workExpcationData));
-
-        window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
     }
 
 

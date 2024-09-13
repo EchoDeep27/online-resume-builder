@@ -23,7 +23,7 @@ from utils import (
     create_social_media_instances,
     create_skill_instances,
     create_work_experience_instances,
-    extract_json
+    extract_json,
 )
 
 from flask import Flask, request, render_template, jsonify, send_from_directory, abort
@@ -46,18 +46,18 @@ app.jinja_env.filters["replace_newlines"] = replace_newlines
 # ============================================
 
 
-@app.route("/signup")
-def signup():
-    with get_session as session:
-        user = User(
-            name="Hein Min 2 Maw",
-            email="heinmin2maw.it@gmail.com",
-            password="Heinmin2maw123#",
-        )
+# @app.route("/signup")
+# def signup():
+#     with get_session as session:
+#         user = User(
+#             name="Hein Min 2 Maw",
+#             email="heinmin2maw.it@gmail.com",
+#             password="Heinmin2maw123#",
+#         )
 
-        session.add(user)
-        session.commit()
-    return "Done successfully"
+#         session.add(user)
+#         session.commit()
+#     return "Done successfully"
 
 
 @app.route("/users/get")
@@ -80,7 +80,8 @@ def content_generator():
     command-light-nightly, command-xlarge (Best for extensive text generation)
     and command-xlarge-nightly (Latest version of the xlarge model)
     """
-
+    # Increase the 'retries' variable to ensure a valid response from text generation.
+    retries = 1
     req_json = request.json
     section = req_json.get("section")
     profession = req_json.get("profession")
@@ -94,19 +95,20 @@ def content_generator():
 
     prompt_template = os.getenv("PROMPT_TEMPLATE", "")
 
+    if section == "skill":
+        section = "skills that I should have"
+
     prompt = prompt_template.format(profession=profession, section=section)
- 
 
     try:
         client = cohere.Client(os.environ.get("COHERE_API_KEY"))
- 
-    
-        for i in range(0, 1):
+
+        for i in range(0, retries):
             # response = client.generate(
-            # model="command-light",
-            # prompt=prompt,
-            # max_tokens=105,
-            # temperature=0.2,
+            #     model="command-light",
+            #     prompt=prompt,
+            #     max_tokens=105,
+            #     temperature=0.2,
             # )
             # result = response.generations[0].text
             result = """
@@ -116,13 +118,13 @@ def content_generator():
             "Solved complex technical issues through innovative coding methodologies and frameworks.",
             "Assisted in creating robust software architectures and frameworks.",
             "Conducted thorough code reviews and provided feedback to team members."
-            ] 
+            ]
             """
             print("Response")
             print(result)
             result_list = extract_json(result)
             if result_list and len(result_list) > 0:
-                break     
+                break
 
         return (
             jsonify({"message": "Resume created successfully!", "result": result_list}),
@@ -182,6 +184,7 @@ def create_resume():
             username=heading["username"],
             profession=heading["profession"],
             phone=heading.get("phone"),
+            is_headshot=template_data.get("isHeadshot", False),
             image_file_path=file_path,
             email=heading["email"],
             address_id=address_id,
@@ -348,11 +351,6 @@ def render_heading_page():
         return render_template("header-resume.html", resume=sample_resume)
 
 
-# @app.route("/resume/section/heading",  methods=["GET"])
-# def render_heading_page():
-#     return render_template("header-resume.html")
-
-
 @app.route("/resume/section/education", methods=["GET"])
 def render_education_page():
     template_id = request.args.get("template_id")
@@ -449,21 +447,23 @@ def render_completed_resume():
             contents={"template_path": selected_template_path, "resume": resume},
         )
 
+@app.route("/signup", methods=["GET"])
+def render_signup_page():
+    return render_template("signup.html")
+
+
+
 
 @app.route("/auth/template-preview", methods=["GET"])
 def render_template_preview():
-    resume_id = "c64095dc-deab-4398-b44f-2f966df08d5a"
+    resume_id = request.args.get("resume_id")
+    if resume_id is None:
+        return jsonify({"message": "Resume id must be included"}), 403
+
     with get_session() as session:
-        # resume:Resume = session.query(Resume).filter_by(id=resume_id).options(
-        #     joinedload(Resume.work_experiences),
-        #     joinedload(Resume.educations),
-        #     joinedload(Resume.skills),
-        #     joinedload(Resume.address),
-        #     joinedload(Resume.template),
-        #     joinedload(Resume.user)
-        # ).one()
         resume: Resume = (
             session.query(Resume)
+            .filter_by(id=resume_id)
             .options(
                 joinedload(Resume.work_experiences),
                 joinedload(Resume.educations),
@@ -471,11 +471,10 @@ def render_template_preview():
                 joinedload(Resume.address),
                 joinedload(Resume.template),
                 joinedload(Resume.user),
-                joinedload(Resume.languages),
-                joinedload(Resume.social_media),
             )
-            .first()
+            .one()
         )
+
         template_file_path = resume.template.template_file_path
 
         return render_template(template_file_path, resume=resume)
