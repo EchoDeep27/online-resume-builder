@@ -1,9 +1,10 @@
 
 
 let selectedTemplateId = null
-let isHeadshot = false
+let isHeadshot = true
 let selectedColor = "#434E5E"
 let headshotRadios = document.querySelectorAll('input[name="headshot"]');
+let profiles = document.getElementsByClassName("profile-div")
 
 // Load cache
 let templateInfo = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE))
@@ -14,7 +15,9 @@ if (templateInfo) {
     selectTemplate(selectedTemplateId)
     changeTemplateTheme(selectedColor);
 
-    isHeadshot = templateInfo["isHeadshot"]
+    isHeadshot = Boolean(templateInfo["isHeadshot"])
+
+    Array.from(profiles).forEach(profile => profile.style.display = isHeadshot ? "block" : "none")
     if (isHeadshot) {
         document.getElementById("with-headshot").checked = true;
     } else {
@@ -36,6 +39,8 @@ headshotRadios.forEach(radio => {
         let headshotValue = document.querySelector('input[name="headshot"]:checked').value;
         console.log(`Selected Value: ${headshotValue}`);
         isHeadshot = headshotValue === '1' ? 1 : 0;
+
+        Array.from(profiles).forEach(profile => profile.style.display = isHeadshot ? "block" : "none")
 
     });
 })
@@ -60,6 +65,9 @@ function changeTemplateTheme(color) {
     const root = document.documentElement;
     root.style.setProperty('--template-bg-color', color);
 }
+
+
+
 
 function cachedTemplateInfo() {
     if (selectedTemplateId !== null) {

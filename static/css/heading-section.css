@@ -1,5 +1,6 @@
 #heading{
     display: flex;
+    height: 100dvh;
 }
 #heading-content {
     width: 800px;

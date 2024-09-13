@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let profileImagePreview = document.getElementById('profile-image-preview');
     let previewProfile = document.getElementById("pv-profile-img");
 
-
     // Load cached data
     let headingInfo = JSON.parse(localStorage.getItem(CACHE_NAMES.HEADING)) || {};
     let storedInfo = localStorage.getItem(CACHE_NAMES.TEMPLATE);
@@ -40,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Profile Image div handler
     console.log(`isHeadshot: ${isHeadshot}`);
     profileImageUpload.style.display = isHeadshot ? "flex" : "none";
-
-    if (profileFileName) {
+ 
+    if (isHeadshot && profileFileName) {
         loadProfile(profileFileName, [profileImagePreview, previewProfile])
 
     }

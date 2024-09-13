@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let country = document.getElementById("pv-country")
     let summary = document.getElementById("pv-summary")
     let profileImg = document.getElementById("pv-profile-img")
-
-
+    let profileDiv = document.getElementsByClassName("profile-div")
+    
     document.querySelectorAll("form input").forEach(input => {
         input.addEventListener("focus", function () {
             this.previousElementSibling.style.color = "var(--primary-color)";
@@ -21,8 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.style.borderColor = "#8f8f9d";
         });
     });
-
-
+    
     function typeText(text, element) {
         if (!text || text == "") {
             return
@@ -107,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!isEmptyObj(template)) {
             document.documentElement.style.setProperty('--template-bg-color', template.templateTheme);
+            Array.from(profileDiv).forEach(profile =>profile.style.display = template.isHeadshot ? "block" : "none")
         }
 
         if (!isEmptyObj(heading)) {
@@ -394,7 +394,6 @@ const SOCIAL_MEDIA_INFO_kEY = "socialMediaInfo";
 const WORK_FLOW_CACHE_DATA = ["templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo", "summary"]
 
 
-
 let template = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE)) || {};
 const TEMPLATE_ID = template.templateId
 let isLoaded = false
@@ -534,11 +533,10 @@ function checkCache(reachedProgress) {
 }
 
 async function copyAnswer(answer, button) {
+    button.innerHTML = '<i class="fa-regular fa-circle-check" style="color:var(--primary-color);"></i>';
     /*    
     adopted from https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
     */
-    button.innerHTML = '<i class="fa-regular fa-circle-check" style="color:var(--primary-color);"></i>';
-
     await navigator.clipboard.writeText(answer)
         .then(() => {
             console.log("Text copied to clipboard:", answer);

@@ -14,62 +14,65 @@
 {% endif %}
 <div class="resume-wrapper-inner mx-auto text-left bg-white ">
 	<header class="resume-header pt-4 pt-md-0">
-		<div class="media flex-column flex-md-row">
-			{% if resume.image_file_path %}
-			<div id="profile-div">
-				<img id="pv-profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image"
-					width="220" height="220">
-			</div>
-			{% endif %}
 
-			<div class="media-body p-4 d-flex flex-column flex-md-row mx-auto mx-lg-0">
-				<div class="primary-info">
-					<h1 id="pv-username" class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{
-						resume.username }}
-					</h1>
-					<div id="pv-profession" class="title mb-3">{{ resume.profession.title() }}</div>
-					<ul class="list-unstyled">
-						<li class="mb-2">
-							<i class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
-								href="mailto:{{resume.email }}">Email: <span id="pv-email">{{
-									resume.email }} </span> </a>
-						</li>
-						<li class="mb-2"><a><i class="fas fa-mobile-alt fa-fw mr-2"
-									data-fa-transform="grow-6"></i>Phone: <span id="pv-phone">{{
-									resume.phone }}</span></a></li>
-
-						<li class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
-									data-fa-transform="grow-6"></i>Location:
-								<span id="pv-city">{{ resume.address.city }}</span>, <span id="pv-country">{{
-									resume.address.country }}</span></a>
-						</li>
-					</ul>
-				</div>
-				<div class="secondary-info ml-md-auto mt-2">
-					<ul id="social-media-list" class="resume-social list-unstyled">
-						{% if resume.social_media %}
-						{% for social_media in resume.social_media %}
-						{% set media_name = social_media['name'].value.lower() %}
-						<li id="{{media_name}}-item" class="mb-3">
-							<a href="{{ social_media['link'] }}">
-								<span class="fa-container text-center mr-2">
-									{% if media_name == 'portfolio' %}
-									<i class="fas fa-globe"></i>
-									{% else %}
-									<i class="fab fa-{{ social_media['name'].value.lower() }}"></i>
-
-									{% endif %}
-								</span>
-								{{ social_media["link"] }}
-							</a>
-						</li>
-						{% endfor %}
-						{% endif %}
-
-					</ul>
-				</div>
-			</div>
+		{% if resume.image_file_path %}
+		<div class="profile-div">
+			<img id="pv-profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image"
+				width="220" height="220">
 		</div>
+		{% endif %}
+
+
+		<div class="primary-info">
+			<h1 id="pv-username" class="name mt-0 mb-1 text-white text-uppercase text-uppercase">
+				{{resume.username }}
+
+			</h1>
+			<div id="pv-profession" class="title mb-3">{{ resume.profession.title() }}</div>
+			<ul class="list-unstyled">
+				<li class="mb-2">
+					<i class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i><a
+						href="mailto:{{resume.email }}">Email: <span id="pv-email">{{
+							resume.email }} </span> </a>
+				</li>
+				<li class="mb-2"><a><i class="fas fa-mobile-alt fa-fw mr-2" data-fa-transform="grow-6"></i>Phone: <span
+							id="pv-phone">{{
+							resume.phone }}</span></a></li>
+
+				<li class="mb-2"><a><i class="fas  fa-map-marked-alt fa-fw mr-2"
+							data-fa-transform="grow-6"></i>Location:
+						<span id="pv-city">{{ resume.address.city }}</span>, <span id="pv-country">{{
+							resume.address.country }}</span></a>
+				</li>
+			</ul>
+
+		</div>
+
+
+		<div class="secondary-info mt-2">
+			<ul id="social-media-list" class="resume-social list-unstyled">
+				{% if resume.social_media %}
+				{% for social_media in resume.social_media %}
+				{% set media_name = social_media['name'].value.lower() %}
+				<li id="{{media_name}}-item" class="mb-3">
+					<a href="{{ social_media['link'] }}">
+						<span class="fa-container text-center mr-2">
+							{% if media_name == 'portfolio' %}
+							<i class="fas fa-globe"></i>
+							{% else %}
+							<i class="fab fa-{{ social_media['name'].value.lower() }}"></i>
+
+							{% endif %}
+						</span>
+						{{ social_media["link"] }}
+					</a>
+				</li>
+				{% endfor %}
+				{% endif %}
+
+			</ul>
+		</div>
+
 	</header>
 	<div class="resume-body p-5">
 		<section class="resume-section summary-section mb-5">

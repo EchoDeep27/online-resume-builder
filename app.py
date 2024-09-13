@@ -100,24 +100,24 @@ def content_generator():
     try:
         client = cohere.Client(os.environ.get("COHERE_API_KEY"))
 
-        # response = client.generate(
-        #     model="command-light",
-        #     prompt=prompt,
-        #     max_tokens=105,
-        #     temperature=0.3,
-        # )
-        # print("Response")
-        # print(response)
-        # result = response.generations[0].text
-        result = """
-        ```json
-        [
-        "Collaborated with a team of engineers to design and implement advanced software solutions.",
-        "Solved complex technical issues through innovative coding methodologies and frameworks.",
-        "Assisted in creating robust software architectures and frameworks.",
-        "Conducted thorough code reviews and provided feedback to team members."
-        ] 
-        """
+        response = client.generate(
+            model="command-light",
+            prompt=prompt,
+            max_tokens=105,
+            temperature=0.3,
+        )
+        print("Response")
+        print(response)
+        result = response.generations[0].text
+        # result = """
+        # ```json
+        # [
+        # "Collaborated with a team of engineers to design and implement advanced software solutions.",
+        # "Solved complex technical issues through innovative coding methodologies and frameworks.",
+        # "Assisted in creating robust software architectures and frameworks.",
+        # "Conducted thorough code reviews and provided feedback to team members."
+        # ] 
+        # """
         result_list = extract_json(result)
         # time.sleep(1)
         
