@@ -27,7 +27,13 @@ from utils import (
     extract_json,
 )
 
-from flask_login import LoginManager, current_user, login_user, login_required
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 from flask import (
@@ -97,12 +103,13 @@ def oauth2_authorize(provider):
     session["oauth2_state"] = secrets.token_urlsafe(16)
 
     # create a query string with all the OAuth2 parameters
+    redirect_uri = url_for("oauth2_callback", provider=provider, _external=True)
+    print("redirect_uri")
+    print(redirect_uri)
     query_str = urlencode(
         {
             "client_id": provider_data["client_id"],
-            "redirect_uri": url_for(
-                "oauth2_callback", provider=provider, _external=True
-            ),
+            "redirect_uri": redirect_uri,
             "response_type": "code",
             "scope": " ".join(provider_data["scopes"]),
             "state": session["oauth2_state"],
@@ -200,6 +207,14 @@ def load_user(user_id):
 @app.context_processor
 def inject_user():
     return dict(user=current_user)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for("index"))
 
 
 # ============================================
