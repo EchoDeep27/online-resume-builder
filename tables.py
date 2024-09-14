@@ -143,16 +143,26 @@ class User(Base):
     id: Mapped[str] = mapped_column(primary_key=True, default=lambda: str(uuid.uuid4()))
     name: Mapped[str] = mapped_column(String(30), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False)
-    password: Mapped[str] = mapped_column(String(250), nullable=False)
+    password: Mapped[str] = mapped_column(String(250), nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_anonymous: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_authenticated: Mapped[bool] = mapped_column(Boolean, default=True)
+
     resumes: Mapped[List["Resume"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
 
-    def __init__(self, name: str, email: str, password: str, **kwargs):
+    def __init__(
+        self, name: str, email: str, password: str = None, is_active: bool = True, **kwargs
+    ):
         super().__init__(**kwargs)
         self.name = name
         self.email = email
         self.password = password
+        self.is_active = is_active
 
     def __repr__(self) -> str:
-        return f"User(id={self.id}), name={self.name}, email={self.email})"
+        return f"User(id={self.id}), name={self.name}, email={self.email}, is_active={self.is_active})"
+
+    def get_id(self):
+        return self.id

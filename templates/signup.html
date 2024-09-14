@@ -15,7 +15,7 @@
         color: var(--secondary-color);
         font-size: 1.7rem;
         font-weight: 700;
-      
+
     }
 </style>
 
@@ -33,26 +33,31 @@
         <form action="#">
             <h1>Create Account</h1>
 
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="text" placeholder="Full Name" id="username" required />
+            <input type="email" placeholder="Email" id="email" required />
+            <input type="password" placeholder="Password" id="password" required />
             <button>Sign Up</button>
             <span>or use your email for registration</span>
             <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+
+                <a class="social" href="{{ url_for('oauth2_authorize', provider='google') }}"><i
+                        class="fab fa-google-plus-g"></i></a>
+
             </div>
         </form>
     </div>
     <div class="form-container sign-in-container">
         <form action="#">
             <h1>Sign in</h1>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <input type="email" placeholder="Email" id="email" required />
+            <input type="password" placeholder="Password" id="password" required />
             <a href="#">Forgot your password?</a>
             <button>Sign In</button>
             <span>or use your account</span>
             <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a class="social" href="{{ url_for('oauth2_authorize', provider='google') }}"><i
+                        class="fab fa-google-plus-g"></i></a>
+
             </div>
         </form>
     </div>

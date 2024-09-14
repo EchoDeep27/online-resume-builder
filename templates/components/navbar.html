@@ -2,14 +2,14 @@
     <div class="logo">Resume<span class="logo-text highlight-text">Builder</span></div>
     <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        {% if user %}
+        {% if user.is_authenticated %}
         <li><a href="/profile">Profile</a></li>
         {% else %}
           {% if not hide_signup_btn %}
             <li><a href="/signup">Sign Up</a></li>
             {% endif %}
         {% endif %}
-        {% if user %}
+        {% if user.is_authenticated %}
         <li><a href="/resume">Resume</a></li>
         {% endif %}
         <li><a href="#about">About</a></li>
