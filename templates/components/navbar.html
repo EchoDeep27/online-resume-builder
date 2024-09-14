@@ -4,15 +4,11 @@
         <li><a href="/">Home</a></li>
         <li><a href="#about">About</a></li>
         {% if user.is_authenticated %}
-        <li><a href="/profile">Profile</a></li>
+        <li><button id="profile-btn">Profile </button></li>
         {% else %}
         {% if not hide_signup_btn %}
         <li><a href="/signup">Sign Up</a></li>
         {% endif %}
-        {% endif %}
-
-        {% if user.is_authenticated %}
-        <li><a href="/logout">Logout</a></li>
         {% endif %}
     </ul>
     <div class="menu-toggle" id="mobile-menu">
@@ -20,4 +16,34 @@
         <span class="bar"></span>
         <span class="bar"></span>
     </div>
+    {% if user.is_authenticated %}
+    <div id="profile-card">
+        <button id="close-btn"><i class="fa-regular fa-circle-xmark"></i></button>
+
+        <div class="image">
+            <img src="{{url_for('static',filename='images/profile/default_profile.jpg')}}" alt="" class="profile-pic">
+        </div>
+        <div class="data">
+            <h2>{{user.name}}</h2>
+            <span>{{user.email}}</span>
+        </div>
+        <div class="row">
+            <div class="info">
+                <h3>Resume</h3>
+                <span>120</span>
+            </div>
+
+            <div class="info">
+                <h3>User Type</h3>
+                <span>Sliver</span>
+            </div>
+        </div>
+        <div class="buttons">
+
+            <a href="/resumes/{{user.id}}" class="btn">My Resume</a>
+            <a href="/logout" class="btn">Logout</a>
+
+        </div>
+    </div>
+    {% endif %}
 </nav>

@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block body %}
+{% if not user.is_authenticated %}
 {% set hide_signup_btn = True %}
 {% include 'components/navbar.html' %}
 
@@ -30,13 +31,15 @@
 <!-- <section id="signup-section"> -->
 <section id="form-wrapper">
     <div class="form-container sign-up-container">
-        <form action="#">
+        <form action="" id="signup-form">
             <h1>Create Account</h1>
 
-            <input type="text" placeholder="Full Name" id="username" required />
-            <input type="email" placeholder="Email" id="email" required />
-            <input type="password" placeholder="Password" id="password" required />
-            <button>Sign Up</button>
+            <input type="text" placeholder="Full Name" id="signup-name" required />
+            <input type="email" placeholder="Email" id="signup-email" required />
+            <input type="password" placeholder="Password" id="signup-password" required />
+            <input type="password" placeholder="Confirm Password" name="confirm_password" id="signup-confirm-password"
+                required />
+            <button type="submit">Sign Up</button>
             <span>or use your email for registration</span>
             <div class="social-container">
                 <a class="social" href="{{ url_for('oauth2_authorize', provider='google') }}"><i
@@ -46,12 +49,12 @@
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="" id="signin-form">
             <h1>Sign in</h1>
-            <input type="email" placeholder="Email" id="email" required />
-            <input type="password" placeholder="Password" id="password" required />
+            <input type="email" placeholder="Email" id="signin-email" required />
+            <input type="password" placeholder="Password" id="signin-password" required />
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <button type="submit">Sign In</button>
             <span>or use your account</span>
             <div class="social-container">
                 <a class="social" href="{{ url_for('oauth2_authorize', provider='google') }}"><i
@@ -74,8 +77,8 @@
             </div>
         </div>
     </div>
-</section>
 
+</section>
 <!-- </section> -->
 <script src="{{url_for('static',filename='js/navbar.js')}}">
 
@@ -84,6 +87,6 @@
 
 </script>
 
-
+{% endif %}
 
 {% endblock %}

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let summary = document.getElementById("pv-summary")
     let profileImg = document.getElementById("pv-profile-img")
     let profileDiv = document.getElementsByClassName("profile-div")
-    
+
     document.querySelectorAll("form input").forEach(input => {
         input.addEventListener("focus", function () {
             this.previousElementSibling.style.color = "var(--primary-color)";
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             this.style.borderColor = "#8f8f9d";
         });
     });
-    
+
     function typeText(text, element) {
         if (!text || text == "") {
             return
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!isEmptyObj(template)) {
             document.documentElement.style.setProperty('--template-bg-color', template.templateTheme);
-            Array.from(profileDiv).forEach(profile =>profile.style.display = template.isHeadshot ? "block" : "none")
+            Array.from(profileDiv).forEach(profile => profile.style.display = template.isHeadshot ? "block" : "none")
         }
 
         if (!isEmptyObj(heading)) {
@@ -384,7 +384,7 @@ const socialMedia = {
     INSTAGRAM: "instagram",
 }
 
- 
+
 const INPUT_TYPING_DELAY = 2000
 
 
@@ -548,11 +548,14 @@ async function copyAnswer(answer, button) {
         });
 }
 
-function showInformBox(message) {
+function showInformBox(message, isError = false) {
 
     const informBox = document.createElement("div");
     informBox.id = "inform-box";
     informBox.textContent = message;
+    if (isError) {
+        informBox.style.color = "red"
+    }
 
     document.body.appendChild(informBox);
 

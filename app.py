@@ -8,9 +8,9 @@ import secrets
 from urllib.parse import urlencode
 from dotenv import load_dotenv
 
-
 from db import get_session, init_db
 from tables import Resume, Template, User
+from models import SignUp, SignIn
 
 from utils import (
     add_address,
@@ -36,6 +36,7 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
+from bcrypt import hashpw, gensalt, checkpw
 from flask import (
     Flask,
     request,
@@ -77,7 +78,7 @@ app.config["OAUTH2_PROVIDERS"] = {
 login_manager = LoginManager()
 login_manager.init_app(app)
 # redirect to signup page if not auntenticated
-login_manager.login_view = "signup"
+login_manager.login_view = "render_signup_page"
 
 # ============================================
 #  ==== OAuth2.0 Setup for Authentication ====
@@ -209,6 +210,75 @@ def inject_user():
     return dict(user=current_user)
 
 
+# =================================
+# ====APIs for Authentication =====
+# =================================
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    try:
+
+        data = request.json
+        signup_data = SignUp(**data)
+        signup_data.validate()
+
+        hashed_password = hashpw(signup_data.password.encode("utf-8"), gensalt())
+        with get_session() as db_session:
+            existing_user = (
+                db_session.query(User).filter(User.email == signup_data.email).first()
+            )
+            if existing_user:
+                return jsonify({"error": "User already exists"}), 409
+            
+            new_user = User(
+                name=signup_data.name,
+                email=signup_data.email,
+                password=hashed_password.decode("utf-8"),
+            )
+            db_session.add(new_user)
+            db_session.commit()
+            login_user(new_user)
+
+        return jsonify({"message": "Sign up successful"}), 201
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    except Exception:
+        return jsonify({"error": "Something went wrong"}), 500
+
+
+@app.route("/signin", methods=["POST"])
+def signin():
+    try:
+        data = request.json
+
+        signin_data = SignIn(**data)
+        signin_data.validate()
+
+        with get_session() as db_session:
+            user = (
+                db_session.query(User).filter(User.email == signin_data.email).first()
+            )
+
+            if user:
+                if checkpw(
+                    signin_data.password.encode("utf-8"), user.password.encode("utf-8")
+                ):
+                    login_user(user)
+                    return jsonify({"message": "Sign In successful"}), 200
+                else:
+                    return jsonify({"message": "Wrong email or password!"}), 401
+            else:
+                return jsonify({"message": "User not found!"}), 404
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception:
+        return jsonify({"error": "Something went wrong"}), 500
+
+
 @app.route("/logout")
 @login_required
 def logout():
@@ -218,11 +288,12 @@ def logout():
 
 
 # ============================================
-# ====APIs for OpenAI content generation =====
+# ====APIs for Cohere AI Text generation =====
 # ============================================
 
 
 @app.route("/contents/generate", methods=["POST"])
+@login_required
 def content_generator():
     """This API is retrieved text from the public API hosted by cohere
     command-light model is used  as it is the least token consume model.
@@ -293,6 +364,7 @@ def content_generator():
 # ===========  APIs for Resume ==========
 # =======================================
 @app.route("/resume", methods=["POST"])
+@login_required
 def create_resume():
     with get_session() as db_session:
 
@@ -490,6 +562,7 @@ def render_resume_template_page():
 
 
 @app.route("/resume/section/heading", methods=["GET"])
+@login_required
 def render_heading_page():
     template_id = request.args.get("template_id")
     if template_id is None:
@@ -503,6 +576,7 @@ def render_heading_page():
 
 
 @app.route("/resume/section/education", methods=["GET"])
+@login_required
 def render_education_page():
     template_id = request.args.get("template_id")
     if template_id is None:
@@ -516,6 +590,7 @@ def render_education_page():
 
 
 @app.route("/resume/section/work_experience", methods=["GET"])
+@login_required
 def render_work_experience_page():
     template_id = request.args.get("template_id")
     if template_id is None:
@@ -530,6 +605,7 @@ def render_work_experience_page():
 
 
 @app.route("/resume/section/skill", methods=["GET"])
+@login_required
 def render_skill_page():
     template_id = request.args.get("template_id")
     if template_id is None:
@@ -544,6 +620,7 @@ def render_skill_page():
 
 
 @app.route("/resume/section/summary", methods=["GET"])
+@login_required
 def render_summary_page():
     template_id = request.args.get("template_id")
     if template_id is None:
@@ -558,6 +635,7 @@ def render_summary_page():
 
 
 @app.route("/resume/section/finalize", methods=["GET"])
+@login_required
 def render_finalize_page():
     template_id = request.args.get("template_id")
     if template_id is None:
