@@ -391,7 +391,7 @@ const INPUT_TYPING_DELAY = 2000
 const LANGUAGE_INFO_KEY = "langInfo";
 const SOCIAL_MEDIA_INFO_kEY = "socialMediaInfo";
 
-const WORK_FLOW_CACHE_DATA = ["templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo", "summary"]
+const WORK_FLOW_CACHE_DATA = ["templateInfo", "headingInfo", "eduInfo", "workExpInfo", "skillInfo", "summary", "additionalInfo"]
 
 
 let template = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE)) || {};
@@ -404,8 +404,10 @@ function loadResumePreview(page) {
     }
     console.log(page)
     let caches = getRequiredCache(page);
-    console.log("getRequiredCache")
-    console.log(caches)
+    let currentPageCache = WORK_FLOW_CACHE_DATA[page]
+    // Updates the preview to reflect the current page cache data if the user refreshes the page
+    caches.push(currentPageCache)
+
     let aggregatedData = {};
 
     caches.forEach(cache => {

@@ -302,7 +302,7 @@ def content_generator():
     and command-xlarge-nightly (Latest version of the xlarge model)
     """
     # Increase the 'retries' variable to ensure a valid response from text generation.
-    retries = 1
+    retries = 2
     req_json = request.json
     section = req_json.get("section")
     profession = req_json.get("profession")
@@ -325,22 +325,22 @@ def content_generator():
         client = cohere.Client(os.environ.get("COHERE_API_KEY"))
 
         for i in range(0, retries):
-            # response = client.generate(
-            #     model="command-light",
-            #     prompt=prompt,
-            #     max_tokens=105,
-            #     temperature=0.2,
-            # )
-            # result = response.generations[0].text
-            result = """
-            ```json
-            [
-            "Collaborated with a team of engineers to design and implement advanced software solutions.",
-            "Solved complex technical issues through innovative coding methodologies and frameworks.",
-            "Assisted in creating robust software architectures and frameworks.",
-            "Conducted thorough code reviews and provided feedback to team members."
-            ]
-            """
+            response = client.generate(
+                model="command-light",
+                prompt=prompt,
+                max_tokens=105,
+                temperature=0.2,
+            )
+            result = response.generations[0].text
+            # result = """
+            # ```json
+            # [
+            # "Collaborated with a team of engineers to design and implement advanced software solutions.",
+            # "Solved complex technical issues through innovative coding methodologies and frameworks.",
+            # "Assisted in creating robust software architectures and frameworks.",
+            # "Conducted thorough code reviews and provided feedback to team members."
+            # ]
+            # """
             print("Response")
             print(result)
             result_list = extract_json(result)
