@@ -437,12 +437,13 @@ function checkForUpdate(cache_name, updatedData) {
     let cache = JSON.parse(localStorage.getItem(cache_name))
     if (typeof updatedData === 'string') {
         dataChanged = updatedData !== cache
-
+    } else if (!cache) {
+        // Case: first time caching
+        dataChanged = true;
     } else {
+
         let cachedData = Array.isArray(cache) ? cache : [cache];
-
         let currentData = Array.isArray(updatedData) ? updatedData : [updatedData];
-
 
         // Cached value is retrieved based on the length of current value and remove extra items since current value don't contain them  
         if (currentData.length != cachedData.length) {
@@ -453,6 +454,10 @@ function checkForUpdate(cache_name, updatedData) {
             for (let i = 0; i < currentData.length; i++) {
                 let currentValue = currentData[i]
                 let currentCachedValue = cachedData[i]
+                console.log("currentValue")
+                console.log(currentValue)
+                console.log("currentCachedValue")
+                console.log(currentCachedValue)
 
                 dataChanged = Object.keys(currentCachedValue).some(key => {
 

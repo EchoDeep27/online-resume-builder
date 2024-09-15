@@ -435,6 +435,10 @@ def create_resume():
         try:
             db_session.add(resume)
             db_session.commit()
+            owner:User = current_user
+            owner.resumes.append(resume)
+            db_session.commit()
+            
             return (
                 jsonify(
                     {"message": "Resume created successfully!", "resume_id": resume_id}

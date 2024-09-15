@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (headingInfo) {
         updatePreview(headingInfo)
     }
-    form.addEventListener('submit', handleHeadingForm);
+    form.addEventListener('submit', submitHeadingForm);
 
     setProgressBar(Page.heading)
     loadResumePreview(Page.heading)
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Profile Image div handler
     console.log(`isHeadshot: ${isHeadshot}`);
     profileImageUpload.style.display = isHeadshot ? "flex" : "none";
- 
+
     if (isHeadshot && profileFileName) {
         loadProfile(profileFileName, [profileImagePreview, previewProfile])
 
@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     console.log('Image uploaded successfully');
                     profileFileName = data.file_name
+                    handleHeadingInfo()
                 } else {
                     console.error(data.message);
                 }
@@ -99,9 +100,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function handleHeadingInfo() {
         let currentData = getFormData();
+
         if (typeof profileFileName !== 'undefined' && profileFileName) {
+
             currentData['profile_file_name'] = profileFileName;
+
         }
+ 
         checkForUpdate(CACHE_NAMES.HEADING, currentData)
     }
 
@@ -113,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    function handleHeadingForm(event) {
+    function submitHeadingForm(event) {
 
         event.preventDefault();
 
