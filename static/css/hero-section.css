@@ -45,14 +45,20 @@
     background-color: #006cdf;
 }
 
-#bubble-svg-container {
+#landing-svg-container {
     position: absolute;
-    width: 510px;
-    height: 510px;
+    width: 720px;
+    height: 720px;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
     z-index: -1;
+    color: transparent;
+    background-color: transparent;
+}
+
+#landing-svg-container svg #layer2{
+    fill: transparent;
 }
 
 .hero-image {

@@ -4,6 +4,11 @@
 {% block title %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/hero-section.css')}}">
+<style>
+    body{
+        background-color: #ECF6FFf4 !important;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
@@ -34,9 +39,8 @@
         </div>
 
         <div class="bottom-middle">
-            <div id="bubble-svg-container"></div>
-            <img src="{{ url_for('static', filename='images/hero-section/hero-CV.png') }}" alt="Hero Image"
-                class="hero-image">
+            <div id="landing-svg-container"></div>
+          
         </div>
     </div>
 </section>
@@ -46,10 +50,10 @@
 
 </script>
 <script>
-    fetch("{{ url_for('static', filename='images/hero-section/bubble.svg') }}")
+    fetch("{{ url_for('static', filename='images/landing-page.svg') }}")
         .then(response => response.text())
         .then(svg => {
-            document.getElementById("bubble-svg-container").innerHTML = svg;
+            document.getElementById("landing-svg-container").innerHTML = svg;
         });
 </script>
 {% endblock %}

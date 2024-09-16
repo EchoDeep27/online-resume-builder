@@ -729,8 +729,6 @@ def delete_resume(resume_id: str):
 
 @app.route("/resumes/<user_id>", methods=["GET"])
 def render_user_resumes(user_id: str):
-    print("reached here")
-
     try:
         with get_session() as db_session:
             user: User = (
@@ -748,7 +746,11 @@ def render_user_resumes(user_id: str):
         return jsonify({"error": "User not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+    
+    
+@app.route("/about", methods=["GET"]) 
+def render_about_page():
+    return render_template("about.html")
 
 # Used this route to upload resume template
 @app.route("/auth/template", methods=["GET"])

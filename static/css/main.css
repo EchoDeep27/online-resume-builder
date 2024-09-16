@@ -48,6 +48,9 @@ input[type="checkbox"] {
 }
 
 /* COLOR styles */
+.inform-text {
+    color: var(--primary-color);
+}
 
 .highlight-text {
     color: var(--highlight-color);
