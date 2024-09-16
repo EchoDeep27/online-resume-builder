@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/my-resumes.css')}}">
+{% endblock %}
+
+{% block body %}
+{% include 'components/navbar.html' %}
+<!-- Hero Section -->
+
+<section id="resumes-section">
+    <table id="my-resumes-tbl">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Profession</th>
+                <th>Created Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if resumes %}
+            {% for resume in resumes %}
+            <tr id="resume-{{resume.id}}">
+                <td>{{ loop.index }}</td>
+                <td>{{ resume.username }}</td>
+                <td>{{ resume.profession }}</td>
+                <td>{{ resume.created_at }}</td>
+                <td>
+                    <a href="/resumes/view/{{resume.id}}" class="btn preview">View</a>
+                    <a href="/resumes/view/{{ resume.id }}?download=true" class="btn download">Download</a>
+                    <button class="btn delete" onclick="deleteResume('{{ resume.id }}')">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr style="text-align: center;">
+                <td colspan="5">You haven't created any resume yet.</td>
+            </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
+</section>
+
+{% include 'components/footer.html' %}
+
+<script src="{{url_for('static',filename='js/navbar.js')}}">
+
+</script>
+
+<script>
+
+    function deleteResume(resumeId) {
+        if (confirm('Are you sure you want to delete this resume?')) {
+            fetch(`/resumes/delete/${resumeId}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        document.getElementById(`resume-${resumeId}`).remove();
+                    } else {
+                        alert('Error deleting resume');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+
+
+</script>
+{% endblock %}

@@ -301,7 +301,7 @@ i.fa-star {
     padding: 20px;
     flex-direction: column
 }
-
+#alert-overlay,
 #overlay {
     position: fixed;
     top: 0;
@@ -323,7 +323,7 @@ i.fa-star {
     opacity: 0;
 }
 
-#overlay {
+#alert-overlay {
     animation: fadeOut 2.5s ease-in;
     opacity: 0;
 }

@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const alertBox = document.getElementById('alert-box');
-    const overlay = document.getElementById('overlay');
+    const overlay = document.getElementById('alert-overlay');
     if (alertBox) {
     
         overlay.addEventListener('animationend', function () {

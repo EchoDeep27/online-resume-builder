@@ -26,7 +26,7 @@
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <div id="overlay">
+    <div id="alert-overlay">
 
         <div id="alert-box">
             {% for category, message in messages %}

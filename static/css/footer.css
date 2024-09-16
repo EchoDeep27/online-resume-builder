@@ -87,6 +87,10 @@
   font-size: 35px;
 }
 
+#social li:hover {
+  color: white;
+}
+
 /* 2. list (icon container) styling */
 #social li {
   width: 75px;

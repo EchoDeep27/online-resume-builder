@@ -1,11 +1,13 @@
+let selectedTemplateId = null
+
 document.addEventListener('DOMContentLoaded', function () {
 
 
-    let selectedTemplateId = null
     let isHeadshot = true
     let selectedColor = "#00026e"
     let headshotRadios = document.querySelectorAll('input[name="headshot"]');
     let profiles = document.getElementsByClassName("profile-div")
+    let nextBtn = document.getElementById("next-btn")
 
     // Load cache
     let templateInfo = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE))
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById("without-headshot").checked = true;
         }
     }
-
+    nextBtn.addEventListener('click', cachedTemplateInfo)
     // color radio 
     document.querySelectorAll(".color-radio").forEach(radio => {
         radio.addEventListener("click", function () {
@@ -45,21 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         });
     })
-    function selectTemplate(templateId) {
-        console.log("here")
-        document.querySelectorAll('.resume-template').forEach(card => {
-            card.classList.remove('active');
-        });
-
-        const selectedTemplate = document.getElementById(templateId);
-        if (selectedTemplate) {
-            selectedTemplate.classList.add('active');
-            selectedTemplateId = templateId;
-            console.log("Selected template: " + templateId);
-        }
-    }
-
-
 
 
     function changeTemplateTheme(color) {
@@ -70,8 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
-
     function cachedTemplateInfo() {
         if (selectedTemplateId !== null) {
             templateInfo = {
@@ -80,7 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 "templateTheme": selectedColor
             }
             localStorage.setItem(CACHE_NAMES.TEMPLATE, JSON.stringify(templateInfo));
-            window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
+            console.log("selectedTemplateId ", selectedTemplateId)
+            // window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
 
         } else {
             alert("Please choose one of the template.")
@@ -89,3 +75,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 })
+
+function selectTemplate(templateId) {
+    console.log("here")
+    document.querySelectorAll('.resume-template').forEach(card => {
+        card.classList.remove('active');
+    });
+
+    const selectedTemplate = document.getElementById(templateId);
+    if (selectedTemplate) {
+        selectedTemplate.classList.add('active');
+        selectedTemplateId = templateId;
+        console.log("Selected template: " + templateId);
+    }
+}

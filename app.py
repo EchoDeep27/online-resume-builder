@@ -5,8 +5,10 @@ import time
 import requests
 import cohere
 import secrets
+import pdfkit
 from urllib.parse import urlencode
 from dotenv import load_dotenv
+
 
 from db import get_session, init_db
 from tables import Resume, Template, User
@@ -36,6 +38,7 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.exc import NoResultFound
 from bcrypt import hashpw, gensalt, checkpw
 from flask import (
     Flask,
@@ -49,6 +52,7 @@ from flask import (
     session,
     abort,
     flash,
+    make_response,
 )
 
 load_dotenv()
@@ -393,7 +397,8 @@ def create_resume():
         social_media = additional_data.get("socialMediaInfo")
         languages = additional_data.get("langInfo")
 
-        user_id = str(uuid.uuid4())
+        owner: User = current_user
+        user_id = str(owner.id)
 
         address_id = add_address(db_session, heading["city"], heading["country"])
         resume_id = str(uuid.uuid4())
@@ -438,9 +443,6 @@ def create_resume():
 
         try:
             db_session.add(resume)
-            db_session.commit()
-            owner: User = current_user
-            owner.resumes.append(resume)
             db_session.commit()
 
             return (
@@ -690,11 +692,8 @@ def render_signup_page():
     return render_template("signup.html")
 
 
-@app.route("/auth/template-preview", methods=["GET"])
-def render_template_preview():
-    resume_id = request.args.get("resume_id")
-    if resume_id is None:
-        return jsonify({"message": "Resume id must be included"}), 403
+@app.route("/resumes/view/<resume_id>", methods=["GET"])
+def render_template_preview(resume_id):
 
     with get_session() as db_session:
         resume: Resume = (
@@ -713,9 +712,45 @@ def render_template_preview():
 
         template_file_path = resume.template.template_file_path
 
-        return render_template(template_file_path, resume=resume)
+        return render_template("view-resume.html", template_path =template_file_path, resume=resume)
 
 
+@app.route("/resumes/delete/<resume_id>", methods=["DELETE"])
+def delete_resume(resume_id: str):
+    with get_session() as db_session:
+        resume = db_session.query(Resume).get(resume_id)
+        if resume:
+            db_session.delete(resume)
+            db_session.commit()
+            return jsonify({"message": "Resume deleted successfully"}), 200
+        else:
+            return jsonify({"error": "Resume not found"}), 404
+
+
+@app.route("/resumes/<user_id>", methods=["GET"])
+def render_user_resumes(user_id: str):
+    print("reached here")
+
+    try:
+        with get_session() as db_session:
+            user: User = (
+                db_session.query(User)
+                .filter_by(id=user_id)
+                .options(joinedload(User.resumes))
+                .one()
+            )
+
+            resumes = user.resumes
+
+            return render_template("my-resumes.html", resumes=resumes)
+
+    except NoResultFound:
+        return jsonify({"error": "User not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# Used this route to upload resume template
 @app.route("/auth/template", methods=["GET"])
 def template_page():
     return render_template("template-uploader.html")

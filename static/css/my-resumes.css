@@ -1,0 +1,75 @@
+#resumes-section{
+    height: 80dvh;
+    width: 100%;
+}
+
+
+#my-resumes-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1.1em;
+    font-family: 'Arial', sans-serif;
+    min-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#my-resumes-tbl thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+#my-resumes-tbl th,
+#my-resumes-tbl td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #dddddd;
+}
+
+#my-resumes-tbl tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#my-resumes-tbl tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#my-resumes-tbl tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#my-resumes-tbl td .btn {
+    background-color: #009879;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+#my-resumes-tbl td .btn:hover {
+    background-color: #007a63;
+}
+
+#my-resumes-tbl td .btn.delete {
+    background-color: #e74c3c;
+}
+
+#my-resumes-tbl td .btn.delete:hover {
+    background-color: #c0392b;
+}
+
+#my-resumes-tbl td .btn.preview,
+#my-resumes-tbl td .btn.download {
+    background-color: #3498db;
+}
+
+#my-resumes-tbl td .btn.preview:hover,
+#my-resumes-tbl td .btn.download:hover {
+    background-color: #2980b9;
+}

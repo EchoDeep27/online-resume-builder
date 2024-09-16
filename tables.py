@@ -5,7 +5,8 @@ from db import Base
 import uuid
 from sqlalchemy import Enum
 from enum import Enum as PyEnum
-
+from sqlalchemy import DateTime
+from datetime import datetime
 
 class Proficiency(PyEnum):
     BEGINNER = "Beginner"
@@ -110,6 +111,7 @@ class Resume(Base):
     summary: Mapped[str] = mapped_column(Text, nullable=False)
     template_theme: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped["Address"] = relationship(back_populates="resumes")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     social_media: Mapped[List[SocialMedia]] = relationship(
         back_populates="resume", cascade="all, delete-orphan"
     )
