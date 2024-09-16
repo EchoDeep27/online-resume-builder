@@ -78,7 +78,7 @@ app.config["OAUTH2_PROVIDERS"] = {
 login_manager = LoginManager()
 login_manager.init_app(app)
 # redirect to signup page if not auntenticated
-login_manager.login_view = "render_signup_page"
+# login_manager.login_view = "render_signup_page"
 
 # ============================================
 #  ==== OAuth2.0 Setup for Authentication ====
@@ -213,6 +213,10 @@ def inject_user():
 # =================================
 # ====APIs for Authentication =====
 # =================================
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    flash("Please Log in first or create an accout to build your Resume.", "warning")
+    return redirect(url_for("render_signup_page"))
 
 
 @app.route("/signup", methods=["POST"])
@@ -230,7 +234,7 @@ def signup():
             )
             if existing_user:
                 return jsonify({"error": "User already exists"}), 409
-            
+
             new_user = User(
                 name=signup_data.name,
                 email=signup_data.email,
@@ -435,10 +439,10 @@ def create_resume():
         try:
             db_session.add(resume)
             db_session.commit()
-            owner:User = current_user
+            owner: User = current_user
             owner.resumes.append(resume)
             db_session.commit()
-            
+
             return (
                 jsonify(
                     {"message": "Resume created successfully!", "resume_id": resume_id}

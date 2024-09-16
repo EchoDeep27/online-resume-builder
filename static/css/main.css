@@ -3,6 +3,7 @@
     --secondary-color: #28e7b8;
     --highlight-color: #26a0f4;
     --danger-color: #ff4d4d;
+    --warn-color: rgb(230, 103, 0);
     --input-width: 330px;
     --template-bg-color: #ffffff;
 }
@@ -54,6 +55,10 @@ input[type="checkbox"] {
 
 .danger {
     color: var(--danger-color);
+}
+
+.warning {
+    color: var(--warn-color);
 }
 
 .primary-btn {
@@ -276,6 +281,54 @@ i.fa-star {
 }
 
 /* Fade out animation (used in remove button of resume' sections forms */
+#alert-box {
+
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 420px;
+    min-height: 120px;
+    max-width: fit-content;
+    z-index: 999;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 19px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex-direction: column
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+#alert-box {
+    animation: fadeOut 3s ease-in;
+    opacity: 0;
+}
+
+#overlay {
+    animation: fadeOut 2.5s ease-in;
+    opacity: 0;
+}
+
+
 .fade-out {
     animation: fadeOut 0.3s ease-out;
     opacity: 0;
@@ -371,7 +424,7 @@ i.fa-star {
     color: var(--highlight-color);
 }
 
- 
+
 
 #content-generator-section>* {
 
@@ -424,24 +477,6 @@ i.fa-star {
         transform: rotate(360deg);
     }
 }
-
-
-#inform-box {
-    width: 200px;
-    height: 120px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 2px 3px 3px rgb(180, 180, 180);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
-}
-
 
 #search-box {
     width: 550px;

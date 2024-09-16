@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let nextBtn = document.getElementById('confirm-btn');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let socialMediaBtn = document.getElementById('add-social-media-btn')
-    let loadingOverlay = document.getElementById('loading-overlay');
+    let loadingOverlay = document.getElementById('overlay');
     let formContainer = document.getElementById('social-media-input-container')
 
     nextBtn.addEventListener('click', sentResume);

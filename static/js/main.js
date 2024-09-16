@@ -338,6 +338,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const options = { year: 'numeric', month: 'long' };
         return date.toLocaleDateString('en-US', options);
     }
+
+    const alertBox = document.getElementById('alert-box');
+    const overlay = document.getElementById('overlay');
+    if (alertBox) {
+    
+        overlay.addEventListener('animationend', function () {
+            alertBox.remove();  
+            overlay.remove();
+        });
+    }
 });
 
 // =============================
@@ -382,6 +392,13 @@ const socialMedia = {
     FACEBOOK: "facebook",
     PORTFOLIO: "portfolio",
     INSTAGRAM: "instagram",
+}
+
+const InformType = {
+    WARNING: "#FF4B2B",
+    INFO: "#0003b9",
+    FAIL: "red",
+    SUCCESS: "green"
 }
 
 
@@ -555,18 +572,16 @@ async function copyAnswer(answer, button) {
         });
 }
 
-function showInformBox(message, isError = false) {
+
+const informBox = document.getElementById("alert-box");
+
+function showInformBox(message, color = InformType.INFO) {
 
     const informBox = document.createElement("div");
-    informBox.id = "inform-box";
+    informBox.id = "alert-box";
+
     informBox.textContent = message;
-    if (isError) {
-        informBox.style.color = "red"
-    }
-
+    informBox.style.color = str(color)
     document.body.appendChild(informBox);
-
-    setTimeout(() => {
-        informBox.remove();
-    }, 2000);
+ 
 }

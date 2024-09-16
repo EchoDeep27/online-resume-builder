@@ -17,13 +17,26 @@
     <title>Resume Builder</title>
 
     {% block title %}
-    
+
     {% endblock %}
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script> -->
     <script src="{{ url_for('static', filename='js/main.js')}}"></script>
 </head>
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div id="overlay">
+
+        <div id="alert-box">
+            {% for category, message in messages %}
+            <h4 class="alert-info-type {{category}}">{{category.capitalize()}}</h4>
+            <div class="alert-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
 
     {% block body %}
 
