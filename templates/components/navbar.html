@@ -18,12 +18,16 @@
     </div>
     {% if user.is_authenticated %}
     <div id="profile-card">
-        <a href="/profile"" id="edit-btn"> <i class="fa-solid fa-pen-to-square"></i></a>
+        <a href="/profile" id="edit-btn"> <i class="fa-solid fa-pen-to-square"></i></a>
 
         <button id="close-btn"><i class="fa-regular fa-circle-xmark"></i></button>
 
         <div class="image">
-            <img src="{{url_for('static',filename='images/profile/default_profile.jpg')}}" alt="" class="profile-pic">
+            {% if user.profile_path %}
+            <img class="profile-pic" src="{{ url_for('static', filename='images/profile/' + user.profile_path) }}">
+            {% else %}
+            <img class="profile-pic" src="{{ url_for('static', filename='images/profile/default_profile.jpg') }}">
+            {% endif %}
         </div>
         <div class="data">
             <h2>{{user.name}}</h2>
