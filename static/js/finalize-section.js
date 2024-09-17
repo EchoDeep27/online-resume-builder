@@ -1,14 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
     let typingTimer;
     let isFormShow = false
-    
+
     let nextBtn = document.getElementById('confirm-btn');
     let addAnotherBtn = document.getElementById('add-another-btn');
     let socialMediaBtn = document.getElementById('add-social-media-btn')
     let loadingOverlay = document.getElementById('overlay');
     let formContainer = document.getElementById('social-media-input-container')
 
-    nextBtn.addEventListener('click', sentResume);
+    nextBtn.addEventListener('click', confirmFinalize);
+
+
+    function confirmFinalize() {
+        let isConfirmed = confirm("Are you sure you the result (cannot edit after ?");
+
+        if (!isConfirmed) {
+            return
+        }
+
+        sentResume();
+    }
     socialMediaBtn.addEventListener('click', showSocialMediaForm)
     addAnotherBtn.addEventListener('click', () => insertLanguageForm(languageInfo = {}));
 
@@ -221,7 +232,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             });
 
-        // Wait for both the minimum loading time and the create reusme API request to complete
+        // Wait for both the minimum loading time and the create reusme API request to finish
+        // minimunm loading time is added to minmic the loading time
         Promise.all([minLoadingTime, createResumeRequest])
             .then(([_, data]) => {
                 console.log('Success:', data);
@@ -229,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 loadingOverlay.style.display = 'none';
                 console.log("nothting")
                 console.log(data.resume_id)
+                cleanCache()
                 window.location.href = `/resume/section/complete?resume_id=${data.resume_id}`
 
             })

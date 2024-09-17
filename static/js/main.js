@@ -585,3 +585,8 @@ function showInformBox(message, color = InformType.INFO) {
     document.body.appendChild(informBox);
  
 }
+
+
+function cleanCache(){
+    WORK_FLOW_CACHE_DATA.forEach(cache =>localStorage.removeItem(cache))
+}

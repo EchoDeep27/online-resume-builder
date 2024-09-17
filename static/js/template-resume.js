@@ -65,11 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 "templateTheme": selectedColor
             }
             localStorage.setItem(CACHE_NAMES.TEMPLATE, JSON.stringify(templateInfo));
-            console.log("selectedTemplateId ", selectedTemplateId)
-            // window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
+            window.location.href = `/resume/section/heading?template_id=${selectedTemplateId}`
 
         } else {
-            alert("Please choose one of the template.")
+            showInformBox("Please choose one of the template.")
         }
 
     }

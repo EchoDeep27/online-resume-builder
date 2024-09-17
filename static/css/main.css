@@ -6,6 +6,9 @@
     --warn-color: rgb(230, 103, 0);
     --input-width: 330px;
     --template-bg-color: #ffffff;
+    --motion-ease: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --motion-duration: 0.3s;
+    --alert-box-duration: 3s;
 }
 
 
@@ -304,6 +307,7 @@ i.fa-star {
     padding: 20px;
     flex-direction: column
 }
+
 #alert-overlay,
 #overlay {
     position: fixed;
@@ -322,7 +326,7 @@ i.fa-star {
 }
 
 #alert-box {
-    animation: fadeOut 3s ease-in;
+    animation: fadeOut var(--alert-box-duration) ease-in;
     opacity: 0;
 }
 
