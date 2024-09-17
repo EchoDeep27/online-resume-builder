@@ -80,6 +80,10 @@ document.addEventListener("DOMContentLoaded", function () {
             return
         }
         const listItem = document.getElementById(parentId);
+        if (!listItem){
+            // The page does not contain preivew resume feature
+            return;
+        }
 
         // Remove all current children
         while (listItem.firstChild) {
@@ -623,4 +627,10 @@ function showInformBox(message, color = InformType.INFO) {
 
 function cleanCache() {
     WORK_FLOW_CACHE_DATA.forEach(cache => localStorage.removeItem(cache))
+}
+
+
+function hasDay(dateStr) {
+    let dateParts = dateStr.split("-");
+    return dateParts.length === 3 && dateParts[2] !== "";
 }

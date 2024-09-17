@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 300);
     }
 
-
     function submitForm() {
-        handleWorkExpInfo();
-        window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
+        if (handleWorkExpInfo()) {
+            window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
+        }
     }
     function insertWorkExpForm(workExpInfo = {}, showRemoveBtn = true) {
         if (Object.keys(workExpInfo).length == 0) {
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         isWorkingCheckbox.addEventListener('change', () => {
             if (isWorkingCheckbox.checked) {
-                endDateInput.value = "0-0/-0"
+                endDateInput.value = "0-0-0"
                 endDateInput.disabled = true;
             } else {
                 endDateInput.disabled = false;
@@ -130,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-
     function handleWorkExpInfo() {
         let workExpForms = document.querySelectorAll('.work-exp-form');
         let workExpcationData = [];
@@ -148,10 +147,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 achievements: form.querySelector('textarea').value,
                 isWorking: form.querySelector('input[name="is-working"]').checked
             };
+            if (workExpData.company.length == 0 || workExpData.job.length == 0 || workExpData.location.length == 0) {
+                showInformBox('Please fill all the fields so that employee can find you.', InformType.WARNING);
+                return false;
+            }
+
+            if (workExpData.start_date.length == 0 || !hasDay(workExpData.start_date)) {
+                showInformBox('Please include the day in the start date (format:  09/17/2024).', InformType.FAIL);
+                return false;
+            }
+
+            if (!hasDay(workExpData.end_date)) {
+                if (!workExpData.isWorking) {
+                    showInformBox('Please include the day in the end date (format: 09/17/2024) or check "Still working".', InformType.FAIL);
+                    return false;
+                }
+            } else {
+                const startDate = new Date(workExpData.start_date);
+                const endDate = new Date(workExpData.end_date);
+
+                if (startDate > endDate) {
+                    showInformBox('Start date cannot be after the end date.', InformType.FAIL);
+                    return false;
+                }
+            }
+
             workExpcationData.push(workExpData);
         });
         checkForUpdate(CACHE_NAMES.WORK_EXP, workExpcationData)
-        // localStorage.setItem(WORK_EXP_CACHE_NAME, JSON.stringify(workExpcationData));
+        return true;
+
     }
 
 

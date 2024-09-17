@@ -1,0 +1,81 @@
+ #profile-section {
+     display: flex;
+     justify-content: center;
+     height: 80dvh;
+ }
+
+ .profile-container {
+     background-color: #fff;
+     padding: 20px;
+     border-radius: 10px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     text-align: center;
+     width: 400px;
+     height: fit-content;
+ }
+
+ .profile-container h2 {
+     margin-bottom: 20px;
+ }
+
+
+ #profile-div {
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+     align-items: center;
+ }
+
+ .profile-image {
+     width: 150px;
+     height: 150px;
+     border-radius: 50%;
+     background-color: #ddd;
+     margin-bottom: 20px;
+     display: inline-block;
+     object-fit: cover;
+ }
+
+ .profile-container form {
+     display: flex;
+     flex-direction: column;
+     gap: 15px;
+ }
+
+ .profile-container label {
+     text-align: left;
+     margin-bottom: 5px;
+     font-weight: bold;
+ }
+
+ .profile-container input[type="text"],
+ .profile-container input[type="email"],
+ .profile-container input[type="file"] {
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     width: 100%;
+ }
+
+ .profile-container input[type="file"] {
+     padding: 0;
+ }
+
+ .profile-container input[readonly] {
+     background-color: #f0f0f0;
+     color: #888;
+ }
+
+ .profile-container button {
+     padding: 10px;
+     background-color: var(--primary-color);
+     color: #fff;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     margin: 20px 0;
+ }
+
+ .profile-container button:hover {
+     background-color: #218838;
+ }

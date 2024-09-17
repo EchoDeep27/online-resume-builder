@@ -295,6 +295,39 @@ def logout():
     return redirect(url_for("index"))
 
 
+
+@app.route("/users/update", methods=["POST"])
+def update_user_profile():
+    user_id = request.form.get("id")
+    new_name = request.form.get("name")
+
+    with get_session() as db_session:
+        user = db_session.query(User).get(user_id)
+        
+        if not user:
+            return jsonify({"success": False, "message": "User not found"}), 404
+  
+        user.name = new_name
+
+  
+        if "profile-image" in request.files:
+            profile_img_file = request.files["profile-image"]
+            if profile_img_file.filename != "":
+                profile_folder_path = os.environ.get("PROFILE_FILE_PATH")
+                file_name, file_path = save_profile_image(
+                    file=profile_img_file, upload_folder_path=profile_folder_path
+                )
+                if file_name is None:
+                    return jsonify({"success": False, "message": "Invalid file type"}), 400
+                
+             
+                user.profile_image_path = file_name
+ 
+        db_session.commit()
+
+        return jsonify({"success": True, "message": "Profile updated successfully"}), 200
+
+
 # ============================================
 # ====APIs for Cohere AI Text generation =====
 # ============================================
@@ -714,7 +747,9 @@ def render_template_preview(resume_id):
 
         template_file_path = resume.template.template_file_path
 
-        return render_template("view-resume.html", template_path =template_file_path, resume=resume)
+        return render_template(
+            "view-resume.html", template_path=template_file_path, resume=resume
+        )
 
 
 @app.route("/resumes/delete/<resume_id>", methods=["DELETE"])
@@ -748,11 +783,18 @@ def render_user_resumes(user_id: str):
         return jsonify({"error": "User not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
-    
-@app.route("/about", methods=["GET"]) 
+
+
+@app.route("/about", methods=["GET"])
 def render_about_page():
     return render_template("about.html")
+
+
+@app.route("/profile", methods=["GET"])
+@login_required
+def redner_profile_page():
+    return render_template("profile-edit.html")
+
 
 # Used this route to upload resume template
 @app.route("/auth/template", methods=["GET"])

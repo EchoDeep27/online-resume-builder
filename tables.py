@@ -8,6 +8,7 @@ from enum import Enum as PyEnum
 from sqlalchemy import DateTime
 from datetime import datetime
 
+
 class Proficiency(PyEnum):
     BEGINNER = "Beginner"
     INTERMEDIATE = "Intermediate"
@@ -146,6 +147,7 @@ class User(Base):
     name: Mapped[str] = mapped_column(String(30), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False)
     password: Mapped[str] = mapped_column(String(250), nullable=True)
+    profile_path: Mapped[str] = mapped_column(String(100), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_anonymous: Mapped[bool] = mapped_column(Boolean, default=False)
     is_authenticated: Mapped[bool] = mapped_column(Boolean, default=True)
@@ -155,7 +157,12 @@ class User(Base):
     )
 
     def __init__(
-        self, name: str, email: str, password: str = None, is_active: bool = True, **kwargs
+        self,
+        name: str,
+        email: str,
+        password: str = None,
+        is_active: bool = True,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self.name = name

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
- 
+
     let typingTimer;
     let eduFormsContainer = document.getElementById('edu-forms-container');
     let addAnotherBtn = document.getElementById('add-another-btn');
@@ -94,11 +94,11 @@ document.addEventListener('DOMContentLoaded', function () {
         setMaxEndDate(eduFormWrapper);
 
         let removeBtn = eduFormWrapper.querySelector(".remove-form-btn");
-        let isWorkingCheckbox = eduFormWrapper.querySelector("#is-studying")
+        let isStudyingCheckbox = eduFormWrapper.querySelector("#is-studying")
         let endDateInput = eduFormWrapper.querySelector("#end-date")
 
-        isWorkingCheckbox.addEventListener('change', () => {
-            if (isWorkingCheckbox.checked) {
+        isStudyingCheckbox.addEventListener('change', () => {
+            if (isStudyingCheckbox.checked) {
                 endDateInput.value = "0-0/-0"
                 endDateInput.disabled = true;
             } else {
@@ -119,8 +119,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     function handleEduInfo() {
-        let eduForms = document.querySelectorAll('.edu-form');
+        let currentData = getEduFormData()
+        checkForUpdate(CACHE_NAMES.EDU, currentData);
+    }
+
+    function getEduFormData() {
         let currentData = [];
+        let eduForms = document.querySelectorAll('.edu-form');
 
         eduForms.forEach(form => {
             let eduData = {
@@ -131,10 +136,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 end_date: form.querySelector('input[name="end-date"]').value,
                 is_studying: form.querySelector('input[name="is-studying"]').checked
             };
+
+
+
             currentData.push(eduData);
         });
-
-        checkForUpdate(CACHE_NAMES.EDU, currentData)
+        return currentData
     }
 
 
@@ -147,10 +154,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function submitForm() {
+        let currentData = getEduFormData();
 
-        handleEduInfo()
+        //data validation for the final form submit
+        let isValid = true
+        currentData.forEach(eduData => {
 
-        window.location.href = `/resume/section/work_experience?template_id=${TEMPLATE_ID}`;
+            if (eduData.degree.length == 0 || eduData.school.length == 0 || eduData.location.length == 0) {
+                showInformBox('Please fill all the education fields!', InformType.WARNING);
+                isValid = false;
+                return;
+            }
+
+            if (eduData.start_date.length == 0 || !hasDay(eduData.start_date)) {
+                showInformBox('Please include the day in the start date (format:  09/17/2024).', InformType.FAIL);
+                isValid = false;
+                return;
+            }
+
+            if (!hasDay(eduData.end_date)) {
+                if (!eduData.is_studying) {
+                    showInformBox('Please include the day in the end date (format: 09/17/2024) or check "Still working".', InformType.FAIL);
+                    isValid = false;
+                    return;
+                }
+            } else {
+                const startDate = new Date(eduData.start_date);
+                const endDate = new Date(eduData.end_date);
+
+                if (startDate > endDate) {
+                    showInformBox('Start date cannot be after the end date.', InformType.FAIL);
+                    isValid = false;
+                    return;
+                }
+            }
+        })
+        if (isValid) {
+            checkForUpdate(CACHE_NAMES.EDU, currentData);
+            window.location.href = `/resume/section/work_experience?template_id=${TEMPLATE_ID}`;
+        }
+
     }
 
 
