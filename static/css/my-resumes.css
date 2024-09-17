@@ -1,4 +1,4 @@
-#resumes-section{
+#resumes-section {
     height: 80dvh;
     width: 100%;
 }
@@ -64,12 +64,20 @@
     background-color: #c0392b;
 }
 
-#my-resumes-tbl td .btn.preview,
-#my-resumes-tbl td .btn.download {
-    background-color: #3498db;
+#my-resumes-tbl td .btn.preview {
+
+    background-color: var(--secondary-color);
+    color: black;
 }
 
-#my-resumes-tbl td .btn.preview:hover,
+#my-resumes-tbl td .btn.download {
+    background-color: var(--primary-color);
+}
+
+#my-resumes-tbl td .btn.preview:hover{
+    color: white;
+    background-color: #009879
+}
 #my-resumes-tbl td .btn.download:hover {
-    background-color: #2980b9;
+    background-color: var(--highlight-color);
 }

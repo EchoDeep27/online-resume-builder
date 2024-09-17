@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setProgressBar(Page.finalize);
     loadResumePreview(Page.finalize)
-    // setInterval(handleAdditionalInfo, pollingInterval);
+ 
     loadCache();
 
     function showSocialMediaForm() {

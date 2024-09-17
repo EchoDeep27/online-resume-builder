@@ -660,6 +660,7 @@ def render_finalize_page():
 
 
 @app.route("/resume/section/complete", methods=["GET"])
+@login_required
 def render_completed_resume():
     resume_id = request.args.get("resume_id")
     if resume_id is None:
@@ -693,6 +694,7 @@ def render_signup_page():
 
 
 @app.route("/resumes/view/<resume_id>", methods=["GET"])
+@login_required
 def render_template_preview(resume_id):
 
     with get_session() as db_session:

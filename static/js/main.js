@@ -85,6 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
         while (listItem.firstChild) {
             listItem.removeChild(listItem.firstChild);
         }
+        console.log("items")
+        console.log(items)
         items.forEach(item => {
             listItem.appendChild(createElementFunc(item));
         });
@@ -127,9 +129,18 @@ document.addEventListener("DOMContentLoaded", function () {
             typeText(summaryText, summary)
 
         }
-        updateList(parentId = "education-list", createElementFunc = createEducationList, items = educations);
-        updateList(parentId = "work-experience-parent", createElementFunc = createWorkExperienceList, items = workExperiences);
-        updateList(parentId = "skill-list", createElementFunc = createSkillList, items = skills);
+        if (educations.length > 0) {
+            updateList(parentId = "education-list", createElementFunc = createEducationList, items = educations);
+
+        }
+        if (workExperiences.length > 0) {
+
+            updateList(parentId = "work-experience-parent", createElementFunc = createWorkExperienceList, items = workExperiences);
+        }
+        if (skills.length > 0) {
+            updateList(parentId = "skill-list", createElementFunc = createSkillList, items = skills);
+        }
+
 
         if (!isEmptyObj(additionalInfo)) {
             languages = additionalInfo[LANGUAGE_INFO_KEY] || [];
@@ -342,9 +353,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const alertBox = document.getElementById('alert-box');
     const overlay = document.getElementById('alert-overlay');
     if (alertBox) {
-    
+
         overlay.addEventListener('animationend', function () {
-            alertBox.remove();  
+            alertBox.remove();
             overlay.remove();
         });
     }
@@ -414,6 +425,11 @@ const WORK_FLOW_CACHE_DATA = ["templateInfo", "headingInfo", "eduInfo", "workExp
 let template = JSON.parse(localStorage.getItem(CACHE_NAMES.TEMPLATE)) || {};
 const TEMPLATE_ID = template.templateId
 let isLoaded = false
+
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
 
 function loadResumePreview(page) {
     if (isLoaded) {
@@ -579,14 +595,32 @@ function showInformBox(message, color = InformType.INFO) {
 
     const informBox = document.createElement("div");
     informBox.id = "alert-box";
+    informBox.classList.add("alert", color);
 
-    informBox.textContent = message;
-    informBox.style.color = str(color)
+    const informTitle = document.createElement("h4");
+    informTitle.classList.add("alert-title", color);
+    const title = getKeyByValue(InformType, color);
+    informTitle.innerText = title.charAt(0) + title.toLowerCase().slice(1);
+
+
+    const informMessage = document.createElement("p");
+    informMessage.classList.add("alert-message");
+    informMessage.innerText = message;
+
+    informBox.appendChild(informTitle);
+    informBox.appendChild(informMessage);
+
+
+    informBox.style.color = color;
+
     document.body.appendChild(informBox);
- 
+
+    informBox.addEventListener("animationend", function () {
+        informBox.remove();
+    });
 }
 
 
-function cleanCache(){
-    WORK_FLOW_CACHE_DATA.forEach(cache =>localStorage.removeItem(cache))
+function cleanCache() {
+    WORK_FLOW_CACHE_DATA.forEach(cache => localStorage.removeItem(cache))
 }
