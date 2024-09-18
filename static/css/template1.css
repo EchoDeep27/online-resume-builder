@@ -9205,7 +9205,7 @@ a.theme-btn-on-bg:active,
 .resume-header {
   background: var(--template-bg-color);
   color: rgba(255, 255, 255, 0.9);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .resume-header .picture {
@@ -9213,7 +9213,7 @@ a.theme-btn-on-bg:active,
 }
 
 .resume-header .name {
-  font-size: 2.25rem;
+  font-size: 2.2rem;
   letter-spacing: 0.175rem;
   font-weight: 900;
 }
@@ -9386,7 +9386,7 @@ ul>li {
 /*  My custom changes */
 
 .resume-wrapper-inner {
-  width: 1000px;
+  width: 23cm;
 }
 
 .resume-header {
@@ -9441,9 +9441,14 @@ header .media {
 }
 
 .row .experience-section {
-  width: 640px;
+  width: 560px;
 }
 
 .p-5 {
   padding: 40px 40px 30px 80px;
+}
+
+#template1 #pv-profile-img{
+  width: 200px;
+  height: 200px;
 }

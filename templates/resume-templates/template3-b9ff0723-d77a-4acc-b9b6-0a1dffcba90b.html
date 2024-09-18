@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/template3.css')}}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&family=Julius+Sans+One&family=Open+Sans&family=Source+Sans+Pro&display=swap"
+        rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <page id="template3" size="A4">
+        <div class="container">
+            <div class="leftPanel">
+                {% if resume.image_file_path %}
+                <img id="pv-profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image"
+                    width="220" height="220">
+                {% endif %}
+
+                <div class="details">
+                    <div class="item bottomLineSeparator">
+                        <h2>
+                            CONTACT
+                        </h2>
+                        <div class="smallText">
+                            <p>
+                                <i class="fa fa-phone contactIcon" aria-hidden="true"></i>
+                                <span id="pv-phone">{{
+                                    resume.phone }}</span>
+
+                            </p>
+                            <p>
+                                <i class="fa fa-envelope contactIcon" aria-hidden="true"></i>
+                                <a href="mailto:{{resume.email }}">
+                                    <span id="pv-email">{{resume.email }} </span>
+                                </a>
+                            </p>
+                            <p>
+                                <i class="fa fa-map-marker contactIcon" aria-hidden="true"></i>
+                                <span id="pv-city">{{ resume.address.city }}</span>, <span id="pv-country">{{
+                                    resume.address.country }}</span></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="item bottomLineSeparator">
+                        <h2>
+                            SKILLS
+                        </h2>
+                        <ul id="skill-list" class="list-unstyled mb-4">
+                            {% set proficiency_levels = {
+                            'BEGINNER': 25,
+                            'INTERMEDIATE': 50,
+                            'PROFICIENT': 75,
+                            'EXPERT': 100
+                            } %}
+                            {% for skill in resume.skills %}
+                            <li class="mb-2">
+                                <div class="resume-skill-name">{{ skill.name }} <span
+                                        class="resume-skill-proficiency">{{ skill.proficiency.name.title()
+                                        }}</span>
+                                </div>
+                                <div class="progress resume-progress">
+                                    <div class="progress-bar" class="progress-bar theme-progress-bar-dark"
+                                        role="progressbar"
+                                        aria-valuenow="{{ proficiency_levels[skill.proficiency.name] }}"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+                    <div class="item">
+                        <h2>
+                            EDUCATION
+                        </h2>
+                        <ul id="education-list" class="list-unstyled">
+                            {% for education in resume.educations %}
+                            <li class="mb-2">
+                                <div class="resume-degree font-weight-bold">{{ education.degree }}</div>
+                                <div class="resume-degree-org">{{ education.name }}</div>
+                                <div class="resume-degree-time">
+                                    {% if education.start_date %}{{
+                                    education.start_date.strftime('%B %Y') }}{% endif %}
+                                    -
+                                    {% if education.is_studying %}
+                                    Attending
+                                    {% else %}
+                                    {% if education.end_date %}{{ education.end_date.strftime('%B %Y') }}{% else
+                                    %}N/A{% endif %}
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                    <div class="item bottomLineSeparator">
+                        <h2>
+                            Social Media
+                        </h2>
+                        <ul id="social-media-list" class="resume-social list-unstyled">
+                            {% if resume.social_media %}
+                            {% for social_media in resume.social_media %}
+                            {% set media_name = social_media['name'].value.lower() %}
+                            <li id="{{media_name}}-item" class="mb-3">
+                                <a href="{{ social_media['link'] }}">
+                                    <span class="fa-container text-center mr-2">
+                                        {% if media_name == 'portfolio' %}
+                                        <i class="fas fa-globe"></i>
+                                        {% else %}
+                                        <i class="fab fa-{{ social_media['name'].value.lower() }}"></i>
+
+                                        {% endif %}
+                                    </span>
+                                    {{ social_media["link"] }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                            {% endif %}
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="rightPanel">
+                <div>
+                    <h1 id="pv-username">
+                        {{resume.username }}
+                    </h1>
+                    <div class="smallText">
+                        <h3 id="pv-profession">
+                            {{ resume.profession.title() }}
+                        </h3>
+                    </div>
+                    <div>
+                        <h2>
+                            About me
+                        </h2>
+                        <div class="smallText">
+                            <p id="pv-summary">
+                                {{resume.summary}}
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="workExperience">
+                    <h2>
+                        Work experience
+                    </h2>
+                    <ul>
+                        {% for experience in resume.work_experiences %}
+                        <li>
+                            <div class="jobPosition">
+                                <span class="resume-position-title bolded">
+                                    {{
+                                    experience.position }}
+                                </span>
+                                <span class="resume-position-time">
+                                    {% if experience.start_date %}{{ experience.start_date.strftime('%B %Y')
+                                    }}{% endif %}
+                                    -
+                                    {% if experience.is_working %}
+                                    Present
+                                    {% else %}
+                                    {% if experience.end_date %}{{ experience.end_date.strftime('%B %Y')
+                                    }}{% else %}N/A{% endif %}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="projectName bolded">
+                                <span class="resume-company-name">
+                                    {{ experience.company_name }}
+                                </span>
+                            </div>
+                            <div class="resume-timeline-item-desc">
+                                <ul id="work-achievements">
+                                    {{ experience.achievement | replace_newlines | safe }}
+                                </ul>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </page>
+
+</body>
+<script>
+    (function () {
+        const progressBars = document.getElementsByClassName('progress-bar');
+        Array.from(progressBars).forEach(progressBar => {
+            const valueNow = progressBar.getAttribute('aria-valuenow');
+            progressBar.style.width = valueNow + '%';
+        });
+    })();
+</script>
+
+</html>

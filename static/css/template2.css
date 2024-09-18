@@ -6511,7 +6511,7 @@ a.theme-btn-on-bg:active,
 }
 
 .resume-header .name {
-  font-size: 2.25rem;
+  font-size: 2.2rem;
   letter-spacing: 0.175rem;
   font-weight: 900;
 }
@@ -6670,7 +6670,8 @@ ul>li {
 /*  My custom changes */
 
 .resume-wrapper-inner {
-  width: 1000px;
+  /* A4 size */
+  width: 23cm;
 }
 
 .resume-header {
@@ -6725,7 +6726,7 @@ header .media {
 }
 
 .row .experience-section {
-  width: 640px;
+  width: 560px;
 }
 
 .p-5 {
@@ -6907,4 +6908,9 @@ header .media {
   .offset-lg-11 {
     margin-left: 91.6666666667%;
   }
+}
+
+#template2 #pv-profile-img{
+  width: 200px;
+  height: 200px;
 }
