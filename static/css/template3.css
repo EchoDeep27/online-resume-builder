@@ -3,8 +3,6 @@
         border: 2px solid black;
         border-radius: 10px;
         display: block;
-        margin: 0 auto;
-        margin-bottom: 0.5cm;
         position: relative;
     }
 
@@ -29,6 +27,8 @@
 
     #template3 .leftPanel {
         width: 33%;
+        min-height: 29.7cm;
+        max-height: fit-content;
         background-color: var(--template-bg-color);
         padding: 0.7cm;
         display: flex;
@@ -36,6 +36,10 @@
         align-items: center;
         color: white;
         font-weight: 500;
+    }
+
+    #template3 .leftPanel ul {
+        list-style: none;
     }
 
     #template3 .rightPanel {
@@ -248,7 +252,7 @@
         white-space: nowrap;
         background-color: var(--template-bg-color);
         transition: width 0.6s ease;
-        mix-blend-mode: difference; 
+        mix-blend-mode: difference;
     }
 
     @media screen and (prefers-reduced-motion: reduce) {
@@ -274,6 +278,24 @@
         list-style: none;
     }
 
+    #template3 #pv-username,
     #template3 #pv-profession {
-        font-weight: 600;
+        font-weight: 500;
+    }
+
+    #template3 .work-achievements {
+        text-align: justify;
+    }
+
+    #template3 .resume-position-time {
+        font-weight: 500;
+        margin: 10px 0;
+    }
+
+    #template3 .resume-skill-name,
+    #template3 #education-list li div{
+        color: white !important;
+    }
+    #template3 #skill-list li{
+        margin: 10px 0;
     }

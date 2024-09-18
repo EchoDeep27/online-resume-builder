@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (typeof profileFileName !== 'undefined' && profileFileName) {
 
             currentData['profile_file_name'] = profileFileName;
+            console.log("got in")
 
         }
  

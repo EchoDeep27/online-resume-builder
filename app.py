@@ -426,10 +426,11 @@ def create_resume():
         template_data = json.loads(template_info)
         educations = json.loads(education_info)
         skills = json.loads(skill_info)
-        additional_data = json.loads(additional_info)
+        if additional_info:
 
-        social_media = additional_data.get("socialMediaInfo")
-        languages = additional_data.get("langInfo")
+            additional_data = json.loads(additional_info)
+            social_media = additional_data.get("socialMediaInfo")
+            languages = additional_data.get("langInfo")
 
         owner: User = current_user
         user_id = str(owner.id)
@@ -460,7 +461,7 @@ def create_resume():
                 resume_id=resume_id, data=social_media
             )
             resume.social_media = social_media
-        if len(languages) > 0:
+        if languages and len(languages) > 0:
             languages = create_language_instances(resume_id=resume_id, data=languages)
             resume.languages = languages
 

@@ -497,3 +497,6 @@ i.fa-star {
 #pv-summary{
     text-indent: 3rem;
 }
+#pv-address{
+    text-align: left;
+}

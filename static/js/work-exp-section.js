@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function submitForm() {
+
         if (handleWorkExpInfo()) {
             window.location.href = `/resume/section/skill?template_id=${TEMPLATE_ID}`;
         }
@@ -134,10 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let workExpForms = document.querySelectorAll('.work-exp-form');
         let workExpcationData = [];
 
-        workExpForms.forEach(form => {
-            let startdateTest = form.querySelector('input[name="start-date"]')
-            console.log(`start date obj ${startdateTest}`)
-            console.log(`start date ${startdateTest.value}`)
+        for (let i = 0; i < workExpForms.length; i++) {
+            let form = workExpForms[i];
             let workExpData = {
                 job: form.querySelector('input[name="job"]').value,
                 company: form.querySelector('input[name="company"]').value,
@@ -147,13 +146,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 achievements: form.querySelector('textarea').value,
                 isWorking: form.querySelector('input[name="is-working"]').checked
             };
-            if (workExpData.company.length == 0 || workExpData.job.length == 0 || workExpData.location.length == 0) {
-                showInformBox('Please fill all the fields so that employee can find you.', InformType.WARNING);
+
+
+            if (workExpData.company.length === 0 || workExpData.job.length === 0 || workExpData.location.length === 0) {
+                showInformBox('Please fill all the fields so that the employer can find you.', InformType.WARNING);
                 return false;
             }
 
-            if (workExpData.start_date.length == 0 || !hasDay(workExpData.start_date)) {
-                showInformBox('Please include the day in the start date (format:  09/17/2024).', InformType.FAIL);
+            if (workExpData.start_date.length === 0 || !hasDay(workExpData.start_date)) {
+                showInformBox('Please include the day in the start date (format: 09/17/2024).', InformType.FAIL);
                 return false;
             }
 
@@ -173,11 +174,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             workExpcationData.push(workExpData);
-        });
-        checkForUpdate(CACHE_NAMES.WORK_EXP, workExpcationData)
-        return true;
+        }
 
+
+        checkForUpdate(CACHE_NAMES.WORK_EXP, workExpcationData);
+        return true;
     }
+
 
 
     function loadCached() {

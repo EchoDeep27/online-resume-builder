@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return
         }
         const listItem = document.getElementById(parentId);
-        if (!listItem){
+        if (!listItem) {
             // The page does not contain preivew resume feature
             return;
         }
@@ -485,8 +485,18 @@ function checkForUpdate(cache_name, updatedData) {
         let currentData = Array.isArray(updatedData) ? updatedData : [updatedData];
 
         // Cached value is retrieved based on the length of current value and remove extra items since current value don't contain them  
+        console.log("current data")
+        console.log(currentData)
+        console.log("cachedData data")
+        console.log(cachedData)
+
+        console.log((currentData.length != cachedData.length))
+
         if (currentData.length != cachedData.length) {
             dataChanged = true;
+        } else if (currentData.length == 1 && Object.keys(currentData[0]).length != Object.keys(cachedData[0]).lengt) {
+            dataChanged = true;
+
         } else {
             // cachedData = cachedData.slice(0, currentData.length);
 

@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+ 
     <link rel="stylesheet" href="{{url_for('static',filename='css/template3.css')}}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin <link
-        href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&family=Julius+Sans+One&family=Open+Sans&family=Source+Sans+Pro&display=swap"
-        rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
-</head>
-
-<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.documentElement.style.setProperty('--template-bg-color', '{{ resume.template_theme }}');
+        });
+    </script>
+ 
     <page id="template3" size="A4">
         <div class="container">
             <div class="leftPanel">
                 {% if resume.image_file_path %}
-                <img id="pv-profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image"
-                    width="220" height="220">
+                <div class="profile-div">
+
+                    <img id="pv-profile-img" src="{{ url_for('static', filename=resume.image_file_path) }}" alt="image"
+                        width="220" height="220">
+                </div>
                 {% endif %}
 
                 <div class="details">
@@ -39,8 +36,8 @@
                                     <span id="pv-email">{{resume.email }} </span>
                                 </a>
                             </p>
-                            <p>
-                                <i class="fa fa-map-marker contactIcon" aria-hidden="true"></i>
+                            <p id="pv-address">
+                                <i  class="fa fa-map-marker contactIcon" aria-hidden="true"></i>
                                 <span id="pv-city">{{ resume.address.city }}</span>, <span id="pv-country">{{
                                     resume.address.country }}</span></a>
                             </p>
@@ -159,7 +156,7 @@
                     <h2>
                         Work experience
                     </h2>
-                    <ul>
+                    <ul id="work-experience-parent">
                         {% for experience in resume.work_experiences %}
                         <li>
                             <div class="jobPosition">
@@ -197,7 +194,7 @@
         </div>
     </page>
 
-</body>
+ 
 <script>
     (function () {
         const progressBars = document.getElementsByClassName('progress-bar');
@@ -208,4 +205,4 @@
     })();
 </script>
 
-</html>
+ 
