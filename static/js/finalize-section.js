@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function confirmFinalize() {
-        let isConfirmed = confirm("Are you sure you the result (cannot edit after ?");
+        let isConfirmed = confirm("Are you sure you the result (cannot edit after finalized?)");
 
         if (!isConfirmed) {
             return

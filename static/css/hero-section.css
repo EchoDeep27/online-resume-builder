@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     /* align-items: center; */
-    padding-top: 5rem;
+    padding-top: 10px;
     text-align: center;
     color: #fff;
     /* overflow: hidden;  */
@@ -17,7 +17,7 @@
 }
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 1.5rem;
     color: black;
     position: relative;
@@ -47,8 +47,8 @@
 
 #landing-svg-container {
     position: absolute;
-    width: 720px;
-    height: 720px;
+    width: 420px;
+    height: 420px;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);

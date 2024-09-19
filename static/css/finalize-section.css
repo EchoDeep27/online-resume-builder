@@ -1,17 +1,15 @@
 #finalize-section {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     padding: 20px;
     justify-content: space-around;
-    /* align-items: center; */
-    overflow: hidden;
-
+    gap: 100px;
 }
 
 #language-forms-container {
     max-height: 60vh;
     overflow-y: auto;
-    width: 800px;
+    width: 700px;
     padding: 20px;
     /* margin: 20px auto; */
     box-sizing: border-box;
@@ -19,13 +17,13 @@
 
 #social-media-input-container {
     height: fit-content;
-    width: 800px;
+    width: 700px;
     padding: 15px 20px;
 }
 
 #social-media-form {
     display: grid;
-    grid-template-columns: repeat(2, 340px);
+    grid-template-columns: repeat(2, 1fr);
 }
 
 #social-media-form .input-block {
@@ -40,7 +38,7 @@
 .language-skill-form {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr) 100px;
+    grid-template-columns: repeat(2, 1fr) 50px;
     gap: 30px;
 }
 
@@ -54,7 +52,7 @@
     padding: 10px 20px;
     border-radius: 7px;
     box-shadow: 3px 5px 5px 2px #b5a7a7;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 
@@ -75,12 +73,7 @@
 }
 
 
-.language-skill-form .remove-form-btn {
-    width: 75px;
-    height: 75px;
-    background-color: transparent;
-}
-
+ 
 
 #confirm-btn {
     width: 100px;
@@ -127,4 +120,23 @@
 
 #add-social-media-btn i {
     color: #4caf50;
+}
+
+#finalize-preview{
+    transform-origin: top left;
+}
+
+.language-skill-form .remove-form-btn{
+    display: flex;
+    width: 75px;
+    height: 75px;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+#finalize-section .add-another-btn-div{
+    width: 670px;
+    margin: 10px auto;
 }

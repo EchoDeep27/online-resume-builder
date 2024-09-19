@@ -1,29 +1,35 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+To setup the proejct, please run the following command to build a virtual environment to install dependencies.
 
-### What is this repository for? ###
+```bash
+# myenv is the name of the venv
+python -m venv myenv
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+# For window
+myenv\Scripts\activate
 
-### How do I get set up? ###
+# for linux
+source myenv/bin/activate
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+After then run this command.
 
-### Contribution guidelines ###
+```bash
+
+pip install -r requirements.txt
+```
+
+to start the program use the following command
+
+```bash
+# for developer mode
+flask run --debug
+```
+
+
+### References ###
 
 * Writing tests
 * Code review
 * Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact

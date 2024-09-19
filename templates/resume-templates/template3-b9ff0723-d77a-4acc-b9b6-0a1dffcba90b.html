@@ -45,33 +45,18 @@
                     </div>
                     <div class="item bottomLineSeparator">
                         <h2>
-                            SKILLS
+                            Languages
                         </h2>
-                        <ul id="skill-list" class="list-unstyled mb-4">
-                            {% set proficiency_levels = {
-                            'BEGINNER': 25,
-                            'INTERMEDIATE': 50,
-                            'PROFICIENT': 75,
-                            'EXPERT': 100
-                            } %}
-                            {% for skill in resume.skills %}
-                            <li class="mb-2">
-                                <div class="resume-skill-name">{{ skill.name }} <span
-                                        class="resume-skill-proficiency">{{ skill.proficiency.name.title()
-                                        }}</span>
-                                </div>
-                                <div class="progress resume-progress">
-                                    <div class="progress-bar" class="progress-bar theme-progress-bar-dark"
-                                        role="progressbar"
-                                        aria-valuenow="{{ proficiency_levels[skill.proficiency.name] }}"
-                                        aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
+                        <ul id="language-list" class="list-unstyled resume-lang-list"></ul>
 
-                        </ul>
+							{% for language in resume.languages %}
+							<li class="mb-2"><span class="resume-lang-name font-weight-bold">{{language["name"]}}</span>
+								<small class="text-muted font-weight-normal highlight-text">({{language["fluent_level"]}})</small>
+							</li>
+							{% endfor %}
 
+						</ul>
+                  
                     </div>
                     <div class="item">
                         <h2>
@@ -190,6 +175,35 @@
                         {% endfor %}
                     </ul>
                 </div>
+                <div class="smallText">
+                    <h2>
+                        Skill
+                    </h2>
+                     <ul id="skill-list" class="list-unstyled mb-4">
+                            {% set proficiency_levels = {
+                            'BEGINNER': 25,
+                            'INTERMEDIATE': 50,
+                            'PROFICIENT': 75,
+                            'EXPERT': 100
+                            } %}
+                            {% for skill in resume.skills %}
+                            <li class="mb-2">
+                                <div class="resume-skill-name">{{ skill.name }} <span
+                                        class="resume-skill-proficiency highlight-text">{{ skill.proficiency.name.title()
+                                        }}</span>
+                                </div>
+                                <div class="progress resume-progress">
+                                    <div class="progress-bar" class="progress-bar theme-progress-bar-dark"
+                                        role="progressbar"
+                                        aria-valuenow="{{ proficiency_levels[skill.proficiency.name] }}"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
             </div>
         </div>
     </page>

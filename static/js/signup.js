@@ -78,13 +78,13 @@ document.addEventListener('DOMContentLoaded', function () {
         let response = await sendPostRequest('/signin', signinData);
 
         if (response.ok) {
-            showInformBox('Sign in successful');
+            showInformBox('Sign in successful', InformType.SUCCESS);
             setTimeout(function () {
                 window.location.href = '/';
             }, redirectDelayTime);
         } else {
             let errorData = await response.json();
-            showInformBox(errorData.error);
+            showInformBox(errorData.message);
         }
     }
 

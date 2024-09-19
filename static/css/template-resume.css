@@ -8,8 +8,6 @@
 }
 
 .template-section {
-    position: relative;
-    margin-top: 60px;
     height: 70vh;
     overflow: hidden;
 }
@@ -95,5 +93,5 @@
     margin-top: 20px;
     position: absolute;
     bottom: 10%;
-    right: 10%;
+    right: 50px;
 }

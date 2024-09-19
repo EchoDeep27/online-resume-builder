@@ -500,3 +500,8 @@ i.fa-star {
 #pv-address{
     text-align: left;
 }
+
+.resume-skill-proficiency{
+    color: var(--template-bg-color);
+    font-weight: 600;
+}

@@ -5,7 +5,6 @@ import time
 import requests
 import cohere
 import secrets
-import pdfkit
 from urllib.parse import urlencode
 from dotenv import load_dotenv
 
