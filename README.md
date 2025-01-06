@@ -43,7 +43,7 @@ pip install -r requirements.txt
 
 After installing the dependencies, generate an API key from [Cohere](https://dashboard.cohere.com/api-keys) and add it to the `.env` file.
 
-Similarly, a Google Client ID and secret key are required to enable the Google third-party login option. You can generate them from [Google Cloud Console]((https://console.cloud.google.com)).
+Similarly, a Google Client ID and secret key are required to enable the Google third-party login option. You can generate them from [Google Cloud Console](https://console.cloud.google.com).
 
 Once you have completed the steps above, use the following command to start the program:
 
