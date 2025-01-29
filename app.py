@@ -60,15 +60,15 @@ app = Flask("CV-builder")
 
 app.jinja_env.filters["replace_newlines"] = replace_newlines
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DB_URI")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DB_URI"]
 db = SQLAlchemy(app)
 app.config["SECRET_KEY"] = secrets.token_hex(16)
 app.config["OAUTH2_PROVIDERS"] = {
     # Google OAuth 2.0 documentation:
     # https://developers.google.com/identity/protocols/oauth2/web-server#httprest
     "google": {
-        "client_id": os.environ.get("GOOGLE_CLIENT_ID"),
-        "client_secret": os.environ.get("GOOGLE_CLIENT_SECRET"),
+        "client_id": os.environ["GOOGLE_CLIENT_ID"],
+        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
         "authorize_url": "https://accounts.google.com/o/oauth2/auth",
         "token_url": "https://accounts.google.com/o/oauth2/token",
         "userinfo": {
