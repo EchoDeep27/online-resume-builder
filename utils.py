@@ -252,10 +252,11 @@ def save_template_file(
     return None, None
 
 
+
 def save_profile_image(
     file, upload_folder_path: str
 ) -> Tuple[Optional[str], Optional[str]]:
-    if file and allowed_file_type(file.filename, ["png", "jpeg", "jpg"]):
+    if file and allowed_file_type(file.filename, ["png", "jpeg", "jpg", "gif", "bmp", "webp", "tiff", "svg"]):
         return _save_file(file, upload_folder_path)
     return None, None
 
@@ -324,12 +325,12 @@ def extract_json(raw_result: str) -> list:
         start_index = raw_result.find('[')
         if start_index != -1:
             json_string = raw_result[start_index:].strip()
-       
+
             if not json_string.endswith(']'):
                 json_string += "]"
             
             result_json = extract_attempt(json_string)
-     
+
             if result_json:
                 return result_json
 
@@ -338,5 +339,6 @@ def extract_attempt(str_list:str) -> str| None:
     try:
         return json.loads(str_list)
     except JSONDecodeError as e:
-        print(f"JSON decoding failed on {str_list}")
+         print(f"Error occurs {e}")
+
         return None
