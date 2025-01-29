@@ -1,84 +1,67 @@
-## 0.1.0 (2025-01-29)
+## **0.1.0** (2025-01-29)
 
-### Feat
+### **Features**
+- Updated `README.md` and added `env.example` file.  
+- Improved code quality and CSS adjustments for Windows users and browsers.  
+- Added `template3` and standardized all templates to A4 width.  
+- Updated profile API with dynamic profile loading.  
+- Implemented data validation in education and work experience forms.  
+- Styled the download button for completed resumes.  
+- Added an About page and redesigned the landing page.  
+- Introduced **My Resume** page with view, delete, and download functionality.  
+- Added an information box for unauthorized access.  
+- Updated preview to reflect cached data after page refresh.  
+- Implemented login, logout, signup, and password encryption using bcrypt.  
+- Integrated OAuth2.0 authentication via Google.  
+- Implemented signup and signin forms.  
+- Tuned AI prompt using Cohere's tuner and improved extraction function.  
+- Added dynamic headshot display and adjustments for `template1`.  
+- Integrated AI text generation for the skill and work experience sections.  
+- Implemented a context-generation AI API powered by Cohere.  
+- Replaced periodic cache updates with input-delay-based cache updates.  
+- Implemented **resume preview features** for:
+  - Language section (WIP).  
+  - Social media links.  
+  - Skills and summary pages.  
+  - Heading section (Fixed missing `template_id` in URL).  
+- Fixed incorrect field in user profession.  
+- Enabled resume download as PDF with completion tracking.  
+- Completed Jinja integration for `template1`.  
+- Added additional sections: Language and Social Media links in the finalization page.  
+- Added new **summary** field in the Resume table and renamed the Work Experience **summary** field to **achievement**.  
+- Implemented **caching mechanisms** for:  
+  - Work experience, education, and template selection.  
+  - Skill-section page.  
+- Refactored HTML to remove duplicate code.  
+- Implemented resume creation API (WIP).  
+- Set up OpenAI API with Docker for self-hosting.  
+- **Initial project setup and model definitions.**  
 
-- updated readme file, and added env.example file
-- clean code and css adjustment for window user and browsers
-- template3 added & adjust all template and keep them in A4 width
-- update profile API and dynamic profile loading
-- data validation in education and work experience forms
-- add style to download btn of completed resume
-- added about page and design udpate in landing page
-- aded My Resume page and view, delete and download old resumes feature
-- inform box added for unauthorized access
-- update the preview to reflect the current page cache data if the user refreshes the page
-- added login/logout/signup features & password encrypt with bcrypt, and dynamic Profile card
-- implemented logout user with flask_login library
-- implemented OAuth2.0 authorization with Google third-party signup
-- signup and signin form added
-- Tune prompt using Cohere's tuner feature and improve extraction function
-- dynamic headshot show and hide and adjust template1
-- integrated AI text generator for skill page and optimize prompt template to get better result
-- integrated AI text generator for work experience page
-- implemented a context generation AI API powered by Cohere
-- change from periodic updating cache approach to listening input delay cache update mechanism and refactor constant variables and codes
-- **wip**: Implementing resume preview feature for language section
-- resume preview feature for social media link section
-- resume preview feature for skill and summary page
-- preview feature for summary section and refactor preview loading logic to load the necessary information by aggregating caches
-- implemented resume preview feature for heading section & fix: added template_id in url
-- incorrect field passed in user profession
-- Download resume as PDF and added complete/resume_id page
-- template1 jija integration finish
-- added additional-section: language and social media link in finalize page
-- resume template1 complete jinja integration
-- added a new field 'summary' to Resume table and change field 'summary' to 'achievement' of work_experience
-- **wip**: adding resume template 'template1' (used from online resume template)
-- added summary page, feat(wip): creating resume creation API
-- Added Skill-section page and cached mechanism
-- Added achievement field to work-experience data entry form
-- implemented cached mechanism on work-experience section page using the same approach as education
-- refactor html to deduplicate codes
-- implemented cached mechanism in Education-section page and complete education entry form
-- added static education section page
-- added cache loading to get old selection in template selection page
-- Added Template Selection and heading page, and implement caching mechanism
-- Raw Landing Page
-- added OpenAI API and docker up for self hosting
-- project setup and define models
+### **Fixes**
+- Removed debug print logs.  
+- Allowed more image file types.  
+- Fixed markdown typo in `README.md`.  
+- Fixed issues with:
+  - Heading info caching, additional info data passing, and `template3` styling.  
+  - Cache cleanup after finalizing resumes.  
+  - Template theme not updating on first load.  
+  - Profile image caching.  
+  - Template prompt improvements and retry mechanism for text generation.  
+  - Jinja syntax errors caused by document formatting.  
+  - Cache updates after deletion (now based on cache length).  
+  - Overwriting cache data in preview updates and increased polling interval.  
+  - Resume template grid layout and selection highlights (WIP).  
+  - Navigation state management in the progress bar.  
+  - Profile image rendering and cache validation.  
+  - Backend profile file path handling.  
+  - Social media and language tables with auto-generated IDs and foreign keys.  
+  - Resume API data retrieval errors (`start_date`).  
+  - Resume and template model relationships.  
+  - Address model separated from Resume for better geographical data extraction.  
+  - Proficiency level display adjustments.  
+  - Hidden remove button when only one cached entry exists.  
+  - Fixed logic issue in the first education entry form.  
+  - JavaScript import syntax errors.  
+  - Removed `myenv` folder from the repository.  
 
-### Fix
-
-- remove print log
-- Added more allowed image types
-- markdown typo in ReadMe file
-- heading info cache checking, additional info data passing, and tempalte3 style adjustment
-- cache clean up after finalize resume and fix loading and overlay styles
-- template theme not updating during the first load in template section
-- profile image caching bug
-- imporve template prompt and json extraction to handle various response and added retries for text generation
-- jinja template syntax error caused by document formatting when updating template theme
-- caching mechanism when item got deleted and update check based on the lenght of cache
-- refactor profile image rendering and cache checking approach & feat: added preview feature for education section
-- cache data overwriting in data aggregation and increase the poll interval to update resume preview
-- **wip**: resume preview feature implementation
-- refactor template selection API data passing
-- resume template grid layout and selection highlight feature, feat: dynamic template theme
-- **wip**: resume template grid layout and selection highlight feature
-- state management in progress bar navigation
-- refactor the utility functions and sample template representation, feat: dynamic template loading in template-selection
-- **wip**: refactor the utility functions and sample template representation
-- profile file path in backend
-- clean code and progress bar
-- Avoid creating SocialMedia object when the link value is empty string
-- Fix SocialMedia and Language tables by adding auto generate id field and foreign key of resume, feat: implemented new field creation in create_resume API
-- typo in data retrieving 'start_date' and remove back the auto id generation in Resume table
-- tables' id data type and auto generate added, fix: create resume API
-- Proficiency level adjust to avoid confusion
-- hidden the remove button when loading cached data that has length one
-- fixed remove button logic issue in the first education entry form
-- JS script importing syntax error
-- Remove myenv folder from repository
-- added location field to Education and work_experience models and fix date data type
-- Seperate Address Model from Resume so that geographical data can be extracted
-- relationship bewtween models, feat: add Resume and Template models
+---
